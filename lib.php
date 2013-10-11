@@ -240,6 +240,7 @@ function connect_to_mysql() {
     return null;
   }
 
+  mysql_create_tables();
 
   return $mysqli;
 }
