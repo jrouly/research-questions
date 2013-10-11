@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+    <head>
+      <meta charset="UTF-8">
+      <link rel="stylesheet" href="./style.css" />
+      <link rel="shortcut icon" href="./favicon.png" />
+      <script type="text/javascript" src="./lib.js"></script>
+      <title>GMU Honors 110</title>
+    </head>
+    <body>
+      <span id="navbar">
+        <a href="index.php">home</a>
+        -
+        <a href="moderator.php">moderator</a>
+        -
+        <a href="instructions.php">instructions</a>
+        -
+        <a href="about/todo.pdf">about</a>
+        -
+        <a href="logout.php">exit</a>
+      </span>
+      <div id="maincontent">

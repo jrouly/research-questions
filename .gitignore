@@ -1,0 +1,6 @@
+*~
+*.swp
+password.php
+about/*.aux
+about/*.log
+*.tex
