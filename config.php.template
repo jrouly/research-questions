@@ -9,9 +9,9 @@ $db_name= ""; # database name
 
 $tableq = ""; # research questions
 $tablec = ""; # comments
-$tablea = ""; # moderators
+$tablem = ""; # moderators
 $tablel = ""; # access logs
-$tableu = ""; # active users
+$tablea = ""; # active users
 
 $ldap_host = ""; # authentication db
 $ldap_port = ""; # authentication port

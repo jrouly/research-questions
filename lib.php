@@ -3,7 +3,7 @@
 require "config.php";
 global $salt;
 global $db_host,$db_user,$db_pass,$db_name;
-global $tableq,$tablec,$tablea,$tablel,$tableu;
+global $tableq,$tablec,$tablem,$tablel,$tablea;
 global $ldap_host,$ldap_port;
 
 # Generates a salted hash of the username.
@@ -56,10 +56,10 @@ function logout_user($user) {
   $hash = sanitize($user);
   $stamp = date('Y-m-d H:i:s');
 
-  global $db_name,$tableu,$tablel;
+  global $db_name,$tablea,$tablel;
 
   # insert a user into the active user table
-  $mysqli->query("DELETE FROM `$db_name`.`$tableu` WHERE `hash`='$hash';");
+  $mysqli->query("DELETE FROM `$db_name`.`$tablea` WHERE `hash`='$hash';");
 
   # generate user cookie
   setcookie("user", "", time()-3600);
@@ -76,10 +76,10 @@ function login_user($user) {
   $hash = salted_hash($user);
   $stamp = timestamp();
 
-  global $db_name,$tableu,$tablel;
+  global $db_name,$tablea,$tablel;
 
   # insert a user into the active user table
-  $mysqli->query("INSERT INTO `$db_name`.`$tableu`(`user`,`hash`,`timestamp`)
+  $mysqli->query("INSERT INTO `$db_name`.`$tablea`(`user`,`hash`,`timestamp`)
                   VALUES ('$user', '$hash','$stamp');");
 
   # generate user cookie
@@ -110,8 +110,8 @@ function is_logged_in() {
     $hash = $_COOKIE["user"];
     $hash = sanitize($hash);
 
-    global $db_name,$tableu;
-    $result = $mysqli->query("SELECT * FROM `$db_name`.`$tableu` WHERE `hash`='$hash';");
+    global $db_name,$tablea;
+    $result = $mysqli->query("SELECT * FROM `$db_name`.`$tablea` WHERE `hash`='$hash';");
     $rows = $result->num_rows;
     
     $output = ($rows == 1);
@@ -127,12 +127,12 @@ function register_admin( $user ) {
   $user = sanitize($user);
   $hash = salted_hash($user);
 
-  global $db_name, $tablea;
-  $result = $mysqli->query("SELECT * FROM `$db_name`.`$tablea`
+  global $db_name, $tablem;
+  $result = $mysqli->query("SELECT * FROM `$db_name`.`$tablem`
                             WHERE `user`='$user';");
   $rows = $result->num_rows;
   if( $rows == 0 ) { 
-    $mysqli->query("INSERT INTO `$db_name`.`$tablea`(`user`,`hash`)
+    $mysqli->query("INSERT INTO `$db_name`.`$tablem`(`user`,`hash`)
                     VALUES ('$user','$hash');");
   }
   $mysqli->close();
@@ -145,8 +145,8 @@ function is_admin( $user ) {
   $mysqli = connect_to_mysql();
 
   // see if this user is present in db
-  global $db_name,$tablea;
-  $result = $mysqli->query("SELECT * FROM `$db_name`.`$tablea` WHERE `hash`='$hash';");
+  global $db_name,$tablem;
+  $result = $mysqli->query("SELECT * FROM `$db_name`.`$tablem` WHERE `hash`='$hash';");
   $rows = $result->num_rows;
   $mysqli->close();
 
@@ -234,7 +234,7 @@ function connect_to_mysql() {
 
   // hook into the MySQL database.
   global $db_host, $db_user, $db_pass, $db_name;
-  global $tableq, $tablec, $tablea, $tablel,$tableu;
+  global $tableq, $tablec, $tablem, $tablel,$tablea;
   $mysqli = new mysqli($db_host, $db_user, $db_pass, $db_name);
   if( $mysqli->connect_errno ) { 
     return null;
@@ -267,7 +267,7 @@ function connect_to_mysql() {
     AUTO_INCREMENT=1;");
 
   $mysqli->query(
-    "CREATE TABLE IF NOT EXISTS `$db_name`.`$tablea` (
+    "CREATE TABLE IF NOT EXISTS `$db_name`.`$tablem` (
       `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
       `user` VARCHAR(50) CHARACTER SET 'utf8' NOT NULL,
       `hash` VARCHAR(500) CHARACTER SET 'utf8' NOT NULL,
@@ -292,7 +292,7 @@ function connect_to_mysql() {
 
   # Create the User table. This is the table of active users.
   $mysqli->query(
-    "CREATE TABLE IF NOT EXISTS `$db_name`.`$tableu` (
+    "CREATE TABLE IF NOT EXISTS `$db_name`.`$tablea` (
       `user` VARCHAR(50) CHARACTER SET 'utf8' NOT NULL,
       `hash` VARCHAR(500) CHARACTER SET 'utf8' NOT NULL,
       `timestamp` VARCHAR(50) CHARACTER SET 'utf8' NOT NULL,
