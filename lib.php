@@ -103,7 +103,7 @@ function log_access_attempt($user) {
   $stamp = timestamp();
 
   global $db_name,$tablel;
-  $mysqli->query("INSERT INTO `$db_name`.`$tableu`(`user`,`date`)
+  $mysqli->query("INSERT INTO `$db_name`.`$tablel`(`user`,`date`)
                   VALUES ('$user','$stamp');");
 
   $mysqli->close();
