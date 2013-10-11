@@ -23,21 +23,15 @@
     $pass = $_POST["pass"];
 
     # success of user login
-    $success = False;
+    $sucesss = authenticate($user,$pass);
+    log_access_attempt( $user, $success ); # succeeded
 
-    # make sure the forms are filled out
-    if( strlen($user) > 0 && strlen($pass) > 0 ) { 
-      $sucesss = authenticate($user,$pass);
-      log_access_attempt( $user, $success ); # succeeded
-
-      if( $sucesss ) {
-        login_user($user);
-        header('Location: index.php');
-      }
+    if( $sucesss ) {
+      login_user($user);
+      header('Location: index.php');
     }
 
     echo "<p>Error: unrecognized username or password.</p>";
-    log_access_attempt( $user, $success ); # failed
     
   }
 ?>
