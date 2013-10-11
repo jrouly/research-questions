@@ -13,4 +13,7 @@ $tablea = ""; # moderators
 $tablel = ""; # access logs
 $tableu = ""; # active users
 
+$ldap_host = ""; # authentication db
+$ldap_port = ""; # authentication port
+
 ?>
