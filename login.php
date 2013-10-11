@@ -22,14 +22,13 @@
     $user = $_POST["user"];
     $pass = $_POST["pass"];
 
-    log_access_attempt( $user );
-    
     # success of user login
     $success = False;
 
     # make sure the forms are filled out
     if( strlen($user) > 0 && strlen($pass) > 0 ) { 
       $sucesss = authenticate($user,$pass);
+      log_access_attempt( $user, $success ); # succeeded
 
       if( $sucesss ) {
         login_user($user);
@@ -38,6 +37,7 @@
     }
 
     echo "<p>Error: unrecognized username or password.</p>";
+    log_access_attempt( $user, $success ); # failed
     
   }
 ?>

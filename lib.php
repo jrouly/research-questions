@@ -89,16 +89,15 @@ function login_user($user) {
 }
 
 # Log an access attempt.
-function log_access_attempt($user) { 
+function log_access_attempt($user,$success) { 
   $mysqli = connect_to_mysql();
 
-  # clean user
   $user = sanitize($user);
   $stamp = timestamp();
 
   global $db_name,$tablel;
-  $mysqli->query("INSERT INTO `$db_name`.`$tablel`(`user`,`date`)
-                  VALUES ('$user','$stamp');");
+  $mysqli->query("INSERT INTO `$db_name`.`$tablel`(`user`,`date`,`result`)
+                  VALUES ('$user','$stamp','$success');");
 
   $mysqli->close();
 }
@@ -290,6 +289,7 @@ function mysql_create_tables() {
       `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
       `user` VARCHAR(50) CHARACTER SET 'utf8' NOT NULL,
       `date` VARCHAR(50) CHARACTER SET 'utf8' NOT NULL,
+      `result` VARCHAR(50) CHARACTER SET 'utf8' NOT NULL,
       PRIMARY KEY (`id`)
     ) 
     ENGINE = InnoDB 
