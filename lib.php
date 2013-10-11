@@ -34,24 +34,18 @@ function authenticate( $user, $pass ) {
   global $ldap_host,$ldap_port;
   $success = False;
 
-  try { # catch possible errors to continue running thru to return
-    $ld_user = "uid=$user,ou=people,o=gmu.edu";
+  $ld_user = "uid=$user,ou=people,o=gmu.edu";
 
-    $ldap = ldap_connect($ldap_host, $ldap_port)
-              or die("Could not connect to LDAP server.");
-    $bind = ldap_bind($ldap, $ld_user, $pass)
-              or die("Could not bind to LDAP server.");
+  $ldap = ldap_connect($ldap_host, $ldap_port)
+            or die("Could not connect to LDAP server.");
+  $bind = ldap_bind($ldap, $ld_user, $pass);
 
-    if( $bind ) { 
-      $success = True;
-    }
-
-    ldap_unbind($ldap);
-  } catch(Exception $e) { 
-    $success = False;
-  } finally { 
-    return $success;
+  if( $bind ) { 
+    $success = True;
   }
+
+  ldap_unbind($ldap);
+  return $success;
 }
 
 # Remove the user from the mysql database and set an empty cookie.
