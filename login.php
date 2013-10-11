@@ -23,11 +23,11 @@
     $pass = $_POST["pass"];
 
     # success of user login
-    $successs = authenticate($user,$pass);
+    $success = authenticate($user,$pass);
     $text_success = ($success) ? 'success' : 'failed';
     log_access_attempt( $user, $text_success );
 
-    if( $successs ) {
+    if( $success ) {
       login_user($user);
       header('Location: index.php');
     }
