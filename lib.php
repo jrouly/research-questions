@@ -32,6 +32,11 @@ function sanitize($input) {
   return $input;
 }
 
+# Generate a standard format timestamp.
+function timestamp() { 
+  return date('Y-m-d H:i:s');
+}
+
 # Remove the user from the mysql database and set an empty cookie.
 function logout_user($user) { 
   $mysqli = connect_to_mysql();
@@ -58,7 +63,7 @@ function login_user($user) {
   # generate the stuff we're inserting
   $user = sanitize($user);
   $hash = salted_hash($user);
-  $stamp = date('Y-m-d H:i:s');
+  $stamp = timestamp();
 
   global $db_name,$tableu,$tablel;
 
@@ -66,12 +71,23 @@ function login_user($user) {
   $mysqli->query("INSERT INTO `$db_name`.`$tableu`(`user`,`hash`,`timestamp`)
                   VALUES ('$user', '$hash','$stamp');");
 
-  # insert a user-log into the log table
-  $mysqli->query("INSERT INTO `$db_name`.`$tablel`(`user`,`date`)
-                  VALUES ('$user','$stamp');");
-
   # generate user cookie
   setcookie("user", $hash, time()+3600);
+
+  $mysqli->close();
+}
+
+# Log an access attempt.
+function log_access_attempt($user) { 
+  $mysqli = connect_to_mysql();
+
+  # clean user
+  $user = sanitize($user);
+  $stamp = timestamp();
+
+  global $db_name,$tablel;
+  $mysqli->query("INSERT INTO `$db_name`.`$tableu`(`user`,`date`)
+                  VALUES ('$user','$stamp');");
 
   $mysqli->close();
 }
@@ -214,6 +230,12 @@ function connect_to_mysql() {
     return null;
   }
 
+
+  return $mysqli;
+}
+
+function mysql_create_tables() { 
+
   // generate table if need be
   $mysqli->query(
     "CREATE TABLE IF NOT EXISTS `$db_name`.`$tableq` (
@@ -225,6 +247,7 @@ function connect_to_mysql() {
     ENGINE = InnoDB 
     DEFAULT CHARACTER SET = latin1
     AUTO_INCREMENT=1;");
+
   $mysqli->query(
     "CREATE TABLE IF NOT EXISTS `$db_name`.`$tablec` (
       `comment_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -238,6 +261,7 @@ function connect_to_mysql() {
     ENGINE = InnoDB 
     DEFAULT CHARACTER SET = latin1
     AUTO_INCREMENT=1;");
+
   $mysqli->query(
     "CREATE TABLE IF NOT EXISTS `$db_name`.`$tablea` (
       `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -248,6 +272,8 @@ function connect_to_mysql() {
     ENGINE = InnoDB 
     DEFAULT CHARACTER SET = latin1
     AUTO_INCREMENT=1;");
+
+  # Create the Log table. This is the log of access attempts.
   $mysqli->query(
     "CREATE TABLE IF NOT EXISTS `$db_name`.`$tablel` (
       `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -258,6 +284,8 @@ function connect_to_mysql() {
     ENGINE = InnoDB 
     DEFAULT CHARACTER SET = latin1
     AUTO_INCREMENT=1;");
+
+  # Create the User table. This is the table of active users.
   $mysqli->query(
     "CREATE TABLE IF NOT EXISTS `$db_name`.`$tableu` (
       `user` VARCHAR(50) CHARACTER SET 'utf8' NOT NULL,
@@ -268,8 +296,6 @@ function connect_to_mysql() {
     ENGINE = InnoDB 
     DEFAULT CHARACTER SET = latin1
     AUTO_INCREMENT=1;");
-
-  return $mysqli;
 }
 
 ?>

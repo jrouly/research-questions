@@ -21,6 +21,8 @@
     
     $user = $_POST["user"];
     $pass = $_POST["pass"];
+
+    log_access_attempt( $user );
     
     # make sure the forms are filled out
     if( strlen($user) > 0 && strlen($pass) > 0 ) { 
