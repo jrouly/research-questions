@@ -1,5 +1,5 @@
 *~
 *.swp
-password.php
+config.php
 about/*.aux
 about/*.log

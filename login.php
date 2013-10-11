@@ -31,9 +31,10 @@
 
       /*
       $ldap_host = "ldaps://directory.gmu.edu/";
-      if( $ldap_host ) { 
-        $ldap = ldap_connect($ldap_host)
+      $ldap = ldap_connect($ldap_host)
                 or die("Could not connect to LDAP server.");
+      if( $ldap ) { 
+        $ldap = 
         echo "<br />";
 
         if( $bind = ldap_bind( $ldap, $_POST["user"], $_POST["pass"] ) ) { 

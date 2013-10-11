@@ -1,18 +1,9 @@
 <?php 
 
-# Import $db_pass and $salt
-require "password.php";
-global $db_pass, $salt;
-
-$db_host= "localhost";
-$db_user= "prm";
-$db_name= "prm";
-
-$tableq = "questions";
-$tablec = "comments";
-$tablea = "admins";
-$tablel = "logs";
-$tableu = "users";
+require "config.php";
+global $salt;
+global $db_host,$db_user,$db_pass,$db_name;
+global $tableq,$tablec,$tablea,$tablel,$tableu;
 
 # Generates a salted hash of the username.
 function salted_hash( $user ) { 
