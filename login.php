@@ -24,37 +24,22 @@
 
     log_access_attempt( $user );
     
+    # success of user login
+    $success = False;
+
     # make sure the forms are filled out
     if( strlen($user) > 0 && strlen($pass) > 0 ) { 
-      $bind = "uid=$user,ou=people,o=gmu.edu";
-      $success = False;
+      $sucesss = authenticate($user,$pass);
 
-      /*
-      $ldap_host = "ldaps://directory.gmu.edu/";
-      $ldap = ldap_connect($ldap_host)
-                or die("Could not connect to LDAP server.");
-      if( $ldap ) { 
-        $ldap = 
-        echo "<br />";
-
-        if( $bind = ldap_bind( $ldap, $_POST["user"], $_POST["pass"] ) ) { 
-          echo "great";
-        } else { 
-          echo "noo :(";
-        }
-      }
-      */
-
-      $sucesss = True;
-      if( $sucesss ) { 
+      if( $sucesss ) {
         login_user($user);
         header('Location: index.php');
-      } # else just end the conditional
-    } 
+      }
+    }
 
     echo "<p>Error: unrecognized username or password.</p>";
     
-  } # end-if( post )
+  }
 ?>
 
 <form id="login-form" action="" method="post">

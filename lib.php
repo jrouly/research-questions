@@ -4,6 +4,7 @@ require "config.php";
 global $salt;
 global $db_host,$db_user,$db_pass,$db_name;
 global $tableq,$tablec,$tablea,$tablel,$tableu;
+global $ldap_host,$ldap_port;
 
 # Generates a salted hash of the username.
 function salted_hash( $user ) { 
@@ -26,6 +27,31 @@ function sanitize($input) {
 # Generate a standard format timestamp.
 function timestamp() { 
   return date('Y-m-d H:i:s');
+}
+
+# Bounce the user credentials against the LDAP user database.
+function authenticate( $user, $pass ) { 
+  global $ldap_host,$ldap_port;
+  $success = False;
+
+  try { # catch possible errors to continue running thru to return
+    $ld_user = "uid=$user,ou=people,o=gmu.edu";
+
+    $ldap = ldap_connect($ldap_host, $ldap_port)
+              or die("Could not connect to LDAP server.");
+    $bind = ldap_bind($ldap, $ld_user, $pass)
+              or die("Could not bind to LDAP server.");
+
+    if( $bind ) { 
+      $success = True;
+    }
+
+    ldap_unbind($ldap);
+  } catch(Exception $e) { 
+    $success = False;
+  } finally { 
+    return $success;
+  }
 }
 
 # Remove the user from the mysql database and set an empty cookie.
