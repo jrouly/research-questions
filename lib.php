@@ -240,13 +240,6 @@ function connect_to_mysql() {
     return null;
   }
 
-  mysql_create_tables();
-
-  return $mysqli;
-}
-
-function mysql_create_tables() { 
-
   // generate table if need be
   $mysqli->query(
     "CREATE TABLE IF NOT EXISTS `$db_name`.`$tableq` (
@@ -308,6 +301,8 @@ function mysql_create_tables() {
     ENGINE = InnoDB 
     DEFAULT CHARACTER SET = latin1
     AUTO_INCREMENT=1;");
+
+  return $mysqli;
 }
 
 ?>
