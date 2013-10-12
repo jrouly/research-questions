@@ -218,15 +218,35 @@ function generate_questions_box() {
       $user     = $users[$qid];
       $qcomms   = isset($comments[$qid]) ? $comments[$qid] : null;
 
+      #### QUESTION BLOCK ####
       echo "<div id=\"$qid\" class=\"question\">".PHP_EOL;
       if( is_moderator() ) { 
-        echo "<span class=\"question-id\">$qid</span>".PHP_EOL;
+        echo "<span class=\"question-id\">[$qid]</span>".PHP_EOL;
         echo "<span class=\"question-rating\">($rating)</span>".PHP_EOL;
         echo "<span class=\"question-asker\">$user</span>".PHP_EOL;
       }
       echo "<span class=\"question-text\">$question</span>".PHP_EOL;
 
-      echo "<div id=\"c$qid\" class=\"comments\">".PHP_EOL;
+      #### LINK BLOCK ####
+      echo "<br />".PHP_EOL;
+      echo "<a href=\"#\" onClick=\"toggle_display('c$qid');\">Toggle Comments</a>";
+      echo "<br />".PHP_EOL;
+      echo "<a href=\"#\" onClick=\"toggle_display('f$qid');\">Provide feedback.</a>";
+      #### LINK BLOCK ####
+
+      #### FEEDBACK BLOCK ####
+      echo "<div id=\"f$qid\" class=\"feedback\" style=\"display:none;\">".PHP_EOL;
+      echo "<textarea class=\"feedback-text\" name=\"c\"></textarea>".PHP_EOL;
+      echo "<br />".PHP_EOL;
+      echo "<input type=\"submit\" value=\"Good Question\" name=\"g\" />".PHP_EOL;
+      echo "<input type=\"submit\" value=\"Needs Work\" name=\"b\" />".PHP_EOL;
+      echo "<input type=\"button\" value=\"Cancel\" ";
+      echo "onClick=\"hide_display(f$qid);\" />".PHP_EOL;
+      echo "</div>".PHP_EOL;
+      #### FEEDBACK BLOCK ####
+
+      #### COMMENT BLOCK ####
+      echo "<div id=\"c$qid\" class=\"comments\" style=\"display:none;\">".PHP_EOL;
       if( $qcomms == null ) { 
         echo "<span class=\"comment-text\">None yet.</span>".PHP_EOL;
       } else { 
@@ -235,15 +255,20 @@ function generate_questions_box() {
           $author  = $comment["user"];
           
           if( is_moderator() ) { 
-            echo "<span class=\"comment-id\">$cid</span>".PHP_EOL;
-            echo "<span class=\"comment-author\">$author</span>".PHP_EOL;
+            echo "<span class=\"comment-id\">[$cid]</span>".PHP_EOL;
           }
           echo "<span class=\"comment-text\">$text</span>".PHP_EOL;
+          if( is_moderator() ) { 
+            echo "<span class=\"comment-author\">--$author</span>".PHP_EOL;
+          }
+          echo "<br />".PHP_EOL;
         }
       }
+      echo "</div>".PHP_EOL;
+      #### COMMENT BLOCK ####
 
       echo "</div>".PHP_EOL;
-      echo "</div>".PHP_EOL;
+      #### QUESTION BLOCK ####
       
     }
   } else { 
