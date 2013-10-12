@@ -22,6 +22,11 @@
 
 <p>You may use the interface below to moderate the discussion.</p>
 
+<form name="modForm" method="post" action="moderator_processor.php">
+<label for="reg-username">Username:</label>
+<input type="text" name="reg-username" id="reg-username" />
+</form>
+
 <?php
   ########################################## IS A MODERATOR
   }
