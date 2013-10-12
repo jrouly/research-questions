@@ -15,8 +15,6 @@
         -
         <a href="instructions.php">instructions</a>
         -
-        <a href="about/todo.pdf">about</a>
-        -
         <a href="logout.php">exit</a>
       </span>
       <div id="maincontent">

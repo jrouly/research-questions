@@ -1,0 +1,33 @@
+.question { 
+  margin: 0px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.question-id { }
+
+.question-rating { }
+
+.question-asker { }
+
+.question-text { }
+
+.feedbackLink, .comment { 
+  margin-left: 20px;
+}
+
+.commentText { 
+  margin-top: 0px;
+  padding: 5px;
+  width: 400px;
+  height: 50px;
+}
+
+.comments { 
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-top: 10px;
+  background-color: #ddffdd;
+}

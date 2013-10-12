@@ -182,35 +182,76 @@ function is_moderator() {
 
 }
 
+function list_questions( $display_comments ) { 
+  global $db_name,$tableq;
+  $mysqli = connect_to_mysql();
+
+  $result = $mysqli->query("SELECT * FROM `$tableq`;");
+  while( $row = $result->fetch_array(MYSQLI_ASSOC) ) { 
+    $qid      = $row["question_id"];
+    $question = $row["question"];
+    $rating   = $row["rating"];
+    $asker    = $row["user"];
+
+    # add to 2d array
+    $questions[$qid]["qid"] = $qid;
+    $questions[$qid]["question"] = $question;
+    $questions[$qid]["rating"] = $rating;
+    $questions[$qid]["asker"] = $asker;
+  }
+
+  foreach($questions as $qid => $question) { 
+    $qid    = $question["qid"];
+    $text   = $question["question"];
+    $rating = $question["rating"];
+    $asker  = $question["asker"];
+
+    echo "<div id=\"$qid\" class=\"question\">".PHP_EOL;
+    if( is_moderator() ) { 
+      echo "<span class=\"question-id\">$qid</span>".PHP_EOL;
+      echo "<span class=\"question-rating\">$qrating</span>".PHP_EOL;
+      echo "<span class=\"question-asker\">$asker</span>".PHP_EOL;
+    }
+    echo "<span class=\"question-text\">$text</span>".PHP_EOL;
+
+    if( $display_comments ) { 
+      get_comments( $qid );
+    }
+
+    echo "</div>".PHP_EOL;
+  }
+
+  $mysqli->close();
+}
+
 function generate_student_view() { 
-  // initial MYSQL connection
   global $tableq, $tablec;
   $mysqli = connect_to_mysql();
 
-  // read from the questions
+  # read from the questions
   $result = $mysqli->query( "SELECT * FROM `$tableq`;" );
   while( $row = $result->fetch_array(MYSQLI_ASSOC) ) { 
-    // grab relevant pieces
+    # grab relevant pieces
     $qid      = $row["question_id"];
     $question = $row["question"];
     $rating   = $row["rating"];
 
-    // construct an array of questions and their ratings
+    # construct an array of questions and their ratings
     $questions[$qid] = $question;
     $ratings[$qid] = $rating;
   }
 
-  // sort the questions by their rating
+  # sort the questions by their rating
   arsort( $ratings );
 
-  // read from the comments
+  # read from the comments
   $result = $mysqli->query( "SELECT * FROM `$tablec`;" );
   while( $row = $result->fetch_array(MYSQLI_ASSOC) ) { 
-    // grab the relevant pieces
+    # grab the relevant pieces
     $qid     = $row["question_id"];
     $comment = $row["comment"];
 
-    // construct a final 2D array of comments
+    # construct a final 2D array of comments
     if( isset($comments[$qid]) ) { 
       array_push($comments[$qid], $comment);
     } else { 
@@ -255,41 +296,13 @@ function generate_student_view() {
 
 function connect_to_mysql() { 
 
-  // hook into the MySQL database.
+  # hook into the MySQL database.
   global $db_host, $db_user, $db_pass, $db_name;
   global $tableq, $tablec, $tableu, $tablel,$tablea;
   $mysqli = new mysqli($db_host, $db_user, $db_pass, $db_name);
   if( $mysqli->connect_errno ) { 
     return null;
   }
-
-  # Create the Questions table. This is the database of student
-  # research questions.
-  $mysqli->query(
-    "CREATE TABLE IF NOT EXISTS `$db_name`.`$tableq` (
-      `question_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-      `question` VARCHAR(500) CHARACTER SET 'utf8' NOT NULL,
-      `rating` INT(10) SIGNED NOT NULL DEFAULT 0,
-      PRIMARY KEY (`question_id`)
-    ) 
-    ENGINE = InnoDB 
-    DEFAULT CHARACTER SET = latin1
-    AUTO_INCREMENT=1;");
-
-  # Create the Comments table. This is the database of feedback.
-  $mysqli->query(
-    "CREATE TABLE IF NOT EXISTS `$db_name`.`$tablec` (
-      `comment_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-      PRIMARY KEY (`comment_id`),
-      `question_id` INT(10) UNSIGNED NOT NULL,
-      `comment` VARCHAR(1000) CHARACTER SET 'utf8' NOT NULL,
-      CONSTRAINT `fk_questionID` FOREIGN KEY (`question_id`)
-        REFERENCES `$db_name`.`$tableq`(`question_id`)
-        ON DELETE CASCADE ON UPDATE CASCADE
-    ) 
-    ENGINE = InnoDB 
-    DEFAULT CHARACTER SET = latin1
-    AUTO_INCREMENT=1;");
 
   # Create the Known Users table. This is the record of all known, accepted
   # users and their user levels.
@@ -300,6 +313,42 @@ function connect_to_mysql() {
       `level` VARCHAR(50) CHARACTER SET 'utf8' NOT NULL,
       `name` VARCHAR(100) CHARACTER SET 'utf8' NOT NULL,
       PRIMARY KEY (`user`)
+    ) 
+    ENGINE = InnoDB 
+    DEFAULT CHARACTER SET = latin1
+    AUTO_INCREMENT=1;");
+
+  # Create the Questions table. This is the database of student
+  # research questions.
+  $mysqli->query(
+    "CREATE TABLE IF NOT EXISTS `$db_name`.`$tableq` (
+      `question_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+      PRIMARY KEY (`question_id`),
+      `rating` INT(10) SIGNED NOT NULL DEFAULT 0,
+      `question` VARCHAR(500) CHARACTER SET 'utf8' NOT NULL,
+      `user` VARCHAR(50) CHARACTER SET 'utf8' NOT NULL,
+      CONSTRAINT `fk_user_question` FOREIGN KEY (`user`)
+        REFERENCES `$db_name`.`$tableu`(`user`)
+        ON DELETE CASCADE ON UPDATE CASCADE
+    ) 
+    ENGINE = InnoDB 
+    DEFAULT CHARACTER SET = latin1
+    AUTO_INCREMENT=1;");
+
+  # Create the Comments table. This is the database of feedback.
+  $mysqli->query(
+    "CREATE TABLE IF NOT EXISTS `$db_name`.`$tablec` (
+      `comment_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+      `question_id` INT(10) UNSIGNED NOT NULL,
+      `comment` VARCHAR(1000) CHARACTER SET 'utf8' NOT NULL,
+      `user` VARCHAR(50) CHARACTER SET 'utf8' NOT NULL,
+      PRIMARY KEY (`comment_id`),
+      CONSTRAINT `fk_questionID` FOREIGN KEY (`question_id`)
+        REFERENCES `$db_name`.`$tableq`(`question_id`)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+      CONSTRAINT `fk_user_comment` FOREIGN KEY (`user`)
+        REFERENCES `$db_name`.`$tableu`(`user`)
+        ON DELETE CASCADE ON UPDATE CASCADE
     ) 
     ENGINE = InnoDB 
     DEFAULT CHARACTER SET = latin1
