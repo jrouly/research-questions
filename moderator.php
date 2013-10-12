@@ -61,6 +61,9 @@ this should include feedback moderation
 &nbsp;
 </form>
 
+<h3>View Access Logs</h3>
+<?php view_access_logs(); ?>
+
 
 <?php
   ########################################## IS A MODERATOR
