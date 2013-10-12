@@ -18,9 +18,9 @@
 <?php
   if( isset($_POST["user"]) && isset($_POST["pass"]) ) {
 
-    $auth_error = "<p>Error: unrecognized username or password.</p>" . EOF;
+    $auth_error = "<p>Error: unrecognized username or password.</p>" . PHP_EOL;
     $reg_error  = "<p>Error: your account may not have been registered.
-    Please contact your PRM.</p>" . EOF;
+    Please contact your PRM.</p>" . PHP_EOL;
     
     $user = $_POST["user"];
     $pass = $_POST["pass"];
@@ -35,7 +35,7 @@
     }
 
     $login_success = ($registered) ? 'success' : 'failed';
-    log_access_attempt( $user, $success );
+    log_access_attempt( $user, $login_success );
 
     if( $registered ) { 
       login_user($user);
