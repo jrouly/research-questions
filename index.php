@@ -19,7 +19,7 @@ Please provide feedback on these questions.
 <div id="question_frame">
 <form name="questionForm" method="post" action="feedback_processor.php">
 <input type="hidden" id="qid" name="qid" value="" />
-<?php pull_questions(); ?>
+<?php generate_student_view(); ?>
 </form>
 </div>
 

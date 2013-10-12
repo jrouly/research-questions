@@ -66,7 +66,7 @@ function logout_user($user) {
   $mysqli->close();
 }
 
-# Hash the username, add them to the mysql db, and set their cookie.
+# Hash the username, add them to the mysql db, and set a cookie.
 function login_user($user) { 
   global $db_name,$tablea,$tablel;
   $mysqli = connect_to_mysql();
@@ -100,6 +100,7 @@ function log_access_attempt($user, $success) {
   $mysqli->close();
 }
 
+# Check if the user has logged in successfully.
 function is_logged_in() { 
   global $db_name,$tablea;
   $mysqli = connect_to_mysql();
@@ -119,6 +120,7 @@ function is_logged_in() {
   return $output;
 }
 
+# Verify if this user has been registered.
 function is_user_registered( $user ) { 
   global $db_name,$tableu;
   $mysqli = connect_to_mysql();
@@ -133,6 +135,7 @@ function is_user_registered( $user ) {
   return $output;
 }
 
+# Register a user with specified stats.
 function register_user( $user, $level, $name ) { 
   global $db_name, $tableu;
   $mysqli = connect_to_mysql();
@@ -158,6 +161,7 @@ function register_user( $user, $level, $name ) {
   return $output;
 }
 
+# Ease-of-use function to determine if a user is a moderator.
 function is_moderator() { 
   global $db_name,$tableu;
   $mysqli = connect_to_mysql();
@@ -178,7 +182,7 @@ function is_moderator() {
 
 }
 
-function pull_questions() { 
+function generate_student_view() { 
   // initial MYSQL connection
   global $tableq, $tablec;
   $mysqli = connect_to_mysql();
@@ -217,42 +221,36 @@ function pull_questions() {
   foreach( $ratings as $id => $rating ) { 
     $question = $questions[$id];
 
-    echo '<div class="question" id="q'.$id.'">' . PHP_EOL;
-    echo '<span class="qrating" id="r'.$id.'">';
-    echo '('.$rating.')';
-    echo '</span>' . PHP_EOL;
+    echo "<div class=\"question\" id=\"q$id\">".PHP_EOL;
+    echo "<span class=\"qrating\" id=\"r$id\">($rating)</span>".PHP_EOL;
+    echo "<span class=\"qtext\" id=\"t$id\">$question</span>".PHP_EOL;
 
-    echo '<span class="qtext" id="t'.$id.'">';
-    echo $question;
-    echo '</span>' . PHP_EOL;
+    echo "<br />";
 
-    echo '<br />';
+    echo "<a class=\"feedbackLink\" id=\"f$id\" href=\"#\" ";
+    echo "onclick=\"expand($id)\">Provide Feedback</a>".PHP_EOL;
 
-    echo '<a class="feedbackLink" id="f'.$id.'" href="#"
-    onclick="expand('.$id.')">Provide Feedback</a>' . PHP_EOL;
+    echo "<br />".PHP_EOL;
 
-    echo '<br />';
+    echo "<a class=\"feedbackLink\" href=\"#\"";
+    echo "onclick=\"showComments($id)\">Show/Hide Comments</a>".PHP_EOL;
 
-    echo '<a class="feedbackLink" href="#"
-    onclick="showComments('.$id.')">Show/Hide Comments</a>' . PHP_EOL;
-
-    echo '<div style="display:none;" class="comments" id="z'.$id.'">' . PHP_EOL;
+    echo "<div style=\"display:none;\" class=\"comments\" id=\"z$id\">".PHP_EOL;
     if( isset($comments[$id]) ) { 
       $qcomments = $comments[$id];
       foreach( $qcomments as $qcid => $qcomment ) { 
-        echo '<p>' . $qcomment . '</p>' . PHP_EOL;
+        echo "<p>$qcomment</p>".PHP_EOL;
       }
     } else { 
-      echo '<p>No comments.</p>' . PHP_EOL;
+      echo "<p>No comments.</p>".PHP_EOL;
     }
-    echo '</div>' . PHP_EOL;
+    echo "</div>".PHP_EOL;
 
-    echo "</div>" . PHP_EOL;
+    echo "</div>".PHP_EOL;
   }
 
   $result->close();
   $mysqli->close();
-
 }
 
 function connect_to_mysql() { 
