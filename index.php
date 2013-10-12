@@ -1,7 +1,11 @@
 <?php 
   require "lib.php";
-  if( is_logged_in() ) { 
-    require "top";
+
+  if( ! is_logged_in() ) { 
+    header('Location: login.php');
+  }
+
+  require "top";
 ?>
 
 <h1>Research Questions</h1>
@@ -20,8 +24,5 @@ Please provide feedback on these questions.
 </div>
 
 <?php 
-    require "bottom";
-  } else { 
-    header('Location: login.php');
-  }
+  require "bottom";
 ?>

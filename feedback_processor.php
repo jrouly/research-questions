@@ -1,5 +1,9 @@
 <?php
   require "lib.php";
+  
+  if( ! is_logged_in() ) { 
+    header('Location: login.php');
+  }
 
   // connect to the SQL database.
   $mysqli = connect_to_mysql();

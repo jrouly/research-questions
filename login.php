@@ -1,10 +1,11 @@
 <?php 
   require "lib.php";
+
   if( is_logged_in() ) { 
     header('Location: index.php');
   }
+
   require "top";
-    
 ?>
 
 <h1>Log In</h1>
@@ -17,23 +18,34 @@
 <?php
   if( isset($_POST["user"]) && isset($_POST["pass"]) ) {
 
-    $error = "<p>Error: unrecognized username or password.</p>";
+    $auth_error = "<p>Error: unrecognized username or password.</p>" . EOF;
+    $reg_error  = "<p>Error: your account may not have been registered.
+    Please contact your PRM.</p>" . EOF;
     
     $user = $_POST["user"];
     $pass = $_POST["pass"];
 
-    # success of user login
-    $success = authenticate($user,$pass);
-    $text_success = ($success) ? 'success' : 'failed';
-    log_access_attempt( $user, $text_success );
+    # success of user authentication
+    $authenticated = authenticate($user,$pass);
 
-    if( $success ) {
-      login_user($user);
-      header('Location: index.php');
+    # check if the user was registered by a moderator
+    $registered = False;
+    if( $authenticated ) { 
+      $registered = is_user_registered( $user );
     }
 
-    echo "<p>Error: unrecognized username or password.</p>";
-    
+    $login_success = ($registered) ? 'success' : 'failed';
+    log_access_attempt( $user, $success );
+
+    if( $registered ) { 
+      login_user($user);
+      header('Location: index.php');
+    } else if( $authenticated ) {
+      echo $reg_error;
+    } else { 
+      echo $auth_error;
+    }
+
   }
 ?>
 

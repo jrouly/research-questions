@@ -109,12 +109,26 @@ function is_logged_in() {
     $hash = $_COOKIE["user"];
     $hash = sanitize($hash);
 
+    # verify that the user is in the Active Users table
     $result = $mysqli->query("SELECT * FROM `$db_name`.`$tablea` WHERE `hash`='$hash';");
     $rows = $result->num_rows;
-    
     $output = ($rows == 1);
   }
   
+  $mysqli->close();
+  return $output;
+}
+
+function is_user_registered( $user ) { 
+  global $db_name,$tableu;
+  $mysqli = connect_to_mysql();
+  $output = False;
+
+  # verify that the user is in the Registered Users table
+  $result = $mysqli->query("SELECT * FROM `$db_name`.`$tableu` WHERE `user`='$user';");
+  $rows = $result->num_rows;
+  $output = ($rows == 1);
+
   $mysqli->close();
   return $output;
 }
