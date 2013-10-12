@@ -182,117 +182,78 @@ function is_moderator() {
 
 }
 
-function list_questions( $display_comments ) { 
-  global $db_name,$tableq;
-  $mysqli = connect_to_mysql();
 
-  $result = $mysqli->query("SELECT * FROM `$tableq`;");
-  while( $row = $result->fetch_array(MYSQLI_ASSOC) ) { 
-    $qid      = $row["question_id"];
-    $question = $row["question"];
-    $rating   = $row["rating"];
-    $asker    = $row["user"];
 
-    # add to 2d array
-    $questions[$qid]["qid"] = $qid;
-    $questions[$qid]["question"] = $question;
-    $questions[$qid]["rating"] = $rating;
-    $questions[$qid]["asker"] = $asker;
-  }
-
-  foreach($questions as $qid => $question) { 
-    $qid    = $question["qid"];
-    $text   = $question["question"];
-    $rating = $question["rating"];
-    $asker  = $question["asker"];
-
-    echo "<div id=\"$qid\" class=\"question\">".PHP_EOL;
-    if( is_moderator() ) { 
-      echo "<span class=\"question-id\">$qid</span>".PHP_EOL;
-      echo "<span class=\"question-rating\">$qrating</span>".PHP_EOL;
-      echo "<span class=\"question-asker\">$asker</span>".PHP_EOL;
-    }
-    echo "<span class=\"question-text\">$text</span>".PHP_EOL;
-
-    if( $display_comments ) { 
-      get_comments( $qid );
-    }
-
-    echo "</div>".PHP_EOL;
-  }
-
-  $mysqli->close();
-}
-
-function generate_student_view() { 
+function generate_questions_box() { 
   global $tableq, $tablec;
   $mysqli = connect_to_mysql();
 
-  # read from the questions
-  $result = $mysqli->query( "SELECT * FROM `$tableq`;" );
-  while( $row = $result->fetch_array(MYSQLI_ASSOC) ) { 
-    # grab relevant pieces
-    $qid      = $row["question_id"];
-    $question = $row["question"];
-    $rating   = $row["rating"];
+  # load all questions
+  $result_questions = $mysqli->query("SELECT * FROM `$tableq`;");
+  if( $result_questions->num_rows > 0 ) { 
+    while( $row = $result_questions->fetch_array(MYSQLI_ASSOC) ) { 
+      $qid = $row["question_id"];
+      $users[$qid] = $row["user"];
 
-    # construct an array of questions and their ratings
-    $questions[$qid] = $question;
-    $ratings[$qid] = $rating;
-  }
-
-  # sort the questions by their rating
-  arsort( $ratings );
-
-  # read from the comments
-  $result = $mysqli->query( "SELECT * FROM `$tablec`;" );
-  while( $row = $result->fetch_array(MYSQLI_ASSOC) ) { 
-    # grab the relevant pieces
-    $qid     = $row["question_id"];
-    $comment = $row["comment"];
-
-    # construct a final 2D array of comments
-    if( isset($comments[$qid]) ) { 
-      array_push($comments[$qid], $comment);
-    } else { 
-      $comments[$qid] = array($comment);
+      $ratings[$qid] = $row["rating"];
+      $questions[$qid] = $row["question"];
     }
-  }
 
-  foreach( $ratings as $id => $rating ) { 
-    $question = $questions[$id];
+    # sort by rating
+    arsort( $ratings );
 
-    echo "<div class=\"question\" id=\"q$id\">".PHP_EOL;
-    echo "<span class=\"qrating\" id=\"r$id\">($rating)</span>".PHP_EOL;
-    echo "<span class=\"qtext\" id=\"t$id\">$question</span>".PHP_EOL;
+    # load all comments
+    $result_comments  = $mysqli->query("SELECT * FROM `$tablec`;");
+    while( $row = $result_comments->fetch_array(MYSQLI_ASSOC) ) { 
+      $cid     = $row["comment_id"];
+      $qid     = $row["question_id"];
 
-    echo "<br />";
+      $comments[$qid][$cid]["text"] = $row["comment"];
+      $comments[$qid][$cid]["user"] = $row["user"];
+    }
 
-    echo "<a class=\"feedbackLink\" id=\"f$id\" href=\"#\" ";
-    echo "onclick=\"expand($id)\">Provide Feedback</a>".PHP_EOL;
+    # display questions w/ comments
+    foreach( $ratings as $qid => $rating ) { 
+      $question = $questions[$qid];
+      $user     = $users[$qid];
+      $qcomms   = isset($comments[$qid]) ? $comments[$qid] : null;
 
-    echo "<br />".PHP_EOL;
-
-    echo "<a class=\"feedbackLink\" href=\"#\"";
-    echo "onclick=\"showComments($id)\">Show/Hide Comments</a>".PHP_EOL;
-
-    echo "<div style=\"display:none;\" class=\"comments\" id=\"z$id\">".PHP_EOL;
-    if( isset($comments[$id]) ) { 
-      $qcomments = $comments[$id];
-      foreach( $qcomments as $qcid => $qcomment ) { 
-        echo "<p>$qcomment</p>".PHP_EOL;
+      echo "<div id=\"$qid\" class=\"question\">".PHP_EOL;
+      if( is_moderator() ) { 
+        echo "<span class=\"question-id\">$qid</span>".PHP_EOL;
+        echo "<span class=\"question-rating\">($rating)</span>".PHP_EOL;
+        echo "<span class=\"question-asker\">$user</span>".PHP_EOL;
       }
-    } else { 
-      echo "<p>No comments.</p>".PHP_EOL;
+      echo "<span class=\"question-text\">$question</span>".PHP_EOL;
+
+      echo "<div id=\"c$qid\" class=\"comments\">".PHP_EOL;
+      if( $qcomms == null ) { 
+        echo "<span class=\"comment-text\">None yet.</span>".PHP_EOL;
+      } else { 
+        foreach( $qcomms as $cid => $comment ) { 
+          $text    = $comment["text"];
+          $author  = $comment["user"];
+          
+          if( is_moderator() ) { 
+            echo "<span class=\"comment-id\">$cid</span>".PHP_EOL;
+            echo "<span class=\"comment-author\">$author</span>".PHP_EOL;
+          }
+          echo "<span class=\"comment-text\">$text</span>".PHP_EOL;
+        }
+      }
+
+      echo "</div>".PHP_EOL;
+      echo "</div>".PHP_EOL;
+      
     }
-    echo "</div>".PHP_EOL;
-
-    echo "</div>".PHP_EOL;
+  } else { 
+    echo "<div class=\"question\"><span class=\"question-text\">".PHP_EOL;
+    echo "No questions here. It's so lonely...</span></div>".PHP_EOL;
   }
-
-  $result->close();
   $mysqli->close();
 }
+
+
 
 function connect_to_mysql() { 
 
