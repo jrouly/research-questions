@@ -158,19 +158,24 @@ function register_user( $user, $level, $name ) {
   return $output;
 }
 
-function is_moderator( $hash ) { 
+function is_moderator() { 
   global $db_name,$tableu;
   $mysqli = connect_to_mysql();
+  $output = False;
 
-  $hash = sanitize($hash);
+  if(isset($_COOKIE["user"])) { 
+    $hash = $_COOKIE["user"];
+    $hash = sanitize($hash);
 
-  // see if this user is present in db
-  $result = $mysqli->query("SELECT * FROM `$db_name`.`$tableu`
-                            WHERE `hash`='$hash';");
-  $row = $result->fetch_array(MYSQLI_ASSOC);
+    # verify that the user is in the Known Users table
+    $result = $mysqli->query("SELECT * FROM `$db_name`.`$tableu` WHERE `hash`='$hash';");
+    $row = $result->fetch_array(MYSQLI_ASSOC);
+    $output = ($row["level"] == "moderator" );
+  }
+  
   $mysqli->close();
+  return $output;
 
-  return ($row["level"] == "moderator" );
 }
 
 function pull_questions() { 
