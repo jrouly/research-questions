@@ -6,7 +6,7 @@
 
   require "top";
 
-  if( ! is_moderator($_COOKIE["user"]) ) { 
+  if( isset($_COOKIE["user"]) && ! is_moderator($_COOKIE["user"]) ) { 
   ########################################## NOT A MODERATOR
 ?>
 
