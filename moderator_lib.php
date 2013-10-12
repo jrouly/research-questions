@@ -1,10 +1,14 @@
 <?php
 
-require "lib.php";
-
 function list_registered_users() { 
   $mysqli = connect_to_mysql();
   
+
+  $mysqli->close();
+}
+
+function view_access_logs() { 
+  $mysqli = connect_to_mysql();
 
   $mysqli->close();
 }
