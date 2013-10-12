@@ -9,7 +9,7 @@ $db_name= ""; # database name
 
 $tableq = ""; # research questions
 $tablec = ""; # comments
-$tablem = ""; # moderators
+$tableu = ""; # known users
 $tablel = ""; # access logs
 $tablea = ""; # active users
 

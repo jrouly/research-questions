@@ -2,7 +2,7 @@
   require "lib.php";
   if( is_logged_in() ) {
     require "top";
-    if( is_admin($_COOKIE["user"]) ) {
+    if( is_moderator($_COOKIE["user"]) ) {
 ?>
 
 <h1>Administrator Page</h1>

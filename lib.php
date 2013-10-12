@@ -3,7 +3,7 @@
 require "config.php";
 global $salt;
 global $db_host,$db_user,$db_pass,$db_name;
-global $tableq,$tablec,$tablem,$tablel,$tablea;
+global $tableq,$tablec,$tableu,$tablel,$tablea;
 global $ldap_host,$ldap_port;
 
 # Generates a salted hash of the username.
@@ -50,13 +50,12 @@ function authenticate( $user, $pass ) {
 
 # Remove the user from the mysql database and set an empty cookie.
 function logout_user($user) { 
+  global $db_name,$tablea,$tablel;
   $mysqli = connect_to_mysql();
   
   # generate the stuff we're inserting
   $hash = sanitize($user);
   $stamp = date('Y-m-d H:i:s');
-
-  global $db_name,$tablea,$tablel;
 
   # insert a user into the active user table
   $mysqli->query("DELETE FROM `$db_name`.`$tablea` WHERE `hash`='$hash';");
@@ -69,14 +68,13 @@ function logout_user($user) {
 
 # Hash the username, add them to the mysql db, and set their cookie.
 function login_user($user) { 
+  global $db_name,$tablea,$tablel;
   $mysqli = connect_to_mysql();
 
   # generate the stuff we're inserting
   $user = sanitize($user);
   $hash = salted_hash($user);
   $stamp = timestamp();
-
-  global $db_name,$tablea,$tablel;
 
   # insert a user into the active user table
   $mysqli->query("INSERT INTO `$db_name`.`$tablea`(`user`,`hash`,`timestamp`)
@@ -89,13 +87,13 @@ function login_user($user) {
 }
 
 # Log an access attempt.
-function log_access_attempt($user,$success) { 
+function log_access_attempt($user, $success) { 
+  global $db_name,$tablel;
   $mysqli = connect_to_mysql();
 
   $user = sanitize($user);
   $stamp = timestamp();
 
-  global $db_name,$tablel;
   $mysqli->query("INSERT INTO `$db_name`.`$tablel`(`user`,`date`,`result`)
                   VALUES ('$user','$stamp','$success');");
 
@@ -103,6 +101,7 @@ function log_access_attempt($user,$success) {
 }
 
 function is_logged_in() { 
+  global $db_name,$tablea;
   $mysqli = connect_to_mysql();
   $output = False;
 
@@ -110,7 +109,6 @@ function is_logged_in() {
     $hash = $_COOKIE["user"];
     $hash = sanitize($hash);
 
-    global $db_name,$tablea;
     $result = $mysqli->query("SELECT * FROM `$db_name`.`$tablea` WHERE `hash`='$hash';");
     $rows = $result->num_rows;
     
@@ -121,44 +119,52 @@ function is_logged_in() {
   return $output;
 }
 
-function register_admin( $user ) { 
+function register_user( $user, $level, $name ) { 
+  global $db_name, $tableu;
   $mysqli = connect_to_mysql();
 
-  $user = sanitize($user);
-  $hash = salted_hash($user);
+  $output = False;
 
-  global $db_name, $tablem;
-  $result = $mysqli->query("SELECT * FROM `$db_name`.`$tablem`
+  $user  = sanitize($user);
+  $hash  = salted_hash($user);
+  $level = sanitize($level);
+  $name  = sanitize($name);
+
+  # make sure we don't already have this user
+  $result = $mysqli->query("SELECT * FROM `$db_name`.`$tableu`
                             WHERE `user`='$user';");
   $rows = $result->num_rows;
+
   if( $rows == 0 ) { 
-    $mysqli->query("INSERT INTO `$db_name`.`$tablem`(`user`,`hash`)
-                    VALUES ('$user','$hash');");
+    $mysqli->query("INSERT INTO `$db_name`.`$tableu`(`user`,`hash`,`level`,`name`)
+                    VALUES ('$user','$hash','$level','$name');");
+    $output = True;
   }
   $mysqli->close();
+  return $output;
 }
 
-function is_admin( $user ) { 
-  $hash = sanitize($user);
-
-  // initial MYSQL connection
+function is_moderator( $hash ) { 
+  global $db_name,$tableu;
   $mysqli = connect_to_mysql();
 
+  $hash = sanitize($hash);
+
   // see if this user is present in db
-  global $db_name,$tablem;
-  $result = $mysqli->query("SELECT * FROM `$db_name`.`$tablem` WHERE `hash`='$hash';");
-  $rows = $result->num_rows;
+  $result = $mysqli->query("SELECT * FROM `$db_name`.`$tableu`
+                            WHERE `hash`='$hash';");
+  $row = $result->fetch_array(MYSQLI_ASSOC);
   $mysqli->close();
 
-  return $rows == 1;
+  return ($row["level"] == "moderator" );
 }
 
 function pull_questions() { 
   // initial MYSQL connection
+  global $tableq, $tablec;
   $mysqli = connect_to_mysql();
 
   // read from the questions
-  global $tableq, $tablec;
   $result = $mysqli->query( "SELECT * FROM `$tableq`;" );
   while( $row = $result->fetch_array(MYSQLI_ASSOC) ) { 
     // grab relevant pieces
@@ -234,13 +240,14 @@ function connect_to_mysql() {
 
   // hook into the MySQL database.
   global $db_host, $db_user, $db_pass, $db_name;
-  global $tableq, $tablec, $tablem, $tablel,$tablea;
+  global $tableq, $tablec, $tableu, $tablel,$tablea;
   $mysqli = new mysqli($db_host, $db_user, $db_pass, $db_name);
   if( $mysqli->connect_errno ) { 
     return null;
   }
 
-  // generate table if need be
+  # Create the Questions table. This is the database of student
+  # research questions.
   $mysqli->query(
     "CREATE TABLE IF NOT EXISTS `$db_name`.`$tableq` (
       `question_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -252,6 +259,7 @@ function connect_to_mysql() {
     DEFAULT CHARACTER SET = latin1
     AUTO_INCREMENT=1;");
 
+  # Create the Comments table. This is the database of feedback.
   $mysqli->query(
     "CREATE TABLE IF NOT EXISTS `$db_name`.`$tablec` (
       `comment_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -266,12 +274,15 @@ function connect_to_mysql() {
     DEFAULT CHARACTER SET = latin1
     AUTO_INCREMENT=1;");
 
+  # Create the Known Users table. This is the record of all known, accepted
+  # users and their user levels.
   $mysqli->query(
-    "CREATE TABLE IF NOT EXISTS `$db_name`.`$tablem` (
-      `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    "CREATE TABLE IF NOT EXISTS `$db_name`.`$tableu` (
       `user` VARCHAR(50) CHARACTER SET 'utf8' NOT NULL,
       `hash` VARCHAR(500) CHARACTER SET 'utf8' NOT NULL,
-      PRIMARY KEY (`id`)
+      `level` VARCHAR(50) CHARACTER SET 'utf8' NOT NULL,
+      `name` VARCHAR(100) CHARACTER SET 'utf8' NOT NULL,
+      PRIMARY KEY (`user`)
     ) 
     ENGINE = InnoDB 
     DEFAULT CHARACTER SET = latin1
@@ -290,7 +301,7 @@ function connect_to_mysql() {
     DEFAULT CHARACTER SET = latin1
     AUTO_INCREMENT=1;");
 
-  # Create the User table. This is the table of active users.
+  # Create the Active Users table. This is the table of active users.
   $mysqli->query(
     "CREATE TABLE IF NOT EXISTS `$db_name`.`$tablea` (
       `user` VARCHAR(50) CHARACTER SET 'utf8' NOT NULL,
