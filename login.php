@@ -17,7 +17,6 @@
 
 <?php
   if( isset($_POST["user"]) && isset($_POST["pass"]) ) {
-    register_user("jrouly", "moderator", "Jean Michel Rouly");
 
     $auth_error = "<p>Error: unrecognized username or password.</p>" . PHP_EOL;
     $reg_error  = "<p>Error: your account may not have been registered.
