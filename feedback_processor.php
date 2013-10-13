@@ -10,8 +10,8 @@
 
   // if the form is properly submitted, with a comment and either a 
   // good or a bad selection, proceed.
-  if( (isset($_POST["g"]) || isset($_POST["b"])) && isset($_POST["c"]) ) { 
-
+#  if( (isset($_POST["g"]) || isset($_POST["b"])) && isset($_POST["c"]) ) { 
+  if(isset($_POST["feedback-form"]) ) { 
     // grab POST data
     $rating_adj = isset($_POST["g"]) ? 1 : -1;
     $comment = $_POST["c"];

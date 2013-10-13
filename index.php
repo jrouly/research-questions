@@ -17,7 +17,7 @@ Please provide feedback on these questions.
 <br />
 
 <div id="scrolling_frame">
-<form name="questionForm" method="post" action="feedback_processor.php">
+<form name="feedback-form" method="post" action="feedback_processor.php">
 <input type="hidden" id="qid" name="qid" value="" />
 <?php generate_questions_box(); ?>
 </form>
