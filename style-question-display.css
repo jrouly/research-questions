@@ -27,6 +27,8 @@
   margin-top: 10px;
   margin-bottom: 10px;
   background-color: #ddffdd;
+  border-top: 1px solid #000000;
+  border-bottom: 1px solid #000000;
 }
 
 .comment-text { 
