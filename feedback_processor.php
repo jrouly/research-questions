@@ -12,6 +12,7 @@
   // good or a bad selection, proceed.
 #  if( (isset($_POST["g"]) || isset($_POST["b"])) && isset($_POST["c"]) ) { 
   if(isset($_POST["feedback-form"]) ) { 
+    echo "we postin";
     // grab POST data
     $rating_adj = isset($_POST["g"]) ? 1 : -1;
     $comment = $_POST["c"];
@@ -44,6 +45,6 @@
 
   // disconnect from the database and return to the homepage.
   $mysqli->close();
-  header('Location: index.php');
+  //header('Location: index.php');
 
 ?>
