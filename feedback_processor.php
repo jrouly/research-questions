@@ -1,6 +1,6 @@
 <?php
   require "lib.php";
-  
+
   if( ! is_logged_in() ) { 
     header('Location: login.php');
   }
@@ -11,11 +11,11 @@
   // if the form is properly submitted, with a comment and either a 
   // good or a bad selection, proceed.
 #  if( (isset($_POST["g"]) || isset($_POST["b"])) && isset($_POST["c"]) ) { 
-  if(isset($_POST["feedback-form"]) ) { 
-    echo "we postin";
+  if(isset($_POST["qid"]) && isset($_POST["r"]) && isset($_POST["f"]) ) { 
+
     // grab POST data
-    $rating_adj = isset($_POST["g"]) ? 1 : -1;
-    $comment = $_POST["c"];
+    $rating_adj = ($_POST["r"] > 0) ? 1 : -1;
+    $comment = $_POST["f"];
     $question_id = $_POST["qid"];
 
     // clean up the user's comment/feedback
@@ -24,27 +24,34 @@
     $comment = addslashes( $comment );
     $comment = trim( $comment );
 
-    if( 
-      // check that the question id is valid
-      $question_id > 0 &&
-      // make sure the comment is valid
-      is_string($comment) && $comment != "" ) { 
+    if( // check that the question id is valid
+        $question_id > 0 &&
+        // make sure the comment is valid
+        is_string($comment) && $comment != "" ) { 
 
-      $t_questions = "questions";
-      $t_comments = "comments";
+      $user = "plcaeholder";
+      global $db_name,$tablec,$tableq;
 
-      $mysqli->query("INSERT INTO $t_comments (question_id,comment)
-                          VALUES('$question_id','$comment');")
-                          or die(mysql_error());
-      $mysqli->query("UPDATE $t_questions
-                          SET rating = rating + $rating_adj
-                          WHERE question_id = $question_id;")
-                          or die(mysql_error());
+      $sql_insert = "INSERT INTO `$db_name`.`$tablec`" + 
+                    "(`comment_id`, `question_id`, `comment`, `user`) " +
+                    "VALUES(NULL, '$question_id', '$comment', '$user');";
+      if( ! $mysqli->query( $sql_insert ) ) {
+        echo "Erorr unregistered user. Please contact webmaster.";
+        return;
+      }
+
+      $sql_update = "UPDATE `$db_name`.`$tableq` " +
+                    "SET `rating` = rating + $rating_adj " +
+                    "WHERE `question_id` = '$question_id';";
+      if( ! $mysqli->query( $sql_update ) ) { 
+        echo "Error unable to rate question. Please contact webmaster.";
+        return;
+      }
     }
   }
 
   // disconnect from the database and return to the homepage.
   $mysqli->close();
-  //header('Location: index.php');
+  header('Location: index.php');
 
 ?>

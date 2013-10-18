@@ -229,7 +229,8 @@ function generate_questions_box() {
 
       #### LINK BLOCK ####
       echo "<br />".PHP_EOL;
-      echo "<a href=\"#\" onClick=\"toggle_display('c$qid');\">Toggle Comments</a>";
+      echo "<a href=\"#\" onClick=\"toggle_display('c$qid');\">Toggle Comments (";
+      echo (($qcomms!=null)?count($qcomms):"0").")</a>".PHP_EOL;
       echo "<br />".PHP_EOL;
       echo "<a href=\"#\" onClick=\"toggle_display('f$qid');\">Provide feedback.</a>";
       #### LINK BLOCK ####
