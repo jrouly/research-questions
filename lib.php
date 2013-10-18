@@ -67,7 +67,7 @@ function logout_user($hash) {
   $mysqli = connect_to_mysql();
   
   # generate the stuff we're inserting
-  $hash = sanitize($user);
+  $hash = sanitize($hash);
 
   # remove a user from the active user table
   $mysqli->query("DELETE FROM `$db_name`.`$tablea` WHERE `hash`='$hash';");
@@ -155,7 +155,6 @@ function register_user( $user, $level, $name ) {
   $output = False;
 
   $user  = sanitize($user);
-  $hash  = salted_hash($user);
   $level = sanitize($level);
   $name  = sanitize($name);
 
@@ -165,8 +164,8 @@ function register_user( $user, $level, $name ) {
   $rows = $result->num_rows;
 
   if( $rows == 0 ) { 
-    $mysqli->query("INSERT INTO `$db_name`.`$tableu`(`user`,`hash`,`level`,`name`)
-                    VALUES ('$user','$hash','$level','$name');");
+    $mysqli->query("INSERT INTO `$db_name`.`$tableu`(`user`,`level`,`name`)
+                    VALUES ('$user','$level','$name');");
     $output = True;
   }
   $mysqli->close();
@@ -181,12 +180,15 @@ function is_moderator() {
 
   if(isset($_COOKIE["user"])) { 
     $hash = $_COOKIE["user"];
-    $hash = sanitize($hash);
+    $user = get_username_from_hash($hash);
+    $user = sanitize($user);
 
     # verify that the user is in the Known Users table
-    $result = $mysqli->query("SELECT * FROM `$db_name`.`$tableu` WHERE `hash`='$hash';");
-    $row = $result->fetch_array(MYSQLI_ASSOC);
-    $output = ($row["level"] == "moderator" );
+    $result = $mysqli->query("SELECT * FROM `$db_name`.`$tableu` WHERE `user`='$user';");
+    if( $result ) { 
+      $row = $result->fetch_array(MYSQLI_ASSOC);
+      $output = ($row["level"] == "moderator" );
+    }
   }
   
   $mysqli->close();
