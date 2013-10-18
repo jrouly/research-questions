@@ -28,7 +28,7 @@
         // make sure the comment is valid
         is_string($comment) && $comment != "" ) { 
 
-      $user = get_username_from_hash( $_COOKIE["user"] );
+      $user = get_username_from_hash( $_COOKIE["hash"] );
 
       global $db_name,$tablec,$tableq;
 

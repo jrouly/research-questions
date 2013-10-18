@@ -73,7 +73,7 @@ function logout_user($hash) {
   $mysqli->query("DELETE FROM `$db_name`.`$tablea` WHERE `hash`='$hash';");
 
   # generate dead cookie
-  setcookie("user", "", time()-3600);
+  setcookie("hash", "", time()-3600);
 
   $mysqli->close();
 }
@@ -93,7 +93,7 @@ function login_user($user) {
                   VALUES ('$user', '$hash','$stamp');");
 
   # generate user cookie
-  setcookie("user", $hash, time()+3600);
+  setcookie("hash", $hash, time()+3600);
 
   $mysqli->close();
 }
@@ -118,8 +118,8 @@ function is_logged_in() {
   $mysqli = connect_to_mysql();
   $output = False;
 
-  if(isset($_COOKIE["user"])) { 
-    $hash = $_COOKIE["user"];
+  if(isset($_COOKIE["hash"])) { 
+    $hash = $_COOKIE["hash"];
     $hash = sanitize($hash);
 
     # verify that the user is in the Active Users table
@@ -178,8 +178,8 @@ function is_moderator() {
   $mysqli = connect_to_mysql();
   $output = False;
 
-  if(isset($_COOKIE["user"])) { 
-    $hash = $_COOKIE["user"];
+  if(isset($_COOKIE["hash"])) { 
+    $hash = $_COOKIE["hash"];
     $user = get_username_from_hash($hash);
     $user = sanitize($user);
 
