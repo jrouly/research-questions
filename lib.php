@@ -238,10 +238,12 @@ function generate_questions_box() {
       echo "<div id=\"f$qid\" class=\"feedback\" style=\"display:none;\">".PHP_EOL;
       echo "<textarea class=\"feedback-text\" name=\"c\"></textarea>".PHP_EOL;
       echo "<br />".PHP_EOL;
-      echo "<input type=\"submit\" value=\"Good Question\" name=\"g\" />".PHP_EOL;
-      echo "<input type=\"submit\" value=\"Needs Work\" name=\"b\" />".PHP_EOL;
+      echo "<input type=\"button\" value=\"Good Question\" name=\"g\" ".PHP_EOL;
+      echo "onClick=\"submit_form($qid, 'g');\" />".PHP_EOL;
+      echo "<input type=\"button\" value=\"Needs Work\" name=\"b\" ".PHP_EOL;
+      echo "onClick=\"submit_form($qid, 'b');\" />".PHP_EOL;
       echo "<input type=\"button\" value=\"Cancel\" ";
-      echo "onClick=\"hide_display(f$qid);\" />".PHP_EOL;
+      echo "onClick=\"hide_display('f$qid');\" />".PHP_EOL;
       echo "</div>".PHP_EOL;
       #### FEEDBACK BLOCK ####
 
