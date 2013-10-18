@@ -8,7 +8,8 @@ global $ldap_host,$ldap_port;
 
 # Generates a salted hash of the username.
 function salted_hash( $user ) { 
-  global $salt;
+  mt_srand(microtime(true)*100000 + memory_get_usage(true));
+  $salt = md5(uniqid(mt_rand(), true));
   $hashed_user = hash('sha512', $user.$salt);
   return $hashed_user;
 }
@@ -35,7 +36,6 @@ function authenticate( $user, $pass ) {
   $success = False;
 
   $ld_user = "uid=$user,ou=people,o=gmu.edu";
-
   $ldap = ldap_connect($ldap_host, $ldap_port)
             or die("Could not connect to LDAP server.");
   $bind = ldap_bind($ldap, $ld_user, $pass);
@@ -48,19 +48,31 @@ function authenticate( $user, $pass ) {
   return $success;
 }
 
-# Remove the user from the mysql database and set an empty cookie.
-function logout_user($user) { 
+function get_username_from_hash($hash) { 
+  global $db_name,$tablea;
+  $mysqli = connect_to_mysql();
+  $hash = sanitize($hash);
+  $result = $mysqli->query("SELECT * FROM `$db_name`.`$tablea` WHERE `hash`='$hash';");
+  if( $result ) { 
+    $row = $result->fetch_row();
+    return $row[0];
+  }
+  return null;
+}
+
+
+# Remove the user hash from the mysql database and set an empty cookie.
+function logout_user($hash) { 
   global $db_name,$tablea,$tablel;
   $mysqli = connect_to_mysql();
   
   # generate the stuff we're inserting
   $hash = sanitize($user);
-  $stamp = date('Y-m-d H:i:s');
 
-  # insert a user into the active user table
+  # remove a user from the active user table
   $mysqli->query("DELETE FROM `$db_name`.`$tablea` WHERE `hash`='$hash';");
 
-  # generate user cookie
+  # generate dead cookie
   setcookie("user", "", time()-3600);
 
   $mysqli->close();
@@ -298,7 +310,6 @@ function connect_to_mysql() {
   $mysqli->query(
     "CREATE TABLE IF NOT EXISTS `$db_name`.`$tableu` (
       `user` VARCHAR(50) CHARACTER SET 'utf8' NOT NULL,
-      `hash` VARCHAR(500) CHARACTER SET 'utf8' NOT NULL,
       `level` VARCHAR(50) CHARACTER SET 'utf8' NOT NULL,
       `name` VARCHAR(100) CHARACTER SET 'utf8' NOT NULL,
       PRIMARY KEY (`user`)
