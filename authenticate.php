@@ -29,7 +29,7 @@
       logout_user($user); # log out any active instances of this username
       login_user($user);
 
-      if( first_login($user) ) { 
+      if( ! is_moderator() && first_login($user) ) { 
         header('Location: submit-question.php');
       } else { 
         header('Location: index.php');
