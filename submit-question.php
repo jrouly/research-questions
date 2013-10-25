@@ -16,6 +16,9 @@ Please use this form to submit your tentative research question.
 
 <div>
 <form id="question-submit-form" name="question-submit-form" method="post" action="">
+<textarea></textarea>
+<br />
+<input type="submit" name="submit" id="submit" value="Submit Question" />
 </form>
 </div>
 
