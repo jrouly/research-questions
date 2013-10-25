@@ -15,7 +15,7 @@ Please provide feedback on these questions.
 </p>
 
 <div>
-<form id="feedback-form" name="feedback-form" method="post" action="feedback_processor.php">
+<form id="feedback-form" name="feedback-form" method="post" action="index_processor.php">
 <input type="hidden" id="action" name="action" value="" />
 <input type="hidden" id="identifier" name="identifier" value="" />
 
