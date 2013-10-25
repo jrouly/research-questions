@@ -79,11 +79,15 @@ function generate_questions_box() {
         foreach( $qcomms as $cid => $comment ) { 
           $text    = stripslashes($comment["text"]);
           $author  = $comment["user"];
+          $name = get_fullname_from_user( $author );
           
           if( is_moderator() ) { 
+            echo "<button><a href=\"#\">Remove</a></button>".PHP_EOL;
+            echo "<span class=\"comment-email\"><em>";
+            echo "<a href=\"mailto:$author@gmu.edu\">$author</a></em></span>".PHP_EOL;
             echo "<span class=\"comment-id\">[ID: $cid]</span>".PHP_EOL;
           }
-          echo "<span class=\"comment-author\"><strong>$author</strong> says:</span>".PHP_EOL;
+          echo "<span class=\"comment-author\"><strong>$name</strong> says:</span>".PHP_EOL;
           echo "<span class=\"comment-text\">$text</span>".PHP_EOL;
         }
       }
