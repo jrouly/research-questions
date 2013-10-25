@@ -46,7 +46,7 @@ function process_register_user() {
     foreach($usernames as $key=>$value) { 
       $username = trim($usernames[$key]);
       $realname = trim($realnames[$key]);
-      $level = $levels[$key].trim();
+      $level = trim($levels[$key]);
 
       if( is_string($username) && $username != "" && 
           is_string($realname) && $realname != "" &&
