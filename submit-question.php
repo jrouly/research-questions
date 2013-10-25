@@ -36,7 +36,7 @@ other information!
 function process_form() { 
   if( isset($_POST["submit"]) ) {
     
-    $question = $_POST["question"].trim();
+    $question = trim($_POST["question"]);
     $user = get_username();
 
     if( is_string($question) && $question != "" ) { 
