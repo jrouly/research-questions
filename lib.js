@@ -131,3 +131,28 @@ function remove_question( qid ) {
     return false;
   }
 }
+
+
+function remove_comment( cid ) { 
+  var comment_block = document.getElementById( cid );
+  var comment_text = comment_block.getElementsByClassName("comment-text")[0].innerHTML;
+  var confirmation_text = "Are you sure you wish to remove this comment: \n\n";
+  confirmation_text += comment_text;
+  
+  var res = confirm( confirmation_text );
+  
+  /*
+  if( res ) { 
+    var qid_field = document.getElementById( "qid" );
+    qid_field.value = qid;
+
+    var act_field = document.getElementById( "removal" );
+    act_field.value = "question";
+
+    var removal_form = document.getElementById( "feedback-form" );
+    removal_form.submit();
+  } else { 
+    return false;
+  }
+  */
+}

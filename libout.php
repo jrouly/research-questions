@@ -62,9 +62,9 @@ function generate_questions_box() {
         echo "<br /><br />".PHP_EOL;
       }
       echo "<span class=\"question-text\">$question</span>".PHP_EOL;
+      echo "<br /><br />".PHP_EOL;
 
       #### LINK BLOCK ####
-      echo "<br />".PHP_EOL;
       echo "<a href=\"#\" onClick=\"toggle_display('c$qid'); return false;\">Toggle Comments (";
       echo (($qcomms!=null)?count($qcomms):"0").")</a>".PHP_EOL;
       echo "<br />".PHP_EOL;
@@ -92,21 +92,26 @@ function generate_questions_box() {
         echo "<span class=\"comment-text\">None yet.</span>".PHP_EOL;
       } else { 
         foreach( $qcomms as $cid => $comment ) { 
+          echo "<span id=\"$cid\">".PHP_EOL;
+
           $text    = stripslashes($comment["text"]);
           $author  = $comment["user"];
           $name    = get_fullname_from_user( $author );
           
           if( is_moderator() ) { 
-            ## Comment removal button && data
-            echo "<button><a href=\"#\">Remove</a></button>".PHP_EOL;
             echo "<span class=\"comment-id\">[ID: $cid]</span>".PHP_EOL;
+            echo "<button onClick=\"remove_comment('$cid');return false;\">";
+            echo "Remove Comment</button>".PHP_EOL;
           }
+
           echo "<span class=\"comment-author\"><strong>";
           if( is_moderator() ) { echo "<a href=\"mailto:$author@gmu.edu\">"; }
           echo "$name";
           if( is_moderator() ) { echo "</a>".PHP_EOL; }
           echo "</strong> says:</span>".PHP_EOL;
           echo "<span class=\"comment-text\">$text</span>".PHP_EOL;
+
+          echo "</span>".PHP_EOL;
         }
       }
       echo "</div>".PHP_EOL;
