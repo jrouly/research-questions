@@ -29,11 +29,6 @@ function generate_questions_box() {
       $comments[$qid][$cid]["user"] = $row["user"];
     }
 
-    #### REMOVE QUESTION BUTTON ####
-    if( is_moderator() ) { 
-      echo "<input type=\"hidden\" name=\"removal\" id=\"removal\" value=\"\" />".PHP_EOL;
-    }
-
     # display questions w/ comments
     foreach( $ratings as $qid => $rating ) { 
       $question = stripslashes($questions[$qid]);
@@ -42,7 +37,7 @@ function generate_questions_box() {
       $qcomms   = isset($comments[$qid]) ? $comments[$qid] : null;
     
       #### QUESTION BLOCK ####
-      echo "<div id=\"$qid\" class=\"question\">".PHP_EOL;
+      echo "<div id=\"question$qid\" class=\"question\">".PHP_EOL;
       if( is_moderator() ) { 
         ## Remove Question button
         echo "<button onClick=\"remove_question('$qid');return false;\">";
@@ -92,7 +87,7 @@ function generate_questions_box() {
         echo "<span class=\"comment-text\">None yet.</span>".PHP_EOL;
       } else { 
         foreach( $qcomms as $cid => $comment ) { 
-          echo "<span id=\"$cid\">".PHP_EOL;
+          echo "<span id=\"comment$cid\">".PHP_EOL;
 
           $text    = stripslashes($comment["text"]);
           $author  = $comment["user"];

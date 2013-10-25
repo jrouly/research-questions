@@ -53,13 +53,17 @@ function submit_feedback( qid, type ) {
     var feedback = feedback_in.value.trim();
     if( feedback.length > 0 ) { 
 
-      // set the qid hidden field
-      var qid_box = document.getElementById( "qid" );
-      qid_box.value = qid;
+      // set the action hidden field
+      var action_box = document.getElementById( "action" );
+      action_box.value = "add-comment";
+
+      // set the id hidden field
+      var id_box = document.getElementById( "identifier" );
+      id_box.value = qid;
 
       // set the r(ating) hidden field
-      var type_box = document.getElementById( "r" );
-      type_box.value = type;
+      var rating_box = document.getElementById( "r" );
+      rating_box.value = type;
 
       // set the f(eedback) hidden field
       var feedback_box = document.getElementById( "f" );
@@ -111,7 +115,7 @@ function add_user_registration_row() {
  * Begin the process of removing a question from the database.
  */
 function remove_question( qid ) { 
-  var question_block = document.getElementById( qid );
+  var question_block = document.getElementById( 'question'+qid );
   var question_text = question_block.getElementsByClassName("question-text")[0].innerHTML;
   var confirmation_text = "Are you sure you wish to remove this question: \n\n";
   confirmation_text += question_text;
@@ -119,11 +123,11 @@ function remove_question( qid ) {
   var res = confirm( confirmation_text );
 
   if( res ) { 
-    var qid_field = document.getElementById( "qid" );
-    qid_field.value = qid;
+    var action_field = document.getElementById( "action" );
+    action_field.value = "remove-question";
 
-    var act_field = document.getElementById( "removal" );
-    act_field.value = "question";
+    var id_field = document.getElementById( "identifier" );
+    id_field.value = qid;
 
     var removal_form = document.getElementById( "feedback-form" );
     removal_form.submit();
@@ -134,25 +138,23 @@ function remove_question( qid ) {
 
 
 function remove_comment( cid ) { 
-  var comment_block = document.getElementById( cid );
+  var comment_block = document.getElementById( 'comment'+cid );
   var comment_text = comment_block.getElementsByClassName("comment-text")[0].innerHTML;
   var confirmation_text = "Are you sure you wish to remove this comment: \n\n";
   confirmation_text += comment_text;
   
   var res = confirm( confirmation_text );
   
-  /*
   if( res ) { 
-    var qid_field = document.getElementById( "qid" );
-    qid_field.value = qid;
+    var action_field = document.getElementById( "action" );
+    action_field.value = "remove-comment";
 
-    var act_field = document.getElementById( "removal" );
-    act_field.value = "question";
+    var id_field = document.getElementById( "identifier" );
+    id_field.value = cid;
 
     var removal_form = document.getElementById( "feedback-form" );
     removal_form.submit();
   } else { 
     return false;
   }
-  */
 }
