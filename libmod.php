@@ -53,6 +53,9 @@ function process_register_user() {
           is_string($level)    && $level != "" ) {
 
         # if everything is filled in, then register this user
+        if( is_user_registered( $username ) ) { 
+          echo "Username $username already exists. No action taken.<br/>".PHP_EOL;
+        }
         register_user( $username, $level, $realname );
         $output = "User(s) registered.";
       }
