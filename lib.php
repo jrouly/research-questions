@@ -228,7 +228,7 @@ function generate_questions_box() {
 
     # display questions w/ comments
     foreach( $ratings as $qid => $rating ) { 
-      $question = $questions[$qid];
+      $question = stripslashes($questions[$qid]);
       $user     = $users[$qid];
       $qcomms   = isset($comments[$qid]) ? $comments[$qid] : null;
 
@@ -268,7 +268,7 @@ function generate_questions_box() {
         echo "<span class=\"comment-text\">None yet.</span>".PHP_EOL;
       } else { 
         foreach( $qcomms as $cid => $comment ) { 
-          $text    = $comment["text"];
+          $text    = stripslashes($comment["text"]);
           $author  = $comment["user"];
           
           if( is_moderator() ) { 
@@ -276,7 +276,7 @@ function generate_questions_box() {
           }
           echo "<span class=\"comment-text\">$text</span>".PHP_EOL;
           if( is_moderator() ) { 
-            echo "<span class=\"comment-author\">(BY: $author)</span>".PHP_EOL;
+          echo "<span class=\"comment-author\">~~~<em>$author</em></span>".PHP_EOL;
           }
           echo "<br />".PHP_EOL;
         }
