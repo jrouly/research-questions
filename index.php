@@ -16,7 +16,7 @@ Please provide feedback on these questions.
 
 <br />
 
-<div id="scrolling_frame">
+<div>
 <form id="feedback-form" name="feedback-form" method="post" action="feedback_processor.php">
 <input type="hidden" id="qid" name="qid" value="" />
 <input type="hidden" id="r"   name="r"   value="" />

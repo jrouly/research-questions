@@ -40,16 +40,16 @@ function generate_questions_box() {
       if( is_moderator() ) { 
         echo "<span class=\"question-id\">[ID: $qid]</span>".PHP_EOL;
         echo "<span class=\"question-rating\">(RATED: $rating)</span>".PHP_EOL;
-        echo "<span class=\"question-asker\">(BY: $user)</span>".PHP_EOL;
+        echo "<span class=\"question-asker\">(<strong>$user</strong>)</span>".PHP_EOL;
       }
       echo "<span class=\"question-text\">$question</span>".PHP_EOL;
 
       #### LINK BLOCK ####
       echo "<br />".PHP_EOL;
-      echo "<a href=\"#\" onClick=\"toggle_display('c$qid');\">Toggle Comments (";
+      echo "<a href=\"#\" onClick=\"toggle_display('c$qid'); return false;\">Toggle Comments (";
       echo (($qcomms!=null)?count($qcomms):"0").")</a>".PHP_EOL;
       echo "<br />".PHP_EOL;
-      echo "<a href=\"#\" onClick=\"toggle_display('f$qid');\">Provide feedback.</a>";
+      echo "<a href=\"#\" onClick=\"toggle_display('f$qid'); return false;\">Provide feedback.</a>";
       #### LINK BLOCK ####
 
       #### FEEDBACK BLOCK ####
@@ -57,9 +57,9 @@ function generate_questions_box() {
       echo "<textarea class=\"feedback-text\" name=\"c\"></textarea>".PHP_EOL;
       echo "<br />".PHP_EOL;
       echo "<input type=\"button\" value=\"Good Question\" name=\"g\" ".PHP_EOL;
-      echo "onClick=\"submit_form($qid, 'g');\" />".PHP_EOL;
+      echo "onClick=\"submit_feedback($qid, 'g');\" />".PHP_EOL;
       echo "<input type=\"button\" value=\"Needs Work\" name=\"b\" ".PHP_EOL;
-      echo "onClick=\"submit_form($qid, 'b');\" />".PHP_EOL;
+      echo "onClick=\"submit_feedback($qid, 'b');\" />".PHP_EOL;
       echo "<input type=\"button\" value=\"Cancel\" ";
       echo "onClick=\"hide_display('f$qid');\" />".PHP_EOL;
       echo "</div>".PHP_EOL;
@@ -76,10 +76,9 @@ function generate_questions_box() {
           
           if( is_moderator() ) { 
             echo "<span class=\"comment-id\">[ID: $cid]</span>".PHP_EOL;
-            echo "<span class=\"comment-author\"><strong>$author</strong> says:</span>".PHP_EOL;
           }
+          echo "<span class=\"comment-author\"><strong>$author</strong> says:</span>".PHP_EOL;
           echo "<span class=\"comment-text\">$text</span>".PHP_EOL;
-          echo "<br />".PHP_EOL;
         }
       }
       echo "</div>".PHP_EOL;

@@ -3,6 +3,7 @@
  * the given block.
  */
 function toggle_display( id ) { 
+  var oldPos = window.scrollY;
 
   var block = document.getElementById(id);
   if( block.style.display=="none" ) { 
@@ -11,6 +12,7 @@ function toggle_display( id ) {
     block.style.display="none";
   }
 
+  window.scrollTo( 0, oldPos );
 }
 
 /*
@@ -18,15 +20,19 @@ function toggle_display( id ) {
  * the given block.
  */
 function hide_display( id ) { 
+  var oldPos = window.scrollY;
+
   var block = document.getElementById(id);
   block.style.display="none";
+
+  window.scrollTo( 0, 1000 );
 }
 
 /*
  * This function populates the hidden fields
  * appropriately for submission.
  */
-function submit_form( qid, type ) { 
+function submit_feedback( qid, type ) { 
   // find the feedback div marked by qid
   var question_div = document.getElementById( "f" + qid );
   var feedback_in = null;
