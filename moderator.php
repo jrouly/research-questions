@@ -24,13 +24,14 @@
 <p>You may use the interface below to moderate the discussion.</p>
 
 <h3>View Access Logs</h3>
-<p>This tool allows you to see user access logs.</p>
+<p>Allows you to see user access logs.</p>
 
 <p><button><a href="view_logs.php">View Logs</a></button></p>
 
 
 
 <h3>Register New Users</h3>
+<p>Approve new users as students or moderators.</p>
 
 <form name="register-user" id="register-user" method="post" action="">
 
@@ -65,6 +66,7 @@
   <?php process_register_user(); ?>
 </form>
 
+<!--
 <h3>Modify an Existing User</h3>
 <form name="modify-user" method="post" action="">
 list users to modify, selecting one brings up modification dialog
@@ -72,7 +74,9 @@ list users to modify, selecting one brings up modification dialog
 <br /><br />
 <?php process_modify_user(); ?>
 </form>
+-->
 
+<!--
 <h3>Moderate Questions</h3>
 <form name="moderate-questions" method="post" action="">
 list questions to modify, selecting one brings up modification dialog
@@ -82,6 +86,7 @@ this should include feedback moderation
 <br /><br />
 <?php process_moderate_questions(); ?>
 </form>
+-->
 
 <?php
   ########################################## IS A MODERATOR
