@@ -1,4 +1,5 @@
 @import "style-question-display.css";
+@import "style-table.css";
 
 body { 
   background-color: #FFFFFF;
@@ -50,7 +51,7 @@ p {
 
 .scrolling_frame { 
   width: 100%;
-  height: 400px;
+  max-height: 400px;
   padding-left: 10px;
   border: 1px solid #000;
   overflow-y: auto;
