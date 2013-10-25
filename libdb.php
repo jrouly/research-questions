@@ -33,6 +33,7 @@ function connect_to_mysql() {
       `user` VARCHAR(50) CHARACTER SET 'utf8' NOT NULL,
       `level` VARCHAR(50) CHARACTER SET 'utf8' NOT NULL,
       `name` VARCHAR(100) CHARACTER SET 'utf8' NOT NULL,
+      `firstlogin` INT(1) UNSIGNED NOT NULL DEFAULT '1',
       PRIMARY KEY (`user`)
     ) 
     ENGINE = InnoDB 
