@@ -38,6 +38,8 @@ function generate_questions_box() {
       #### QUESTION BLOCK ####
       echo "<div id=\"$qid\" class=\"question\">".PHP_EOL;
       if( is_moderator() ) { 
+        echo "<button><a href=\"#\" onClick=\"remove_question('$qid');return false;\">";
+        echo "Remove</a></button>".PHP_EOL;
         echo "<span class=\"question-id\">[ID: $qid]</span>".PHP_EOL;
         echo "<span class=\"question-rating\">(RATED: $rating)</span>".PHP_EOL;
         echo "<span class=\"question-asker\">(<strong>$user</strong>)</span>".PHP_EOL;
