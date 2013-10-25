@@ -29,7 +29,6 @@ function authenticate( $user, $pass ) {
 function get_fullname_from_user($user) { 
   global $db_name,$tableu;
   $mysqli = connect_to_mysql();
-  $hash = sanitize($hash);
   $result = $mysqli->query("SELECT * FROM `$db_name`.`$tableu` WHERE `user`='$user';");
   if( $result ) { 
     $row = $result->fetch_row();
