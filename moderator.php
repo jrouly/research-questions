@@ -24,8 +24,7 @@
 <p>You may use the interface below to moderate the discussion.</p>
 
 <h3>View Access Logs</h3>
-<p>This page allows you to simply see the access logs of the website, and
-see who is logging in successfully/failing.</p>
+<p>This tool allows you to see user access logs.</p>
 
 <p><button><a href="view_logs.php">View Logs</a></button></p>
 
