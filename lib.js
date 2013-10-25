@@ -106,3 +106,19 @@ function add_user_registration_row() {
 
   window.scrollTo( 0, oldPos );
 }
+
+/*
+ * Begin the process of removing a question from the database.
+ */
+function remove_question( qid ) { 
+  var res = confirm("Are you sure you wish to remove this question?");
+
+  if( res ) { 
+    var question_removal = document.getElementById( "removeqid" );
+    question_removal.value = qid;
+    var removal_form = document.getElementById( "feedback-form" );
+    removal_form.submit();
+  } else { 
+    return false;
+  }
+}

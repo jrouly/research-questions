@@ -34,6 +34,11 @@ function generate_questions_box() {
       $question = stripslashes($questions[$qid]);
       $user     = $users[$qid];
       $qcomms   = isset($comments[$qid]) ? $comments[$qid] : null;
+    
+      #### MODERATOR BLOCK ####
+      if( is_moderator() ) { 
+        echo "<input type=\"hidden\" name=\"removeqid\" id=\"removeqid\" value=\"\" />".PHP_EOL;
+      }
 
       #### QUESTION BLOCK ####
       echo "<div id=\"$qid\" class=\"question\">".PHP_EOL;
