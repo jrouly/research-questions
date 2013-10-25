@@ -11,7 +11,7 @@ function view_access_logs() {
   $mysqli = connect_to_mysql();
   global $db_name,$tablel;
 
-  echo "<table cellspacing=\"0\" cellpadding=\"0\">".PHP_EOL;
+  echo "<table>".PHP_EOL;
   # Header row.
   echo "<tr>".PHP_EOL;
   echo "  <th>Entry</th>".PHP_EOL;
@@ -36,9 +36,29 @@ function view_access_logs() {
 }
 
 function process_register_user() { 
-  
+  $output = "Nothing happened.";
+
   if( isset($_POST["reg-user-submit"]) ) { 
-    echo "stuff";
+    $usernames = $_POST["username"];
+    $realnames = $_POST["realname"];
+    $levels = $_POST["level"];
+    
+    foreach($usernames as $key=>$value) { 
+      $username = $usernames[$key];
+      $realname = $realnames[$key];
+      $level = $levels[$key];
+
+      if( is_string($username) && $username != "" && 
+          is_string($realname) && $realname != "" &&
+          is_string($level)    && $level != "" ) {
+
+        # if everything is filled in, then register this user
+        register_user( $username, $level, $realname );
+        $output = "User(s) registered.";
+      }
+    }
+
+    echo $output.PHP_EOL;
   }
 
 }

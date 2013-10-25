@@ -25,7 +25,7 @@ function hide_display( id ) {
   var block = document.getElementById(id);
   block.style.display="none";
 
-  window.scrollTo( 0, 1000 );
+  window.scrollTo( 0, oldPos );
 }
 
 /*
@@ -33,6 +33,7 @@ function hide_display( id ) {
  * appropriately for submission.
  */
 function submit_feedback( qid, type ) { 
+
   // find the feedback div marked by qid
   var question_div = document.getElementById( "f" + qid );
   var feedback_in = null;
@@ -76,6 +77,32 @@ function submit_feedback( qid, type ) {
     alert("Your page was broken; please alert the webmaster.");
     return;
   }
+}
 
+/*
+ * Add a row to the user registration form.
+ */
+function add_user_registration_row() {
+  var oldPos = window.scrollY;
 
+  var table = document.getElementById( "register-user-table" );
+  var rowCount = table.rows.length;
+  var row = table.insertRow( rowCount );
+  //row.id = 'register-user-' + (rowCount - 1);
+
+  var cell_username = row.insertCell(0);
+  cell_username.innerHTML = '<input type="text" name="username[]" />';
+
+  var cell_realname = row.insertCell(1);
+  cell_realname.innerHTML = '<input type="text" name="realname[]" />';
+
+  var cell_level = row.insertCell(2);
+  cell_level.innerHTML = '<select name="level[]">' + 
+  '<option value="student" selected="selected">Student</option>' +
+  '<option value="moderator">Professor</option>' +
+  '<option value="moderator">GTA</option>' +
+  '<option value="moderator">PRM</option>' +
+  '</select>';
+
+  window.scrollTo( 0, oldPos );
 }

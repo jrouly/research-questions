@@ -16,7 +16,7 @@
   ########################################## NOT A MODERATOR
   } else { 
   ########################################## IS A MODERATOR
-  require "moderator_lib.php";
+  require "libmod.php";
 ?>
 
 <h1>Administrator Page</h1>
@@ -24,30 +24,41 @@
 <p>You may use the interface below to moderate the discussion.</p>
 
 <h3>Register New Users</h3>
-<form name="register-user" method="post" action="">
-<input type="text" name="reg-username" id="reg-username" value="username" />
-<input type="text" name="reg-name" id="reg-name" value="real name" />
-<select name="reg-level" id="reg-level">
-  <option value="moderator">Professor</option>
-  <option value="moderator">GTA</option>
-  <option value="moderator">PRM</option>
-  <option value="student" selected="selected">Student</option>
-</select>
-<a href="#">add row</a>
-<br /><br />
+<form name="register-user" id="register-user" method="post" action="">
+<a href="#" onClick="add_user_registration_row(); return false;">add row</a>
+<table id="register-user-table">
+<tr>
+  <th>username</th>
+  <th>real name</th>
+  <th>account type</th>
+</tr>
+<tr>
+  <td><input type="text" name="username[]" /></td>
+  <td><input type="text" name="realname[]" /></td>
+  <td>
+    <select name="level[]">
+      <option value="student" selected="selected">Student</option>
+      <option value="moderator">Professor</option>
+      <option value="moderator">GTA</option>
+      <option value="moderator">PRM</option>
+    </select>
+  </td>
+</tr>
+</table>
+
+<br />
 <input type="submit" value="Register" name="reg-user-submit" id="reg-user-submit" />
 <br /><br />
+
 <?php process_register_user(); ?>
-&nbsp;
 </form>
 
 <h3>Modify an Existing User</h3>
 <form name="modify-user" method="post" action="">
 list users to modify, selecting one brings up modification dialog
-<input type="submit" value="Register" name="mod-user-submit" id="mod-user-submit" />
+<input type="submit" value="Modify(?)" name="mod-user-submit" id="mod-user-submit" />
 <br /><br />
 <?php process_modify_user(); ?>
-&nbsp;
 </form>
 
 <h3>Moderate Questions</h3>
@@ -58,7 +69,6 @@ this should include feedback moderation
 <input type="submit" value="Register" name="mod-question-submit" id="mod-question-submit" />
 <br /><br />
 <?php process_moderate_questions(); ?>
-&nbsp;
 </form>
 
 <h3><a href="view_logs.php">View Access Logs</a></h3>
