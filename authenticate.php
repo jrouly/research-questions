@@ -28,7 +28,13 @@
     if( $registered ) { 
       logout_user($user); # log out any active instances of this username
       login_user($user);
-      header('Location: index.php');
+
+      if( first_login($user) ) { 
+        header('Location: submit-question.php');
+      } else { 
+        header('Location: index.php');
+      }
+
     } else if( $authenticated ) { 
       header('Location: login.php?m=r');
     } else { 
