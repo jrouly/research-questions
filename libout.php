@@ -39,15 +39,16 @@ function generate_questions_box() {
       #### QUESTION BLOCK ####
       echo "<div id=\"question$qid\" class=\"question\">".PHP_EOL;
       if( is_moderator() ) { 
-        ## Remove Question button
-        echo "<button onClick=\"remove_question('$qid');return false;\">";
-        echo "Remove Question</button>".PHP_EOL;
-        echo "<br />".PHP_EOL;
-
         ## Question asker && email
         echo "<span class=\"question-asker\"><strong>";
         echo "<a href=\"mailto:$user@gmu.edu\">$name</a>";
         echo "</strong></span>".PHP_EOL;
+
+        ## Remove Question button
+        echo "<button onClick=\"remove_question('$qid');return false;\">";
+        echo "Remove Question</button>".PHP_EOL;
+        echo "<button onClick=\"change_rating('$qid');return false;\">";
+        echo "Change Rating</button>".PHP_EOL;
         echo "<br />".PHP_EOL;
 
         ## Question data
@@ -55,6 +56,7 @@ function generate_questions_box() {
         echo "<span class=\"question-rating\">(RATED: $rating)</span>".PHP_EOL;
 
         echo "<br /><br />".PHP_EOL;
+
       }
       echo "<span class=\"question-text\">$question</span>".PHP_EOL;
       echo "<br /><br />".PHP_EOL;
