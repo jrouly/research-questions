@@ -12,6 +12,8 @@
       <span id="navbar">
         <a href="index.php">home</a>
         -
+        <a href="submit-question.php">submit question</a>
+        -
         <a href="moderator.php">moderator</a>
         -
         <a href="instructions.php">instructions</a>
