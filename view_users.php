@@ -56,9 +56,12 @@
   <?php process_register_user(); ?>
 </form>
 
-<br />
+<h3>Modify Existing Users</h3>
+<p>View or modify any of the currently registered users.</p>
 
-<?php #view_user_list(); ?>
+<form>
+<?php list_registered_users(); ?>
+</form>
 
 <br />
 

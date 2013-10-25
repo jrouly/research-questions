@@ -2,7 +2,28 @@
 
 function list_registered_users() { 
   $mysqli = connect_to_mysql();
-  
+  global $db_name,$tableu;
+
+  echo "<table>".PHP_EOL;
+  # Header row.
+  echo "<tr>".PHP_EOL;
+  echo "  <th>NetID</th>".PHP_EOL;
+  echo "  <th>Full Name</th>".PHP_EOL;
+  echo "  <th>Level</th>".PHP_EOL;
+  echo "  <th>Modify</th>".PHP_EOL;
+  echo "</tr>".PHP_EOL;
+
+  $sql = "SELECT * FROM `$db_name`.`$tableu`;";
+  $result = $mysqli->query( $sql );
+  while( $row = $result->fetch_row() ) { 
+    echo "<tr>".PHP_EOL;
+    echo "  <td><a href=\"mailto:$row[0]@gmu.edu\">$row[0]</a></td>".PHP_EOL;
+    echo "  <td>$row[2]</td>".PHP_EOL;
+    echo "  <td>$row[1]</td>".PHP_EOL;
+    echo "  <td>modify</td>".PHP_EOL;
+    echo "</tr>".PHP_EOL;
+  }
+  echo "</table>".PHP_EOL;
 
   $mysqli->close();
 }
