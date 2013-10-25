@@ -1,4 +1,8 @@
       </div>
-      <div id="timestamp">2013.10.25</div>
+      <div id="footer">
+        By <a href="http://michel.rouly.net">Michel Rouly</a> | 
+        For <a href="http://gmu.edu">George Mason University</a> | 
+        With <a href="http://www.apache.org/licenses/LICENSE-2.0">some rights reserved</a>
+      </div>
     </body>
 </html>
