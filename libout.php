@@ -22,13 +22,14 @@ function generate_questions_box() {
     # load all comments
     $result_comments  = $mysqli->query("SELECT * FROM `$tablec`;");
     while( $row = $result_comments->fetch_array(MYSQLI_ASSOC) ) { 
-      $cid     = $row["comment_id"];
-      $qid     = $row["question_id"];
+      $cid      = $row["comment_id"];
+      $qid      = $row["question_id"];
 
       $comments[$qid][$cid]["text"] = $row["comment"];
       $comments[$qid][$cid]["user"] = $row["user"];
     }
 
+    #### REMOVE QUESTION BUTTON ####
     if( is_moderator() ) { 
       echo "<input type=\"hidden\" name=\"removal\" id=\"removal\" value=\"\" />".PHP_EOL;
     }

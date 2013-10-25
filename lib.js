@@ -111,7 +111,12 @@ function add_user_registration_row() {
  * Begin the process of removing a question from the database.
  */
 function remove_question( qid ) { 
-  var res = confirm("Are you sure you wish to remove this question?");
+  var question_block = document.getElementById( qid );
+  var question_text = question_block.getElementsByClassName("question-text")[0].innerHTML;
+  var confirmation_text = "Are you sure you wish to remove this question: \n\n";
+  confirmation_text += question_text;
+  
+  var res = confirm( confirmation_text );
 
   if( res ) { 
     var qid_field = document.getElementById( "qid" );
