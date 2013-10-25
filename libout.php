@@ -38,16 +38,28 @@ function generate_questions_box() {
     foreach( $ratings as $qid => $rating ) { 
       $question = stripslashes($questions[$qid]);
       $user     = $users[$qid];
+      $name     = get_fullname_from_user( $user );
       $qcomms   = isset($comments[$qid]) ? $comments[$qid] : null;
     
       #### QUESTION BLOCK ####
       echo "<div id=\"$qid\" class=\"question\">".PHP_EOL;
       if( is_moderator() ) { 
-        echo "<button><a href=\"#\" onClick=\"remove_question('$qid');return false;\">";
-        echo "Remove</a></button>".PHP_EOL;
+        ## Remove Question button
+        echo "<button onClick=\"remove_question('$qid');return false;\">";
+        echo "Remove Question</button>".PHP_EOL;
+        echo "<br />".PHP_EOL;
+
+        ## Question data
         echo "<span class=\"question-id\">[ID: $qid]</span>".PHP_EOL;
         echo "<span class=\"question-rating\">(RATED: $rating)</span>".PHP_EOL;
-        echo "<span class=\"question-asker\">(<strong>$user</strong>)</span>".PHP_EOL;
+        echo "<br />".PHP_EOL;
+
+        ## Question asker && email
+        echo "<span class=\"question-asker\"><strong>";
+        echo "<a href=\"mailto:$user@gmu.edu\">$name</a>";
+        echo "</strong></span>".PHP_EOL;
+
+        echo "<br /><br />".PHP_EOL;
       }
       echo "<span class=\"question-text\">$question</span>".PHP_EOL;
 
@@ -62,6 +74,8 @@ function generate_questions_box() {
       #### FEEDBACK BLOCK ####
       echo "<div id=\"f$qid\" class=\"feedback\" style=\"display:none;\">".PHP_EOL;
       echo "<textarea class=\"feedback-text\" name=\"c\"></textarea>".PHP_EOL;
+      echo "<br />".PHP_EOL;
+      echo "Your name will be associated with any comments you make.".PHP_EOL;
       echo "<br />".PHP_EOL;
       echo "<input type=\"button\" value=\"Good Question\" name=\"g\" ".PHP_EOL;
       echo "onClick=\"submit_feedback($qid, 'g');\" />".PHP_EOL;
@@ -80,15 +94,18 @@ function generate_questions_box() {
         foreach( $qcomms as $cid => $comment ) { 
           $text    = stripslashes($comment["text"]);
           $author  = $comment["user"];
-          $name = get_fullname_from_user( $author );
+          $name    = get_fullname_from_user( $author );
           
           if( is_moderator() ) { 
+            ## Comment removal button && data
             echo "<button><a href=\"#\">Remove</a></button>".PHP_EOL;
-            echo "<span class=\"comment-email\"><em>";
-            echo "<a href=\"mailto:$author@gmu.edu\">$author</a></em></span>".PHP_EOL;
             echo "<span class=\"comment-id\">[ID: $cid]</span>".PHP_EOL;
           }
-          echo "<span class=\"comment-author\"><strong>$name</strong> says:</span>".PHP_EOL;
+          echo "<span class=\"comment-author\"><strong>";
+          if( is_moderator() ) { echo "<a href=\"mailto:$author@gmu.edu\">"; }
+          echo "$name";
+          if( is_moderator() ) { echo "</a>".PHP_EOL; }
+          echo "</strong> says:</span>".PHP_EOL;
           echo "<span class=\"comment-text\">$text</span>".PHP_EOL;
         }
       }
