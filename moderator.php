@@ -19,50 +19,20 @@
   require "libmod.php";
 ?>
 
-<h1>Administrator Page</h1>
+<h1>Moderator Page</h1>
 
 <p>You may use the interface below to moderate the discussion.</p>
 
-<h3>View Access Logs</h3>
-<p>Allows you to see user access logs. <a href="view_logs.php">View Logs</a>.</p>
+<h3>Access Logs</h3>
+<p>Allows you to see user access logs.<br />
+<a href="view_logs.php">Access Logs</a></p>
 
 
 
-<h3>Register New Users</h3>
-<p>Approve new users as students or moderators.</p>
+<h3>Approved Users</h3>
+<p>Allows you to view and edit existing approved users.<br />
+<a href="view_users.php">Approved Users</a></p>
 
-<form name="register-user" id="register-user" method="post" action="">
-
-  <button onClick="add_user_registration_row(); return false;">
-  Add Row
-  </button>
-
-  <input type="submit" value="Register" name="reg-user-submit" id="reg-user-submit" />
-  <br /><br />
-
-  <table id="register-user-table">
-  <tr>
-    <th>username</th>
-    <th>real name</th>
-    <th>account type</th>
-  </tr>
-  <tr>
-    <td><input type="text" name="username[]" /></td>
-    <td><input type="text" name="realname[]" /></td>
-    <td>
-      <select name="level[]">
-        <option value="student" selected="selected">Student</option>
-        <option value="moderator">Professor</option>
-        <option value="moderator">GTA</option>
-        <option value="moderator">PRM</option>
-      </select>
-    </td>
-  </tr>
-  </table>
-
-  <br />
-  <?php process_register_user(); ?>
-</form>
 
 <!--
 <h3>Modify an Existing User</h3>
