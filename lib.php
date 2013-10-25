@@ -60,17 +60,24 @@ function get_username_from_hash($hash) {
   return null;
 }
 
-
 # Remove the user hash from the mysql database and set an empty cookie.
-function logout_user($hash) { 
-  global $db_name,$tablea,$tablel;
+# This is just a wrapper of the logout_user function which uses a hash
+# value.
+function logout_hash($hash) { 
+  $hash = sanitize($hash);
+  $user = get_username_from_hash($hash);
+  logout_user($user);
+}
+
+# Remove the user from the mysql database and set an empty cookie.
+function logout_user($user) { 
+  global $db_name,$tablea;
   $mysqli = connect_to_mysql();
   
-  # generate the stuff we're inserting
-  $hash = sanitize($hash);
-
+  $user = sanitize($user);
+  
   # remove a user from the active user table
-  $mysqli->query("DELETE FROM `$db_name`.`$tablea` WHERE `hash`='$hash';");
+  $mysqli->query("DELETE FROM `$db_name`.`$tablea` WHERE `user`='$user';");
 
   # generate dead cookie
   setcookie("hash", "", time()-3600);

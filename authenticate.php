@@ -26,6 +26,7 @@
     log_access_attempt( $user, $login_success );
 
     if( $registered ) { 
+      logout_user($user); # log out any active instances of this username
       login_user($user);
       header('Location: index.php');
     } else if( $authenticated ) { 
