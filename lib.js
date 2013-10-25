@@ -158,3 +158,25 @@ function remove_comment( cid ) {
     return false;
   }
 }
+
+function change_rating( qid ) { 
+  
+  var confirmation_text = "Select the new rating value: ";
+  var new_rating = prompt( confirmation_text, 0 );
+
+  if( new_rating ) { 
+    var action_field = document.getElementById( "action" );
+    action_field.value = "change-rating";
+
+    var id_field = document.getElementById( "identifier" );
+    id_field.value = qid;
+
+    var rating_box = document.getElementById( "r" );
+    rating_box.value = new_rating;
+
+    var removal_form = document.getElementById( "feedback-form" );
+    removal_form.submit();
+  } else { 
+    return false;
+  }
+}

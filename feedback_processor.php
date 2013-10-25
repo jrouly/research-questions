@@ -36,7 +36,7 @@
                         "VALUES(NULL, '$identifier', '$comment', '$user');";
           if( ! $mysqli->query( $sql_insert ) ) {
             echo "Erorr unregistered user. Please contact webmaster.";
-            return;
+            break;
           }
 
           # update the question rating in tableq
@@ -45,29 +45,46 @@
                         "WHERE `question_id` = '$identifier';";
           if( ! $mysqli->query( $sql_update ) ) { 
             echo "Error unable to rate question. Please contact webmaster.";
-            return;
+            break;
           }
         }
+
         break;
 
+      # This use-case is a moderator removing an existing question.
       case "remove-question":
         if( !is_moderator() ) { break; }
 
         $sql_delete = "DELETE FROM `$db_name`.`$tableq` WHERE `question_id`='$identifier';";
         if( ! $mysqli->query($sql_delete) ) {
           echo "Error unable to remove question. Please contact webmaster.";
-          return;
+          break;
         }
 
         break;
 
+      # This use-case is a moderator removing an unwanted comment.
       case "remove-comment":
         if( !is_moderator() ) { break; }
 
         $sql_delete = "DELETE FROM `$db_name`.`$tablec` WHERE `comment_id`='$identifier';";
         if( ! $mysqli->query($sql_delete) ) { 
           echo "Error unable to remove comment. Please contact webmaster.";
-          return;
+          break;
+        }
+
+        break;
+
+      # This use-case is a moderator manually updating the rating on a question.
+      case "change-rating":
+        if( !is_moderator() ) { break; }
+
+        $new_rating = sanitize( $_POST["r"] );
+        $sql_update_rating = "UPDATE `$db_name`.`$tableq` SET
+        `rating`='$new_rating' WHERE `question_id`='$identifier';";
+        if( ! $mysqli->query($sql_update_rating) ) { 
+          echo "Error unable to change rating. Please contact webmaster.";
+          break;
         }
 
         break;
