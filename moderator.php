@@ -24,9 +24,7 @@
 <p>You may use the interface below to moderate the discussion.</p>
 
 <h3>View Access Logs</h3>
-<p>Allows you to see user access logs.</p>
-
-<p><button><a href="view_logs.php">View Logs</a></button></p>
+<p>Allows you to see user access logs. <a href="view_logs.php">View Logs</a>.</p>
 
 
 
