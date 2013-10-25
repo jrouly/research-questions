@@ -14,8 +14,6 @@
 Please provide feedback on these questions.
 </p>
 
-<br />
-
 <div>
 <form id="feedback-form" name="feedback-form" method="post" action="feedback_processor.php">
 <input type="hidden" id="qid" name="qid" value="" />
