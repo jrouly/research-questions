@@ -25,6 +25,8 @@
 
 <?php view_access_logs(); ?>
 
+<br />
+<a href="#top">Return to top.</a>
 
 <?php
   ########################################## IS A MODERATOR
