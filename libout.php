@@ -49,15 +49,15 @@ function generate_questions_box() {
         echo "Remove Question</button>".PHP_EOL;
         echo "<br />".PHP_EOL;
 
-        ## Question data
-        echo "<span class=\"question-id\">[ID: $qid]</span>".PHP_EOL;
-        echo "<span class=\"question-rating\">(RATED: $rating)</span>".PHP_EOL;
-        echo "<br />".PHP_EOL;
-
         ## Question asker && email
         echo "<span class=\"question-asker\"><strong>";
         echo "<a href=\"mailto:$user@gmu.edu\">$name</a>";
         echo "</strong></span>".PHP_EOL;
+        echo "<br />".PHP_EOL;
+
+        ## Question data
+        echo "<span class=\"question-id\">[ID: $qid]</span>".PHP_EOL;
+        echo "<span class=\"question-rating\">(RATED: $rating)</span>".PHP_EOL;
 
         echo "<br /><br />".PHP_EOL;
       }
