@@ -26,6 +26,15 @@ function authenticate( $user, $pass ) {
   return $success;
 }
 
+function get_username() { 
+  if(isset($_COOKIE["hash"])) { 
+    $hash = $_COOKIE["hash"];
+    $user = get_username_from_hash($hash);
+    return $user;
+  }
+  return null;
+}
+
 function get_fullname_from_user($user) { 
   global $db_name,$tableu;
   $mysqli = connect_to_mysql();
