@@ -188,26 +188,32 @@ function register_user( $user, $level, $name ) {
 
 # Ease-of-use function to determine if a user is a moderator.
 function is_moderator() { 
-  global $db_name,$tableu;
-  $mysqli = connect_to_mysql();
   $output = False;
 
   if(isset($_COOKIE["hash"])) { 
     $hash = $_COOKIE["hash"];
     $user = get_username_from_hash($hash);
-    $user = sanitize($user);
-
-    # verify that the user is in the Known Users table
-    $result = $mysqli->query("SELECT * FROM `$db_name`.`$tableu` WHERE `user`='$user';");
-    if( $result ) { 
-      $row = $result->fetch_array(MYSQLI_ASSOC);
-      $output = ($row["level"] == "moderator" );
-    }
+    $output = is_user_moderator( $user );
   }
-  
+
+  return $output;
+}
+
+function is_user_moderator( $user ) { 
+  global $db_name,$tableu;
+  $mysqli = connect_to_mysql();
+  $output = False;
+  $user = sanitize($user);
+
+  # verify that the user is in the Known Users table
+  $result = $mysqli->query("SELECT * FROM `$db_name`.`$tableu` WHERE `user`='$user';");
+  if( $result ) { 
+    $row = $result->fetch_array(MYSQLI_ASSOC);
+    $output = ($row["level"] == "moderator" );
+  }
+
   $mysqli->close();
   return $output;
-
 }
 
 ?>
