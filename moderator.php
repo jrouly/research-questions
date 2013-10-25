@@ -23,34 +23,47 @@
 
 <p>You may use the interface below to moderate the discussion.</p>
 
+<h3>View Access Logs</h3>
+<p>This page allows you to simply see the access logs of the website, and
+see who is logging in successfully/failing.</p>
+
+<p><button><a href="view_logs.php">View Logs</a></button></p>
+
+
+
 <h3>Register New Users</h3>
+
 <form name="register-user" id="register-user" method="post" action="">
-<a href="#" onClick="add_user_registration_row(); return false;">add row</a>
-<table id="register-user-table">
-<tr>
-  <th>username</th>
-  <th>real name</th>
-  <th>account type</th>
-</tr>
-<tr>
-  <td><input type="text" name="username[]" /></td>
-  <td><input type="text" name="realname[]" /></td>
-  <td>
-    <select name="level[]">
-      <option value="student" selected="selected">Student</option>
-      <option value="moderator">Professor</option>
-      <option value="moderator">GTA</option>
-      <option value="moderator">PRM</option>
-    </select>
-  </td>
-</tr>
-</table>
 
-<br />
-<input type="submit" value="Register" name="reg-user-submit" id="reg-user-submit" />
-<br /><br />
+  <button onClick="add_user_registration_row(); return false;">
+  Add Row
+  </button>
 
-<?php process_register_user(); ?>
+  <input type="submit" value="Register" name="reg-user-submit" id="reg-user-submit" />
+  <br /><br />
+
+  <table id="register-user-table">
+  <tr>
+    <th>username</th>
+    <th>real name</th>
+    <th>account type</th>
+  </tr>
+  <tr>
+    <td><input type="text" name="username[]" /></td>
+    <td><input type="text" name="realname[]" /></td>
+    <td>
+      <select name="level[]">
+        <option value="student" selected="selected">Student</option>
+        <option value="moderator">Professor</option>
+        <option value="moderator">GTA</option>
+        <option value="moderator">PRM</option>
+      </select>
+    </td>
+  </tr>
+  </table>
+
+  <br />
+  <?php process_register_user(); ?>
 </form>
 
 <h3>Modify an Existing User</h3>
@@ -70,9 +83,6 @@ this should include feedback moderation
 <br /><br />
 <?php process_moderate_questions(); ?>
 </form>
-
-<h3><a href="view_logs.php">View Access Logs</a></h3>
-
 
 <?php
   ########################################## IS A MODERATOR
