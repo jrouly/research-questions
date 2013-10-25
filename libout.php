@@ -29,17 +29,16 @@ function generate_questions_box() {
       $comments[$qid][$cid]["user"] = $row["user"];
     }
 
+    if( is_moderator() ) { 
+      echo "<input type=\"hidden\" name=\"removal\" id=\"removal\" value=\"\" />".PHP_EOL;
+    }
+
     # display questions w/ comments
     foreach( $ratings as $qid => $rating ) { 
       $question = stripslashes($questions[$qid]);
       $user     = $users[$qid];
       $qcomms   = isset($comments[$qid]) ? $comments[$qid] : null;
     
-      #### MODERATOR BLOCK ####
-      if( is_moderator() ) { 
-        echo "<input type=\"hidden\" name=\"removeqid\" id=\"removeqid\" value=\"\" />".PHP_EOL;
-      }
-
       #### QUESTION BLOCK ####
       echo "<div id=\"$qid\" class=\"question\">".PHP_EOL;
       if( is_moderator() ) { 

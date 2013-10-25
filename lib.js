@@ -114,8 +114,12 @@ function remove_question( qid ) {
   var res = confirm("Are you sure you wish to remove this question?");
 
   if( res ) { 
-    var question_removal = document.getElementById( "removeqid" );
-    question_removal.value = qid;
+    var qid_field = document.getElementById( "qid" );
+    qid_field.value = qid;
+
+    var act_field = document.getElementById( "removal" );
+    act_field.value = "question";
+
     var removal_form = document.getElementById( "feedback-form" );
     removal_form.submit();
   } else { 
