@@ -280,11 +280,9 @@ function generate_questions_box() {
           
           if( is_moderator() ) { 
             echo "<span class=\"comment-id\">[ID: $cid]</span>".PHP_EOL;
+            echo "<span class=\"comment-author\"><strong>$author</strong> says:</span>".PHP_EOL;
           }
           echo "<span class=\"comment-text\">$text</span>".PHP_EOL;
-          if( is_moderator() ) { 
-          echo "<span class=\"comment-author\">~~~<em>$author</em></span>".PHP_EOL;
-          }
           echo "<br />".PHP_EOL;
         }
       }
