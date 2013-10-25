@@ -36,7 +36,6 @@ function view_access_logs() {
 }
 
 function process_register_user() { 
-  $output = "Nothing happened.";
 
   if( isset($_POST["reg-user-submit"]) ) { 
     $usernames = $_POST["username"];
@@ -55,13 +54,14 @@ function process_register_user() {
         # if everything is filled in, then register this user
         if( is_user_registered( $username ) ) { 
           echo "Username $username already exists. No action taken.<br/>".PHP_EOL;
+        } else { 
+          register_user( $username, $level, $realname );
+          echo "User $username ($realname) registered.<br />";
         }
-        register_user( $username, $level, $realname );
-        $output = "User(s) registered.";
       }
     }
 
-    echo $output.PHP_EOL;
+    echo "Done.<br />".PHP_EOL;
   }
 
 }
