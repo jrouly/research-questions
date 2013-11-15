@@ -5,11 +5,12 @@ $db_user= ""; # database user
 $db_pass= ""; # database password
 $db_name= ""; # database name
 
-$tableq = ""; # research questions
-$tablec = ""; # comments
-$tableu = ""; # known users
-$tablel = ""; # access logs
-$tablea = ""; # active users
+$tableq  = ""; # research questions
+$tablec  = ""; # comments
+$tablecr = ""; # comment replies
+$tableu  = ""; # known users
+$tablel  = ""; # access logs
+$tablea  = ""; # active users
 
 $ldap_host = ""; # authentication db
 $ldap_port = ""; # authentication port
