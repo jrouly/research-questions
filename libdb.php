@@ -20,7 +20,7 @@ function connect_to_mysql() {
 
   # hook into the MySQL database.
   global $db_host, $db_user, $db_pass, $db_name;
-  global $tableq, $tablec, $tablecr, $tableu, $tablel,$tablea;
+  global $tableq, $tablec, $tablecr, $tableu, $tablel,$tablea,$tableuh;
   $mysqli = new mysqli($db_host, $db_user, $db_pass, $db_name);
   if( $mysqli->connect_errno ) { 
     return null;
@@ -111,10 +111,33 @@ function connect_to_mysql() {
   # Create the Active Users table. This is the table of active users.
   $mysqli->query(
     "CREATE TABLE IF NOT EXISTS `$db_name`.`$tablea` (
+      `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
       `user` VARCHAR(50) CHARACTER SET 'utf8' NOT NULL,
       `hash` VARCHAR(500) CHARACTER SET 'utf8' NOT NULL,
       `timestamp` VARCHAR(50) CHARACTER SET 'utf8' NOT NULL,
-      PRIMARY KEY (`user`)
+      PRIMARY KEY (`id`),
+      CONSTRAINT `fk_user_active` FOREIGN KEY (`user`)
+        REFERENCES `$db_name`.`$tableu`(`user`)
+        ON DELETE CASCADE ON UPDATE CASCADE
+    ) 
+    ENGINE = InnoDB 
+    DEFAULT CHARACTER SET = latin1
+    AUTO_INCREMENT=1;");
+
+  # Create the User Hash table. This is the table of fake usernames unique
+  # per user per question.
+  $mysqli->query(
+    "CREATE TABLE IF NOT EXISTS `$db_name`.`$tableuh` (
+      `user` VARCHAR(50) CHARACTER SET 'utf8' NOT NULL,
+      `question_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+      `hash` VARCHAR(50) CHARACTER SET 'utf8' NOT NULL,
+      PRIMARY KEY (`user`, `question_id`),
+      CONSTRAINT `fk_user_hash` FOREIGN KEY (`user`)
+        REFERENCES `$db_name`.`$tableu`(`user`)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+      CONSTRAINT `fk_hash_questionID` FOREIGN KEY (`question_id`)
+        REFERENCES `$db_name`.`$tableq`(`question_id`)
+        ON DELETE CASCADE ON UPDATE CASCADE
     ) 
     ENGINE = InnoDB 
     DEFAULT CHARACTER SET = latin1
