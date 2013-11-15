@@ -35,7 +35,7 @@ function hide_display( id ) {
 function submit_feedback( qid, type ) { 
 
   // find the feedback div marked by qid
-  var question_div = document.getElementById( "f" + qid );
+  var question_div = document.getElementById( "make-comment" + qid );
   var feedback_in = null;
 
   // loop through its elements to find the textarea
@@ -159,6 +159,30 @@ function remove_comment( cid ) {
   }
 }
 
+
+function remove_reply( rid ) { 
+  var reply_block = document.getElementById( 'reply'+rid );
+  var reply_text = reply_block.getElementsByClassName("reply-text")[0].innerHTML;
+  var confirmation_text = "Are you sure you wish to remove this reply: \n\n";
+  confirmation_text += reply_text;
+  
+  var res = confirm( confirmation_text );
+  
+  if( res ) { 
+    var action_field = document.getElementById( "action" );
+    action_field.value = "remove-reply";
+
+    var id_field = document.getElementById( "identifier" );
+    id_field.value = rid;
+
+    var removal_form = document.getElementById( "feedback-form" );
+    removal_form.submit();
+  } else { 
+    return false;
+  }
+}
+
+
 function change_rating( qid ) { 
   
   var confirmation_text = "Select the new rating value: ";
@@ -178,5 +202,53 @@ function change_rating( qid ) {
     removal_form.submit();
   } else { 
     return false;
+  }
+}
+
+
+function submit_reply( cid ) {
+
+  // find the feedback div marked by qid
+  var comment_div = document.getElementById( "make-reply" + cid );
+  var reply_in = null;
+
+  // loop through its elements to find the textarea
+  for( var i = 0; i < comment_div.childNodes.length; i++ ) { 
+    if(comment_div.childNodes[i].name == "reply" ) { 
+      reply_in = comment_div.childNodes[i];
+      break;
+    }
+  }
+
+  // if we successfully found the textarea:
+  if( reply_in != null ) {
+
+    // clean up the feedback and make sure it's valid
+    var reply = reply_in.value.trim();
+    if( reply.length > 0 ) {
+
+      // set the action hidden field
+      var action_box = document.getElementById( "action" );
+      action_box.value = "add-reply";
+
+      // set the id hidden field
+      var id_box = document.getElementById( "identifier" );
+      id_box.value = cid;
+
+      // set the f(eedback) hidden field
+      var feedback_box = document.getElementById( "f" );
+      feedback_box.value = reply_in.value;
+
+      // submit the form
+      var form = document.getElementById( "feedback-form" );
+      form.submit();
+
+    } else { 
+      alert("Your feedback is empty!");
+      return;
+    }
+  } else { // somehow an element was missing....
+    alert("Your page was broken; please alert the webmaster.");
+    return;
   }
 }
