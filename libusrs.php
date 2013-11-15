@@ -1,12 +1,13 @@
 <?php
 
-# Generates a salted hash of the username.
-function salted_hash( $user ) { 
+# Generates a randomly salted hash of the input.
+function salted_hash( $input ) { 
   mt_srand(microtime(true)*100000 + memory_get_usage(true));
   $salt = md5(uniqid(mt_rand(), true));
-  $hashed_user = hash('sha512', $user.$salt);
-  return $hashed_user;
+  $hashed_input = hash('sha512', $input.$salt);
+  return $hashed_input;
 }
+
 
 # Bounce the user credentials against the LDAP user database.
 function authenticate( $user, $pass ) { 
@@ -56,7 +57,7 @@ function get_username_from_hash($hash) {
   if( $result ) { 
     $row = $result->fetch_row();
     $mysqli->close();
-    return $row[0];
+    return $row[1];
   }
   $mysqli->close();
   return null;
