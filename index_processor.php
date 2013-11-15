@@ -8,7 +8,7 @@
 
   if(isset($_POST["action"])) { 
 
-    global $db_name,$tablec,$tableq;
+    global $db_name,$tablec,$tablecr,$tableq;
     $mysqli = connect_to_mysql();
     $action = $_POST["action"];
     $identifier = $_POST["identifier"];
@@ -84,6 +84,42 @@
         `rating`='$new_rating' WHERE `question_id`='$identifier';";
         if( ! $mysqli->query($sql_update_rating) ) { 
           echo "Error unable to change rating. Please contact webmaster.";
+          break;
+        }
+
+        break;
+
+      # This use-case is the student replying to a comment.
+      case "add-reply":
+        if( !isset($_POST["f"]) || $_POST["f"] == "" ) { break; }
+        
+        # grab POST data
+        $reply = $_POST["f"];
+        $reply = sanitize($reply);
+        
+        # Validate identifier and reply.
+        if( $identifier > 0 && is_string($reply) && $reply != "" ) { 
+          $user = get_username_from_hash( $_COOKIE["hash"] );
+
+          # insert a new comment into the tabelc
+          $sql_insert = "INSERT INTO `$db_name`.`$tablecr`" . 
+                        "(`reply_id`, `comment_id`, `reply`, `user`) " .
+                        "VALUES(NULL, '$identifier', '$reply', '$user');";
+          if( ! $mysqli->query( $sql_insert ) ) {
+            echo "Erorr unregistered user. Please contact webmaster.";
+            break;
+          }
+        }
+
+        break;
+
+      # This use-case is a moderator removing an unwanted reply.
+      case "remove-reply":
+        if( !is_moderator() ) { break; }
+
+        $sql_delete = "DELETE FROM `$db_name`.`$tablecr` WHERE `reply_id`='$identifier';";
+        if( ! $mysqli->query($sql_delete) ) { 
+          echo "Error unable to remove reply. Please contact webmaster.";
           break;
         }
 
