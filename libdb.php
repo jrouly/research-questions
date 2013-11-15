@@ -20,7 +20,7 @@ function connect_to_mysql() {
 
   # hook into the MySQL database.
   global $db_host, $db_user, $db_pass, $db_name;
-  global $tableq, $tablec, $tableu, $tablel,$tablea;
+  global $tableq, $tablec, $tablecr, $tableu, $tablel,$tablea;
   $mysqli = new mysqli($db_host, $db_user, $db_pass, $db_name);
   if( $mysqli->connect_errno ) { 
     return null;
@@ -69,6 +69,25 @@ function connect_to_mysql() {
         REFERENCES `$db_name`.`$tableq`(`question_id`)
         ON DELETE CASCADE ON UPDATE CASCADE,
       CONSTRAINT `fk_user_comment` FOREIGN KEY (`user`)
+        REFERENCES `$db_name`.`$tableu`(`user`)
+        ON DELETE CASCADE ON UPDATE CASCADE
+    ) 
+    ENGINE = InnoDB 
+    DEFAULT CHARACTER SET = latin1
+    AUTO_INCREMENT=1;");
+
+  # Create the Comment Replies table. This is the extended database of feedback.
+  $mysqli->query(
+    "CREATE TABLE IF NOT EXISTS `$db_name`.`$tablecr` (
+      `reply_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+      `comment_id` INT(10) UNSIGNED NOT NULL,
+      `reply` VARCHAR(1000) CHARACTER SET 'utf8' NOT NULL,
+      `user` VARCHAR(50) CHARACTER SET 'utf8' NOT NULL,
+      PRIMARY KEY (`reply_id`),
+      CONSTRAINT `fk_commentID` FOREIGN KEY (`comment_id`)
+        REFERENCES `$db_name`.`$tablec`(`comment_id`)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+      CONSTRAINT `fk_user_reply` FOREIGN KEY (`user`)
         REFERENCES `$db_name`.`$tableu`(`user`)
         ON DELETE CASCADE ON UPDATE CASCADE
     ) 
