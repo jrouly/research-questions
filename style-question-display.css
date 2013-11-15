@@ -1,18 +1,14 @@
 /*** ---- QUESTIONS ---- ***/
-.question { 
+.question-box { 
   margin: 0px;
   margin-top: 10px;
   margin-bottom: 10px;
-  padding-top: 5px;
-  padding-left: 5px;
-  padding-bottom: 5px;
-  background-color: #EEEEFF;
+  padding: 5px;
+  background-color: #CCCCFF;
   border: 2px solid #000000;
 }
 
-.question:hover { 
-  background-color: #CCCCFF;
-}
+.question-box:hover { }
 
 .question-id { }
 
@@ -23,36 +19,43 @@
 .question-text { }
 
 /*** ---- COMMENTS ---- ***/
-.comments { 
-  padding-left: 5px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  margin-left: -5px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  background-color: #ddffdd;
-  border-top: 1px solid #000000;
-  border-bottom: 1px solid #000000;
+.comment-list-box { }
+
+.comment-box { 
+  background-color: #abffab;
+  border: 1px solid #000000;
+  margin: 10px;
+  padding: 10px;
 }
 
-.comment-text { 
-  display: block;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  margin-left: 15px;
-  margin-right: 15px;
-//  width: 400px;
-}
+.comment-text { }
 
 .comment-id { }
 
 .comment-author { }
 
+/*** ---- REPLIES ---- ***/
+.replies-box {
+  margin-top: 10px;
+  border: 1px dashed #000000;
+  padding: 10px;
+}
+
+.reply {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.reply-author { }
+
 /*** ---- FEEDBACK ---- ***/
-.feedback { }
+.feedback { 
+  display: block;
+  padding: 5px;
+/*  background-color: #ff6699; */
+}
 
 .feedback-text { 
-  margin-top: 5px;
   padding: 5px;
   width: 400px;
   height: 50px;
