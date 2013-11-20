@@ -5,7 +5,7 @@
     header('Location: login.php');
   }
 
-  require "top.part";
+  require "static/top.part";
 ?>
 
 <h1>Research Questions</h1>
@@ -26,5 +26,5 @@ Please provide feedback on these questions.
 </div>
 
 <?php 
-  require "bottom.part";
+  require "static/bottom.part";
 ?>

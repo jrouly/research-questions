@@ -5,7 +5,7 @@
     header('Location: login.php');
   }
 
-  require "top.part";
+  require "static/top.part";
 ?>
 
 <h1>Submit a Research Question</h1>
@@ -31,7 +31,7 @@ other information!
 </div>
 
 <?php 
-  require "bottom.part";
+  require "static/bottom.part";
 
 function process_form() { 
   if( isset($_POST["submit"]) ) {

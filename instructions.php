@@ -1,4 +1,4 @@
-<?php require "top.part"; ?>
+<?php require "static/top.part"; ?>
 
 <h1>Instructions</h1>
 <p>
@@ -21,4 +21,4 @@
   What is constructive criticism? What is not?
 </p>
 
-<?php require "bottom.part"; ?>
+<?php require "static/bottom.part"; ?>
