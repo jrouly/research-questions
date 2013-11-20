@@ -2,9 +2,9 @@
 <html lang="en-US">
     <head>
       <meta charset="UTF-8">
-      <link rel="stylesheet" href="./style.css" />
-      <link rel="shortcut icon" href="./favicon.png" />
-      <script type="text/javascript" src="./lib.js"></script>
+      <link rel="stylesheet" href="static/style.css" />
+      <link rel="shortcut icon" href="static/favicon.png" />
+      <script type="text/javascript" src="lib.js"></script>
       <title>GMU Honors 110</title>
     </head>
     <body>
