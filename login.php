@@ -5,7 +5,7 @@
     header('Location: index.php');
   }
 
-  require "top";
+  require "top.part";
 ?>
 
 <h1>Log In</h1>
@@ -41,5 +41,5 @@ if( isset($_GET["m"]) ) {
 </form>
 
 <?php 
-  require "bottom";
+  require "bottom.part";
 ?>

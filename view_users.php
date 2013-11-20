@@ -4,7 +4,7 @@
     header('Location: login.php');
   }
 
-  require "top";
+  require "top.part";
 
   if( ! is_moderator() ) { 
   ########################################## NOT A MODERATOR
@@ -69,5 +69,5 @@
   ########################################## IS A MODERATOR
   }
 
-  require "bottom";
+  require "bottom.part";
 ?>
