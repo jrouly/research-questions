@@ -1,6 +1,7 @@
 @import "style-question-display.css";
 @import "style-table.css";
 @import "style-fonts.css";
+@import "style-input.css";
 
 body { 
   background-color: #FFFFFF;
