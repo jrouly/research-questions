@@ -8,12 +8,6 @@
   require "static/top.part";
 ?>
 
-<h1>Research Questions</h1>
-
-<p>
-Please provide feedback on these questions.
-</p>
-
 <div>
 <form id="feedback-form" name="feedback-form" method="post" action="index_processor.php">
 <input type="hidden" id="action" name="action" value="" />
