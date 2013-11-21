@@ -3,18 +3,23 @@
 
 body { 
   background-color: #FFFFFF;
-  font-size: .8em;
+  background-image: url('left-bg.png');
+  background-repeat: repeat-y;
+
+  font-size: .9em;
+  font-family: "Sans", sans;
+
   padding: 0px;
-  font-family: "Noto Sans", sans;
 }
 
 a, a:visited, a:active { 
   text-decoration: none;
-  color: #3F78A9;
+  color: #FFCC33;
+  font-weight: bold;
 }
 
 a:hover { 
-  color: #A94D3F;
+  color: #DDAA11;
 }
 
 p { 
@@ -22,14 +27,16 @@ p {
 }
 
 .big-textarea { 
-  width: 100%;
+  width: 90%;
   height: 150px;
 }
 
 #maincontent { 
-  margin: auto;
-  margin-top: 5em;
-  width: 800px;
+  width: 700px;
+  clear: none;
+  float: left;
+  display: block;
+  margin-left: 80px;
 }
 
 #maincontent hr { 
@@ -46,12 +53,10 @@ p {
 
 #maincontent h2 { 
   font-size: 1.3em;
-/*  margin-left: 1em; */
 }
 
 #maincontent h3 { 
   font-size: 1.1em;
-/*  margin-left: 2em; */
 }
 
 .scrolling_frame { 
@@ -66,12 +71,49 @@ p, form {
 /*  margin-left: 3em; */
 }
 
-#navbar { 
-  width: 100px;
+#banner {
+  display: block;
+  margin: auto;
+  margin-bottom: 40px;
+  width: 350px;
+  height: 160px;
+  background-image: url('banner.png');
+  background-repeat: no-repeat;
+}
+
+#navbar {
+  width: 130px;
+  margin-left: 50px;
+  margin-top: 50px;
+  float: left;
+}
+
+#navbar a {
+  text-align: right;
+  color: #FFCC33;
+  width: 130px;
+  background-color: #006633;
+  display: block;
+
+  margin-top: 7px;
+  margin-bottom: 7px;
+
+  padding: 5px;
+  padding-right: 20px;
+
+  -webkit-transition: margin-left 0.8s linear;
+  -moz-transition: margin-left 0.8s linear;
+  -o-transition: margin-left 0.8s linear;
+  transition: margin-left 0.08s linear;
+}
+
+#navbar a:hover { 
+  margin-left: 10px;
 }
 
 #footer { 
-  margin-top: 20px;
+  clear: both;
   text-align: center;
+  padding: 20px;
   font-size: 0.7em;
 }
