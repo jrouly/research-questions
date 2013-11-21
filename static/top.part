@@ -9,15 +9,12 @@
     </head>
     <body>
       <a name="top"></a>
-      <span id="navbar">
+      <div id="navbar">
         <a href="index.php">home</a>
-        ~
         <a href="submit-question.php">submit question</a>
-        ~
         <a href="moderator.php">moderator</a>
-        ~
         <a href="instructions.php">instructions</a>
-        ~
         <a href="logout.php">exit</a>
-      </span>
+      </div>
       <div id="maincontent">
+        <div id="banner"></div>
