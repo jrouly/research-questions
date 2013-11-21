@@ -29,7 +29,7 @@ function connect_to_mysql() {
   # Create the Known Users table. This is the record of all known, accepted
   # users and their user levels.
   $mysqli->query(
-    "CREATE TABLE IF NOT EXISTS `$db_name`.`$table_users` (
+    "CREATE TABLE IF NOT EXISTS `$db_name`.`$tableu` (
       `user` VARCHAR(50) CHARACTER SET 'utf8' NOT NULL,
       `name` VARCHAR(100) CHARACTER SET 'utf8' NOT NULL,
       `section` VARCHAR(50) CHARACTER SET 'utf8' NOT NULL,
