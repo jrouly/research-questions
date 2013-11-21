@@ -1,5 +1,6 @@
 @import "style-question-display.css";
 @import "style-table.css";
+@import "style-fonts.css";
 
 body { 
   background-color: #FFFFFF;
@@ -7,7 +8,7 @@ body {
   background-repeat: repeat-y;
 
   font-size: .9em;
-  font-family: "Sans", sans;
+  font-family: 'Montserrat', sans-serif;
 
   padding: 0px;
 }
