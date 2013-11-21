@@ -8,7 +8,6 @@
 
   if(isset($_POST["action"])) { 
 
-    global $db_name,$tablec,$tablecr,$tableq;
     $mysqli = connect_to_mysql();
     $action = $_POST["action"];
     $identifier = $_POST["identifier"];
