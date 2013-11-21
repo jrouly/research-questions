@@ -118,3 +118,11 @@ p, form {
   padding: 20px;
   font-size: 0.7em;
 }
+
+#footer a {
+  color: #006633;
+}
+
+#footer a:hover {
+  color: #339966;
+}
