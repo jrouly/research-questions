@@ -219,7 +219,7 @@ function is_user_moderator( $user ) {
   $result = $mysqli->query("SELECT * FROM `$db_name`.`$tableu` WHERE `user`='$user';");
   if( $result ) { 
     $row = $result->fetch_array(MYSQLI_ASSOC);
-    $output = ($row["level"] == "moderator" );
+    $output = ($row["role"] == "moderator" );
   }
 
   $mysqli->close();
