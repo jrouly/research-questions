@@ -24,6 +24,7 @@
         # grab POST data
         $rating_adj = ($_POST["r"] == "b") ? -1 : 1;
         $comment = $_POST["f"];
+        $comment = ereg_replace( "[\n+]|[\r+]", " ", $comment);
         $comment = sanitize($comment);
         
         # Validate identifier and comment.
