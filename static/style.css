@@ -89,6 +89,7 @@ p, form {
 }
 
 #navbar a {
+  border-radius: 5px;
   text-align: right;
   color: #FFCC33;
   width: 130px;
