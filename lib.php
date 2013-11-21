@@ -2,9 +2,10 @@
 
 require "config.php";
 
-require "libusrs.php";
-require "libdb.php";
-require "libout.php";
+require "lib/users.php";
+require "lib/database.php";
+require "lib/questions.php";
+require "lib/moderator_functions.php";
 
 global $db_host,$db_user,$db_pass,$db_name;
 global $tableq,$tablec,$tableu,$tablel,$tablea;
