@@ -4,7 +4,8 @@
       <meta charset="UTF-8">
       <link rel="stylesheet" href="static/style.css" />
       <link rel="shortcut icon" href="static/favicon.png" />
-      <script type="text/javascript" src="lib.js"></script>
+      <script type="text/javascript" src="lib/expanders.js"></script>
+      <script type="text/javascript" src="lib/submitters.js"></script>
       <title>GMU Honors 110</title>
     </head>
     <body>
