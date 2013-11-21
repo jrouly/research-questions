@@ -209,7 +209,7 @@ function generate_questions_box() {
       
     }
   } else { 
-    echo "<div class=\"question\"><span class=\"question-text\">".PHP_EOL;
+    echo "<div class=\"question\"><div class=\"question-text\" style=\"text-align:center;\">".PHP_EOL;
     echo "No questions here. It's so lonely...</span></div>".PHP_EOL;
   }
   $mysqli->close();
