@@ -41,7 +41,7 @@ function get_fullname_from_user($user) {
   $mysqli = connect_to_mysql();
   $result = $mysqli->query("SELECT * FROM `$db_name`.`$tableu` WHERE `user`='$user';");
   if( $result ) { 
-    $row = $result->fetch_row();
+    $row = $result->fetch_array( MYSQLI_ASSOC );
     $mysqli->close();
     return $row['name'];
   }
@@ -55,9 +55,9 @@ function get_username_from_hash($hash) {
   $hash = sanitize($hash);
   $result = $mysqli->query("SELECT * FROM `$db_name`.`$tablea` WHERE `hash`='$hash';");
   if( $result ) { 
-    $row = $result->fetch_row();
+    $row = $result->fetch_array(MYSQLI_ASSOC);
     $mysqli->close();
-    return $row[1];
+    return $row['user'];
   }
   $mysqli->close();
   return null;
@@ -69,9 +69,9 @@ function first_login($user) {
   $sql_query = "SELECT * FROM `$db_name`.`$tableu` WHERE `user`='$user';";
   $result = $mysqli->query($sql_query);
   if( $result ) { 
-    $row = $result->fetch_row();
+    $row = $result->fetch_array(MYSQLI_ASSOC);
     $mysqli->close();
-    return $row[3] == 1;
+    return $row['firstlogin'] == 1;
   }
   $mysqli->close();
   return false;
