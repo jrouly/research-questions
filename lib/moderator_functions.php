@@ -95,12 +95,4 @@ function process_modify_user() {
 
 }
 
-function process_moderate_questions() { 
-  
-  if( isset($_POST["mod-question-submit"]) ) { 
-    echo "stuff";
-  }
-
-}
-
 ?>
