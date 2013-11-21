@@ -124,25 +124,6 @@ function connect_to_mysql() {
     DEFAULT CHARACTER SET = latin1
     AUTO_INCREMENT=1;");
 
-#  # Create the User Hash table. This is the table of fake usernames unique
-#  # per user per question.
-#  $mysqli->query(
-#    "CREATE TABLE IF NOT EXISTS `$db_name`.`$tableuh` (
-#      `user` VARCHAR(50) CHARACTER SET 'utf8' NOT NULL,
-#      `question_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-#      `hash` VARCHAR(50) CHARACTER SET 'utf8' NOT NULL,
-#      PRIMARY KEY (`user`, `question_id`),
-#      CONSTRAINT `fk_user_hash` FOREIGN KEY (`user`)
-#        REFERENCES `$db_name`.`$tableu`(`user`)
-#        ON DELETE CASCADE ON UPDATE CASCADE,
-#      CONSTRAINT `fk_hash_questionID` FOREIGN KEY (`question_id`)
-#        REFERENCES `$db_name`.`$tableq`(`question_id`)
-#        ON DELETE CASCADE ON UPDATE CASCADE
-#    ) 
-#    ENGINE = InnoDB 
-#    DEFAULT CHARACTER SET = latin1
-#    AUTO_INCREMENT=1;");
-
   return $mysqli;
 }
 
