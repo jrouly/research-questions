@@ -52,12 +52,11 @@ function generate_questions_box() {
       #### QUESTION TITLE ####
       echo "<div class=\"question-box-title\">".PHP_EOL;
       echo "<div class=\"question-box-title-left\">".PHP_EOL;
-      echo "<a href=\"#\" onClick=\"toggle_display('question-text$qid');return false;\">";
       if( is_moderator() ) { 
-        echo "$name</a>";
+        echo "$name";
         echo " <a href=\"mailto:$user@gmu.edu\">(email)</a>";
       } else {
-        echo "FAKENAME</a>";
+        echo "FAKENAME";
       }
       echo "</div>".PHP_EOL;
 
@@ -74,7 +73,7 @@ function generate_questions_box() {
       echo "</div>".PHP_EOL;
       #### QUESTION TITLE ####
 
-      echo "<div class=\"question-text\" id=\"question-text$qid\" style=\"display:none;\">$question</div>".PHP_EOL;
+      echo "<div class=\"question-text\" id=\"question-text$qid\">$question</div>".PHP_EOL;
 
       #### LINK BLOCK ####
       echo "<div class=\"question-box-footer\">".PHP_EOL;
