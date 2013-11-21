@@ -43,7 +43,7 @@ function get_fullname_from_user($user) {
   if( $result ) { 
     $row = $result->fetch_row();
     $mysqli->close();
-    return $row[2];
+    return $row['name'];
   }
   $mysqli->close();
   return null;
