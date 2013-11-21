@@ -65,6 +65,8 @@
 
 <br />
 
+<?php process_modify_users(); ?>
+
 <?php
   ########################################## IS A MODERATOR
   }
