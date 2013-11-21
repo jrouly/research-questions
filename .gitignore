@@ -3,3 +3,6 @@
 config.php
 about/*.aux
 about/*.log
+about/layout1.pdf
+*.svg
+*.xcf
