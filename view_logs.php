@@ -16,7 +16,6 @@
   ########################################## NOT A MODERATOR
   } else { 
   ########################################## IS A MODERATOR
-  require "libmod.php";
 ?>
 
 <h1>Access Logs</h1>
