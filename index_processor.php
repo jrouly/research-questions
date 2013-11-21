@@ -96,6 +96,7 @@
         
         # grab POST data
         $reply = $_POST["f"];
+        $reply = ereg_replace( "[\n+]|[\r+]", " ", $reply);
         $reply = sanitize($reply);
         
         # Validate identifier and reply.
