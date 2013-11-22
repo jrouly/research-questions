@@ -45,7 +45,9 @@ function generate_questions_box() {
       $user       = $users[$qid];
       $name       = get_fullname_from_user( $user );
       $mycomments = isset($comments[$qid]) ? $comments[$qid] : null;
-    
+
+      $fakename = get_user_handle( $user, $qid );
+
       #### QUESTION BLOCK ####
       echo "<div id=\"question$qid\" class=\"question-box\">".PHP_EOL;
 
@@ -56,7 +58,7 @@ function generate_questions_box() {
         echo "$name";
         echo " <a href=\"mailto:$user@gmu.edu\">(email)</a>";
       } else {
-        echo "FAKENAME";
+        echo "$fakename";
       }
       echo "</div>".PHP_EOL;
 
@@ -98,6 +100,8 @@ function generate_questions_box() {
           $name = get_fullname_from_user( $user );
           $myreplies = isset($replies[$cid]) ? $replies[$cid] : null;
 
+          $fakename = get_user_handle( $user, $qid );
+
           #### COMMENT BOX BLOCK ####
           echo "<div id=\"comment$cid\" class=\"comment-box\">".PHP_EOL;
 
@@ -106,7 +110,7 @@ function generate_questions_box() {
             echo "$name</a>";
             echo " <a href=\"mailto:$user@gmu.edu\">(email)</a>";
           } else {
-            echo "FAKENAME</a>";
+            echo "$fakename</a>";
           }
           echo " says:</span><br />".PHP_EOL;
 
@@ -137,6 +141,8 @@ function generate_questions_box() {
               $user = $reply["user"];
               $name = get_fullname_from_user( $user );
 
+              $fakename = get_user_handle( $user, $qid );
+
               echo "<div id=\"reply$rid\" class=\"reply\">".PHP_EOL;
               if( is_moderator() ) {
                 echo "<a href=\"#\" onClick=\"remove_reply('$rid');return false;\">";
@@ -148,7 +154,7 @@ function generate_questions_box() {
                 echo "$name</a>";
                 echo " <a href=\"mailto:$user@gmu.edu\">(email)</a>";
               } else {
-                echo "FAKENAME</a>";
+                echo "$fakename</a>";
               }
               echo " says:</span>".PHP_EOL;
 
