@@ -21,7 +21,7 @@ other information!
 <div>
 <form id="question-submit-form" name="question-submit-form" method="post" action="">
 <textarea class="big-textarea" name="question" id="question"></textarea>
-<br />
+<br /><br />
 <input type="submit" name="submit" id="submit" value="Submit Question" />
 <br /><br />
 
