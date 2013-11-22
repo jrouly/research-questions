@@ -62,6 +62,7 @@ function process_form() {
       if( ! $query->execute() ) { 
         echo "Error communicating with database. Please contact the webmaster.<br />".PHP_EOL;
       } else { 
+        echo '<script type="text/javascript">window.location = "index.php";</script>';
         echo "Question submitted!".PHP_EOL;
         echo "See it <a href=\"index.php\">here</a>.".PHP_EOL;
       }
