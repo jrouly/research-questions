@@ -3,6 +3,7 @@
 # Clean up any input for display.
 function sanitize($input) { 
   $input = htmlspecialchars( $input );
+  $input = ereg_replace( "[\n+]|[\r+]", " ", $input);
   $input = addslashes( $input );
   $input = trim( $input );
   return $input;

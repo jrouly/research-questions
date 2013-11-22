@@ -21,7 +21,6 @@
         # grab POST data
         $rating_adj = ($_POST["r"] == "b") ? -1 : 1;
         $comment = sanitize( $_POST["f"] );
-        $comment = ereg_replace( "[\n+]|[\r+]", " ", $comment);
 
         # Validate identifier and comment.
         if( $identifier > 0 && is_string($comment) && $comment != "" ) { 
@@ -111,7 +110,6 @@
         
         # grab POST data
         $reply = sanitize($_POST["f"]);
-        $reply = ereg_replace( "[\n+]|[\r+]", " ", $reply);
         
         # Validate identifier and reply.
         if( $identifier > 0 && is_string($reply) && $reply != "" ) { 
