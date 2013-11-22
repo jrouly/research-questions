@@ -128,3 +128,11 @@ p, form {
 #footer a:hover {
   color: #339966;
 }
+
+#instructions-index a {
+  color: #006633;
+}
+
+#instructions-index a:hover {
+  color: #DDAA11;
+}
