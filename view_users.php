@@ -35,13 +35,15 @@
   <tr>
     <th>username</th>
     <th>real name</th>
+    <th>section</th>
     <th>account type</th>
   </tr>
   <tr>
-    <td><input type="text" name="username[]" /></td>
-    <td><input type="text" name="realname[]" /></td>
+    <td><input type="text" name="user[]" /></td>
+    <td><input type="text" name="name[]" /></td>
+    <td><input type="text" name="section[]" /></td>
     <td>
-      <select name="level[]">
+      <select name="role[]">
         <option value="student" selected="selected">Student</option>
         <option value="moderator">Professor</option>
         <option value="moderator">GTA</option>
@@ -64,7 +66,7 @@
 
 <br />
 
-<?php process_modify_users(); ?>
+<?php #process_modify_users(); ?>
 
 <?php
   ########################################## IS A MODERATOR

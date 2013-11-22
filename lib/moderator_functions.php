@@ -13,19 +13,17 @@ function list_registered_users() {
   echo "  <th>Modify</th>".PHP_EOL;
   echo "</tr>".PHP_EOL;
 
-  $sql = "SELECT * FROM `$db_name`.`$tableu`;";
-  $result = $mysqli->query( $sql );
-  while( $row = $result->fetch_row() ) { 
+  $query = $mysqli->prepare("SELECT * FROM `$db_name`.`$tableu`;");
+  $query->execute();
+  while( $row = $query->fetch(PDO::FETCH_ASSOC) ) { 
     echo "<tr>".PHP_EOL;
-    echo "  <td><a href=\"mailto:$row[0]@gmu.edu\">$row[0]</a></td>".PHP_EOL;
-    echo "  <td>$row[2]</td>".PHP_EOL;
-    echo "  <td>$row[1]</td>".PHP_EOL;
+    echo "  <td><a href=\"mailto:".$row['user']."@gmu.edu\">".$row['user']."</a></td>".PHP_EOL;
+    echo "  <td>".$row['name']."</td>".PHP_EOL;
+    echo "  <td>".$row['role']."</td>".PHP_EOL;
     echo "  <td>modify</td>".PHP_EOL;
     echo "</tr>".PHP_EOL;
   }
   echo "</table>".PHP_EOL;
-
-  $mysqli->close();
 }
 
 function view_access_logs() { 
@@ -41,44 +39,48 @@ function view_access_logs() {
   echo "  <th>Result</th>".PHP_EOL;
   echo "</tr>".PHP_EOL;
 
-  $sql = "SELECT * FROM `$db_name`.`$tablel`;";
-  $result = $mysqli->query( $sql );
-  while( $row = $result->fetch_row() ) { 
+  $query = $mysqli->prepare("SELECT * FROM `$db_name`.`$tablel`;");
+  $query->execute();
+
+  while( $row = $query->fetch(PDO::FETCH_ASSOC) ) { 
     echo "<tr>".PHP_EOL;
-    echo "  <td>$row[0]</td>".PHP_EOL;
-    echo "  <td>$row[1]</td>".PHP_EOL;
-    echo "  <td>$row[2]</td>".PHP_EOL;
-    echo "  <td>$row[3]</td>".PHP_EOL;
+    echo "  <td>".$row['id']."</td>".PHP_EOL;
+    echo "  <td>".$row['user']."</td>".PHP_EOL;
+    echo "  <td>".$row['date']."</td>".PHP_EOL;
+    echo "  <td>".$row['result']."</td>".PHP_EOL;
     echo "</tr>".PHP_EOL;
   }
   echo "</table>".PHP_EOL;
-
-  $mysqli->close();
 }
 
 function process_register_user() { 
 
   if( isset($_POST["reg-user-submit"]) ) { 
-    $usernames = $_POST["username"];
-    $realnames = $_POST["realname"];
-    $levels = $_POST["level"];
-    
-    foreach($usernames as $key=>$value) { 
-      $username = trim($usernames[$key]);
-      $realname = trim($realnames[$key]);
-      $level = trim($levels[$key]);
+    $users = $_POST["user"];
+    $names = $_POST["name"];
+    $roles = $_POST["role"];
+    $sections = $_POST["section"];
 
-      if( is_string($username) && $username != "" && 
-          is_string($realname) && $realname != "" &&
-          is_string($level)    && $level != "" ) {
+    foreach($users as $key=>$value) { 
+      $user = trim($users[$key]);
+      $name = trim($names[$key]);
+      $role = trim($roles[$key]);
+      $section = trim($sections[$key]);
+
+      if( is_string($user) && $user != "" && 
+          is_string($name) && $name != "" &&
+          is_string($role) && $role != "" &&
+          is_string($section) && $section != "" ) {
 
         # if everything is filled in, then register this user
-        if( is_user_registered( $username ) ) { 
-          echo "Username $username already exists. No action taken.<br/>".PHP_EOL;
+        if( is_user_registered( $user ) ) { 
+          echo "Username $user already exists. No action taken.<br/>".PHP_EOL;
         } else { 
-          register_user( $username, $level, $realname );
-          echo "User $username ($realname) registered.<br />";
+          register_user( $user, $name, $section, $role );
+          echo "User $user ($name) registered.<br />";
         }
+      } else {
+        echo "Please make sure to fill out every field. No action taken.<br />".PHP_EOL;
       }
     }
 
