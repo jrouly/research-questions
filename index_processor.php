@@ -94,7 +94,7 @@
 
         $query = $mysqli->prepare("UPDATE `$db_name`.`$tableq` SET
           `rating`=:newrating WHERE `question_id`=:identifier;");
-        $query->bindValue(':new_rating', $new_rating);
+        $query->bindValue(':newrating', $new_rating);
         $query->bindValue(':identifier', $identifier);
 
         if( ! $query->execute() ) {
