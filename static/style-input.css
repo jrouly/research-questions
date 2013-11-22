@@ -11,6 +11,15 @@ button, input[type="submit"], input[type="button"] {
   background-color: #006633;
   color: #FFCC33;
   cursor: pointer;
+
+  -webkit-transition: background-color 1.2s ease-in;
+  -moz-transition: background-color 1.2s ease-in;
+  -o-transition: background-color 1.2s ease-in;
+  transition: background-color 0.08s ease-in;
+}
+
+button:hover, input[type="submit"]:hover, input[type="button"]:hover {
+  background-color: #003300;
 }
 
 input[type="text"], input[type="password"], textarea {
