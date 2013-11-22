@@ -63,6 +63,22 @@ function get_username_from_hash($hash) {
   return null;
 }
 
+function get_user_handle( $userid, $questionid ) {
+  # We have around 80k words to play with.
+  # 16^4 is just less than 80k, meaning it is
+  # in the valid index space.
+  $index = md5( $userid.$questionid );
+  $index = substr( $index, 0, 4 );
+  $index = hexdec( $index );
+
+  $words = new SplFileObject("static/words");
+  $word = $words->seek($index);
+  $word = $words->current();
+
+  $handle = ucwords("Anonymous ".$word);
+  return $handle;
+}
+
 function first_login($user) { 
   global $db_name,$tableu;
   $mysqli = connect_to_mysql();
