@@ -62,10 +62,10 @@ function process_register_user() {
     $sections = $_POST["section"];
 
     foreach($users as $key=>$value) { 
-      $user = trim($users[$key]);
-      $name = trim($names[$key]);
-      $role = trim($roles[$key]);
-      $section = trim($sections[$key]);
+      $user = sanitize($users[$key]);
+      $name = sanitize($names[$key]);
+      $role = sanitize($roles[$key]);
+      $section = sanitize($sections[$key]);
 
       if( is_string($user) && $user != "" && 
           is_string($name) && $name != "" &&

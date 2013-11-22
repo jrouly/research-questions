@@ -8,8 +8,8 @@
   if(isset($_POST["action"])) { 
 
     $mysqli = connect_to_mysql();
-    $action = $_POST["action"];
-    $identifier = $_POST["identifier"];
+    $action = sanitize($_POST["action"]);
+    $identifier = sanitize($_POST["identifier"]);
 
     switch( $action ) { 
 
@@ -17,12 +17,12 @@
       case "add-comment":
         if( !isset($_POST["r"]) || !isset($_POST["f"]) ||
             $_POST["r"] == "" || $_POST["f"] == "" ) { break; }
-        
+
         # grab POST data
         $rating_adj = ($_POST["r"] == "b") ? -1 : 1;
         $comment = sanitize( $_POST["f"] );
         $comment = ereg_replace( "[\n+]|[\r+]", " ", $comment);
-        
+
         # Validate identifier and comment.
         if( $identifier > 0 && is_string($comment) && $comment != "" ) { 
           $user = get_username_from_hash( $_COOKIE["hash"] );
@@ -110,9 +110,8 @@
         if( !isset($_POST["f"]) || $_POST["f"] == "" ) { break; }
         
         # grab POST data
-        $reply = $_POST["f"];
+        $reply = sanitize($_POST["f"]);
         $reply = ereg_replace( "[\n+]|[\r+]", " ", $reply);
-        $reply = sanitize($reply);
         
         # Validate identifier and reply.
         if( $identifier > 0 && is_string($reply) && $reply != "" ) { 

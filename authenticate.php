@@ -8,8 +8,8 @@
 
   if( isset($_POST["user"]) && isset($_POST["pass"]) ) {
 
-    $user = $_POST["user"];
-    $pass = $_POST["pass"];
+    $user = sanitize($_POST["user"]);
+    $pass = sanitize($_POST["pass"]);
 
     $authenticated = False;
     $registered = False;

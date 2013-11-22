@@ -36,27 +36,34 @@ other information!
 function process_form() { 
   if( isset($_POST["submit"]) ) {
     
-    $question = trim($_POST["question"]);
+    $question = sanitize($_POST["question"]);
     $user = get_username();
 
     if( is_string($question) && $question != "" ) { 
 
       global $db_name,$tableq,$tableu;
       $mysqli = connect_to_mysql();
-      
-      $sql_insert = "INSERT INTO `$db_name`.`$tableq`(`question`,`user`) VALUES('$question','$user');";
-      $result = $mysqli->query( $sql_insert );
-      if( ! $result ) { 
+
+      # Insert question into database if possible.
+      $query = $mysqli->prepare(
+        "INSERT INTO `$db_name`.`$tableq`(`question`,`user`)".
+        "VALUES(:question, :user);");
+      $query->bindValue(':question', $question);
+      $query->bindValue(':user', $user);
+
+      if( ! $query->execute() ) { 
         echo "Error communicating with database. Please contact the webmaster.<br />".PHP_EOL;
       }
-      
-      $sql_update = "UPDATE `$db_name`.`$tableu` SET `firstlogin`='0' WHERE `user`='$user';";
-      $result = $mysqli->query( $sql_update );
-      if( $result ) { 
+
+      # Update user's firstlogin value.
+      $query = $mysqli->prepare(
+        "UPDATE `$db_name`.`$tableu` SET `firstlogin`='0' WHERE `user`=:user;");
+      $query->bindValue(':user', $user);
+      if( ! $query->execute() ) { 
+        echo "Error communicating with database. Please contact the webmaster.<br />".PHP_EOL;
+      } else { 
         echo "Question submitted!".PHP_EOL;
         echo "See it <a href=\"index.php\">here</a>.".PHP_EOL;
-      } else { 
-        echo "Error communicating with database. Please contact the webmaster.<br />".PHP_EOL;
       }
 
     } else { 
