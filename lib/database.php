@@ -1,15 +1,15 @@
 <?php
 
 # Clean up any input for insertion in the mysql database.
-function sanitize($input) { 
-  $mysqli = connect_to_mysql();
-  $input = htmlspecialchars( $input );
-  $input = $mysqli->real_escape_string( $input );
-  $input = addslashes( $input );
-  $input = trim( $input );
-  $mysqli->close();
-  return $input;
-}
+#function sanitize($input) { 
+#  $mysqli = connect_to_mysql();
+#  $input = htmlspecialchars( $input );
+#  $input = $mysqli->real_escape_string( $input );
+#  $input = addslashes( $input );
+#  $input = trim( $input );
+#  $mysqli->close();
+#  return $input;
+#}
 
 # Generate a standard format timestamp.
 function timestamp() { 
@@ -21,14 +21,16 @@ function connect_to_mysql() {
   # hook into the MySQL database.
   global $db_host, $db_user, $db_pass, $db_name;
   global $tableq, $tablec, $tablecr, $tableu, $tablel,$tablea,$tableuh;
-  $mysqli = new mysqli($db_host, $db_user, $db_pass, $db_name);
-  if( $mysqli->connect_errno ) { 
-    return null;
-  }
+
+  $mysqli = new PDO(
+    "mysql:host=$db_host;dbname=$db_name",
+    $db_user,
+    $db_pass
+  );
 
   # Create the Known Users table. This is the record of all known, accepted
   # users and their user levels.
-  $mysqli->query(
+  $query = $mysqli->prepare(
     "CREATE TABLE IF NOT EXISTS `$db_name`.`$tableu` (
       `user` VARCHAR(50) CHARACTER SET 'utf8' NOT NULL,
       `name` VARCHAR(100) CHARACTER SET 'utf8' NOT NULL,
@@ -40,10 +42,11 @@ function connect_to_mysql() {
     ENGINE = InnoDB 
     DEFAULT CHARACTER SET = latin1
     AUTO_INCREMENT=1;");
+  $query->execute();
 
   # Create the Questions table. This is the database of student
   # research questions.
-  $mysqli->query(
+  $query = $mysqli->prepare(
     "CREATE TABLE IF NOT EXISTS `$db_name`.`$tableq` (
       `question_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
       PRIMARY KEY (`question_id`),
@@ -57,9 +60,10 @@ function connect_to_mysql() {
     ENGINE = InnoDB 
     DEFAULT CHARACTER SET = latin1
     AUTO_INCREMENT=1;");
+  $query->execute();
 
   # Create the Comments table. This is the database of feedback.
-  $mysqli->query(
+  $query = $mysqli->prepare(
     "CREATE TABLE IF NOT EXISTS `$db_name`.`$tablec` (
       `comment_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
       `question_id` INT(10) UNSIGNED NOT NULL,
@@ -76,9 +80,10 @@ function connect_to_mysql() {
     ENGINE = InnoDB 
     DEFAULT CHARACTER SET = latin1
     AUTO_INCREMENT=1;");
+  $query->execute();
 
   # Create the Comment Replies table. This is the extended database of feedback.
-  $mysqli->query(
+  $query = $mysqli->prepare(
     "CREATE TABLE IF NOT EXISTS `$db_name`.`$tablecr` (
       `reply_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
       `comment_id` INT(10) UNSIGNED NOT NULL,
@@ -95,9 +100,10 @@ function connect_to_mysql() {
     ENGINE = InnoDB 
     DEFAULT CHARACTER SET = latin1
     AUTO_INCREMENT=1;");
+  $query->execute();
 
   # Create the Log table. This is the log of access attempts.
-  $mysqli->query(
+  $query = $mysqli->prepare(
     "CREATE TABLE IF NOT EXISTS `$db_name`.`$tablel` (
       `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
       `user` VARCHAR(50) CHARACTER SET 'utf8' NOT NULL,
@@ -108,9 +114,10 @@ function connect_to_mysql() {
     ENGINE = InnoDB 
     DEFAULT CHARACTER SET = latin1
     AUTO_INCREMENT=1;");
+  $query->execute();
 
   # Create the Active Users table. This is the table of active users.
-  $mysqli->query(
+  $query = $mysqli->prepare(
     "CREATE TABLE IF NOT EXISTS `$db_name`.`$tablea` (
       `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
       `user` VARCHAR(50) CHARACTER SET 'utf8' NOT NULL,
@@ -124,6 +131,7 @@ function connect_to_mysql() {
     ENGINE = InnoDB 
     DEFAULT CHARACTER SET = latin1
     AUTO_INCREMENT=1;");
+  $query->execute();
 
   return $mysqli;
 }
