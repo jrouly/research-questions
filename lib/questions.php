@@ -61,7 +61,7 @@ function generate_questions_box() {
       echo "<div class=\"question-box-title-left\">".PHP_EOL;
       if( is_moderator() ) { 
         echo "$name";
-        echo " <a href=\"mailto:$user@gmu.edu\">(email)</a>";
+        echo " <a class=\"gold\" href=\"mailto:$user@gmu.edu\">(email)</a>";
       } else {
         echo "$fakename";
       }
@@ -71,10 +71,10 @@ function generate_questions_box() {
         echo "<div class=\"question-box-title-right\">".PHP_EOL;
         echo "(RATED: $rating)".PHP_EOL;
         echo " &bull; ".PHP_EOL;
-        echo "<a href=\"#\" onClick=\"remove_question('$qid');return false;\">";
+        echo "<a class=\"gold\" href=\"#\" onClick=\"remove_question('$qid');return false;\">";
         echo "Remove Question</a>".PHP_EOL;
         echo " &bull; ".PHP_EOL;
-        echo "<a href=\"#\" onClick=\"change_rating('$qid');return false;\">";
+        echo "<a class=\"gold\" href=\"#\" onClick=\"change_rating('$qid');return false;\">";
         echo "Change Rating</a>".PHP_EOL;
         echo "</div>".PHP_EOL;
       }
@@ -86,7 +86,7 @@ function generate_questions_box() {
 
       #### LINK BLOCK ####
       echo "<div class=\"question-box-footer\">".PHP_EOL;
-      echo "<a href=\"#\" onClick=\"toggle_display('comment-list$qid'); return false;\">Comments (";
+      echo "<a class=\"gold\" href=\"#\" onClick=\"toggle_display('comment-list$qid'); return false;\">Comments (";
       echo (($mycomments!=null)?count($mycomments):"0").")</a>".PHP_EOL;
       echo "</div>".PHP_EOL;
       #### LINK BLOCK ####

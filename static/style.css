@@ -16,11 +16,19 @@ body {
 
 a, a:visited, a:active { 
   text-decoration: none;
-  color: #FFCC33;
+  color: #006633;
   font-weight: bold;
 }
 
 a:hover { 
+  color: #339966;
+}
+
+a.gold { 
+  color: #FFCC33;
+}
+
+a.gold:hover {
   color: #DDAA11;
 }
 
@@ -119,12 +127,4 @@ p, form {
   text-align: center;
   padding: 20px;
   font-size: 0.7em;
-}
-
-#footer a, .instructions a {
-  color: #006633;
-}
-
-#footer a:hover, .instructions a:hover {
-  color: #339966;
 }
