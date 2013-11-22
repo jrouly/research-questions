@@ -17,6 +17,7 @@
 <input type="hidden" id="f"   name="f"   value="" />
 <?php generate_questions_box(); ?>
 </form>
+<p> <a href="#top">Return to top.</a></p>
 </div>
 
 <?php 
