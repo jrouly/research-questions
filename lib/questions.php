@@ -63,10 +63,12 @@ function generate_questions_box() {
       if( is_moderator() ) { 
         echo "<div class=\"question-box-title-right\">".PHP_EOL;
         echo "(RATED: $rating)".PHP_EOL;
-        echo "<button onClick=\"remove_question('$qid');return false;\">";
-        echo "Remove Question</button>".PHP_EOL;
-        echo "<button onClick=\"change_rating('$qid');return false;\">";
-        echo "Change Rating</button>".PHP_EOL;
+        echo " &bull; ".PHP_EOL;
+        echo "<a href=\"#\" onClick=\"remove_question('$qid');return false;\">";
+        echo "Remove Question</a>".PHP_EOL;
+        echo " &bull; ".PHP_EOL;
+        echo "<a href=\"#\" onClick=\"change_rating('$qid');return false;\">";
+        echo "Change Rating</a>".PHP_EOL;
         echo "</div>".PHP_EOL;
       }
 
@@ -115,8 +117,8 @@ function generate_questions_box() {
           echo (($myreplies!=null)?count($myreplies):"0").")</a>".PHP_EOL;
 
           if( is_moderator() ) { 
-            echo " &bull; <button onClick=\"remove_comment('$cid');return false;\">";
-            echo "Remove Comment</button>".PHP_EOL;
+            echo " &bull; <a href=\"#\" onClick=\"remove_comment('$cid');return false;\">";
+            echo "Remove Comment</a href=\"#\">".PHP_EOL;
           }
           #### LINK BLOCK ####
 
@@ -137,8 +139,8 @@ function generate_questions_box() {
 
               echo "<div id=\"reply$rid\" class=\"reply\">".PHP_EOL;
               if( is_moderator() ) {
-                echo "<button onClick=\"remove_reply('$rid');return false;\">";
-                echo "Remove</button>".PHP_EOL;
+                echo "<a href=\"#\" onClick=\"remove_reply('$rid');return false;\">";
+                echo "(Remove)</a> &bull; ".PHP_EOL;
               }
 
               echo "<span class=\"reply-author\">";
@@ -182,7 +184,7 @@ function generate_questions_box() {
       }
 
       #### FEEDBACK BLOCK ####
-      echo "<div id=\"make-comment$qid\" class=\"comment-box feedback\" style=\"display:none;\">".PHP_EOL;
+      echo "<div id=\"make-comment$qid\" class=\"comment-box feedback\">".PHP_EOL;
       echo "<textarea class=\"feedback-text\" name=\"c\"></textarea>".PHP_EOL;
       echo "<br />".PHP_EOL;
       echo "Your name will be associated with any comments you make.".PHP_EOL;
@@ -196,7 +198,8 @@ function generate_questions_box() {
       echo "</div>".PHP_EOL;
 
       echo "<div class=\"comment-box-footer\">".PHP_EOL;
-      echo "<a href=\"#\" onClick=\"toggle_display('make-comment$qid'); return false;\">Make Comment</a>".PHP_EOL;
+      echo "&nbsp;<br />";
+      #echo "<a href=\"#\" onClick=\"toggle_display('make-comment$qid'); return false;\">Make Comment</a>".PHP_EOL;
       echo "</div>".PHP_EOL;
       #### FEEDBACK BLOCK ####
 
