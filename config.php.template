@@ -9,7 +9,6 @@ $tableq  = ""; # research questions
 $tablec  = ""; # comments
 $tablecr = ""; # comment replies
 $tableu  = ""; # known users
-$tableuh = ""; # user hashes
 $tablel  = ""; # access logs
 $tablea  = ""; # active users
 
