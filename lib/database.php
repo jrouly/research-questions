@@ -1,15 +1,12 @@
 <?php
 
-# Clean up any input for insertion in the mysql database.
-#function sanitize($input) { 
-#  $mysqli = connect_to_mysql();
-#  $input = htmlspecialchars( $input );
-#  $input = $mysqli->real_escape_string( $input );
-#  $input = addslashes( $input );
-#  $input = trim( $input );
-#  $mysqli->close();
-#  return $input;
-#}
+# Clean up any input for display.
+function sanitize($input) { 
+  $input = htmlspecialchars( $input );
+  $input = addslashes( $input );
+  $input = trim( $input );
+  return $input;
+}
 
 # Generate a standard format timestamp.
 function timestamp() { 
