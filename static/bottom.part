@@ -1,7 +1,8 @@
-        <div id="footer">
-          By <a href="http://michel.rouly.net">Michel Rouly</a> | 
-          For <a href="http://gmu.edu">George Mason University</a> | 
-          With <a href="https://gnu.org/licenses/gpl.html">some rights reserved</a>
+          <div id="footer">
+            By <a href="http://michel.rouly.net">Michel Rouly</a> | 
+            For <a href="http://gmu.edu">George Mason University</a> | 
+            With <a href="https://gnu.org/licenses/gpl.html">some rights reserved</a>
+          </div>
         </div>
       </div>
     </body>

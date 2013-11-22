@@ -9,13 +9,14 @@
       <title>GMU Honors 110</title>
     </head>
     <body>
-      <a name="top"></a>
-      <div id="navbar">
-        <a href="index.php">home</a>
-        <a href="submit-question.php">submit question</a>
-        <a href="moderator.php">moderator</a>
-        <a href="instructions.php">instructions</a>
-        <a href="logout.php">exit</a>
-      </div>
-      <div id="maincontent">
-        <div id="banner"></div>
+      <div id="pagecontainer">
+        <a name="top"></a>
+        <div id="navbar">
+          <a href="index.php">home</a>
+          <a href="submit-question.php">submit question</a>
+          <a href="moderator.php">moderator</a>
+          <a href="instructions.php">instructions</a>
+          <a href="logout.php">exit</a>
+        </div>
+        <div id="maincontent">
+          <div id="banner"></div>

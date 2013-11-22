@@ -41,6 +41,10 @@ p {
   height: 150px;
 }
 
+#pagecontainer {
+  width: 1000px;
+}
+
 #maincontent { 
   width: 700px;
   clear: none;
