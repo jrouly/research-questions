@@ -121,18 +121,10 @@ p, form {
   font-size: 0.7em;
 }
 
-#footer a {
+#footer a, .instructions a {
   color: #006633;
 }
 
-#footer a:hover {
+#footer a:hover, .instructions a:hover {
   color: #339966;
-}
-
-#instructions-index a {
-  color: #006633;
-}
-
-#instructions-index a:hover {
-  color: #DDAA11;
 }
