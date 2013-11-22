@@ -6,9 +6,11 @@ function generate_questions_box() {
   $mysqli = connect_to_mysql();
 
   # load all questions
-  $result_questions = $mysqli->query("SELECT * FROM `$tableq`;");
-  if( $result_questions->num_rows > 0 ) { 
-    while( $row = $result_questions->fetch_array(MYSQLI_ASSOC) ) { 
+  $query = $mysqli->prepare("SELECT * FROM `$tableq`;");
+  $query->execute();
+  $row_count = $query->rowCount();
+  if( $row_count > 0 ) {
+    while( $row = $query->fetch(PDO::FETCH_ASSOC) ) { 
       $qid = $row["question_id"];
       $users[$qid] = $row["user"];
 
@@ -20,18 +22,20 @@ function generate_questions_box() {
     arsort( $ratings );
 
     # load all comments
-    $result_comments  = $mysqli->query("SELECT * FROM `$tablec`;");
-    while( $row = $result_comments->fetch_array(MYSQLI_ASSOC) ) { 
-      $cid      = $row["comment_id"];
-      $qid      = $row["question_id"];
+    $query = $mysqli->prepare("SELECT * FROM `$tablec`;");
+    $query->execute();
+    while( $row = $query->fetch(PDO::FETCH_ASSOC) ) { 
+      $cid = $row["comment_id"];
+      $qid = $row["question_id"];
 
       $comments[$qid][$cid]["text"] = $row["comment"];
       $comments[$qid][$cid]["user"] = $row["user"];
     }
     
     # load all replies
-    $result_replies  = $mysqli->query("SELECT * FROM `$tablecr`;");
-    while( $row = $result_replies->fetch_array(MYSQLI_ASSOC) ) { 
+    $query = $mysqli->prepare("SELECT * FROM `$tablecr`;");
+    $query->execute();
+    while( $row = $query->fetch(PDO::FETCH_ASSOC) ) { 
       $rid      = $row["reply_id"];
       $cid      = $row["comment_id"];
 
@@ -41,6 +45,7 @@ function generate_questions_box() {
 
     # display questions w/ comments
     foreach( $ratings as $qid => $rating ) { 
+
       $question   = stripslashes($questions[$qid]);
       $user       = $users[$qid];
       $name       = get_fullname_from_user( $user );
@@ -220,7 +225,6 @@ function generate_questions_box() {
     echo "<div class=\"question\"><div class=\"question-text\" style=\"text-align:center;\">".PHP_EOL;
     echo "No questions here. It's so lonely...</span></div>".PHP_EOL;
   }
-  $mysqli->close();
 }
 
 

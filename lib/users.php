@@ -39,28 +39,25 @@ function get_username() {
 function get_fullname_from_user($user) { 
   global $db_name,$tableu;
   $mysqli = connect_to_mysql();
-  $result = $mysqli->query("SELECT * FROM `$db_name`.`$tableu` WHERE `user`='$user';");
-  if( $result ) { 
-    $row = $result->fetch_array( MYSQLI_ASSOC );
-    $mysqli->close();
-    return $row['name'];
-  }
-  $mysqli->close();
-  return null;
+
+  $query = $mysqli->prepare("SELECT * FROM `$db_name`.`$tableu` WHERE `user`=:user;");
+  $query->bindValue(':user', $user);
+  $query->execute();
+
+  $row = $query->fetch(PDO::FETCH_ASSOC);
+  return $row['name'];
 }
 
 function get_username_from_hash($hash) { 
   global $db_name,$tablea;
   $mysqli = connect_to_mysql();
-  $hash = sanitize($hash);
-  $result = $mysqli->query("SELECT * FROM `$db_name`.`$tablea` WHERE `hash`='$hash';");
-  if( $result ) { 
-    $row = $result->fetch_array(MYSQLI_ASSOC);
-    $mysqli->close();
-    return $row['user'];
-  }
-  $mysqli->close();
-  return null;
+
+  $query = $mysqli->prepare("SELECT * FROM `$db_name`.`$tablea` WHERE `hash`=:hash;");
+  $query->bindValue(':hash', $hash);
+  $query->execute();
+
+  $row = $query->fetch(PDO::FETCH_ASSOC);
+  return $row['user'];
 }
 
 function get_user_handle( $userid, $questionid ) {
@@ -82,22 +79,19 @@ function get_user_handle( $userid, $questionid ) {
 function first_login($user) { 
   global $db_name,$tableu;
   $mysqli = connect_to_mysql();
-  $sql_query = "SELECT * FROM `$db_name`.`$tableu` WHERE `user`='$user';";
-  $result = $mysqli->query($sql_query);
-  if( $result ) { 
-    $row = $result->fetch_array(MYSQLI_ASSOC);
-    $mysqli->close();
-    return $row['firstlogin'] == 1;
-  }
-  $mysqli->close();
-  return false;
+
+  $query = $mysqli->prepare("SELECT * FROM `$db_name`.`$tableu` WHERE `user`=:user;");
+  $query->bindValue(':user', $user);
+  $query->execute();
+
+  $row = $query->fetch(PDO::FETCH_ASSOC);
+  return $row['firstlogin'];
 }
 
 # Remove the user hash from the mysql database and set an empty cookie.
 # This is just a wrapper of the logout_user function which uses a hash
 # value.
 function logout_hash($hash) { 
-  $hash = sanitize($hash);
   $user = get_username_from_hash($hash);
   logout_user($user);
 }
@@ -106,16 +100,13 @@ function logout_hash($hash) {
 function logout_user($user) { 
   global $db_name,$tablea;
   $mysqli = connect_to_mysql();
-  
-  $user = sanitize($user);
-  
-  # remove a user from the active user table
-  $mysqli->query("DELETE FROM `$db_name`.`$tablea` WHERE `user`='$user';");
+
+  $query = $mysqli->prepare("DELETE FROM `$db_name`.`$tablea` WHERE `user`=:user;");
+  $query->bindValue(':user', $user);
+  $query->execute();
 
   # generate dead cookie
   setcookie("hash", "", time()-3600);
-
-  $mysqli->close();
 }
 
 # Hash the username, add them to the mysql db, and set a cookie.
@@ -124,32 +115,35 @@ function login_user($user) {
   $mysqli = connect_to_mysql();
 
   # generate the stuff we're inserting
-  $user = sanitize($user);
   $hash = salted_hash($user);
   $stamp = timestamp();
 
   # insert a user into the active user table
-  $mysqli->query("INSERT INTO `$db_name`.`$tablea`(`user`,`hash`,`timestamp`)
-                  VALUES ('$user', '$hash','$stamp');");
+  $query = $mysqli->prepare(
+    "INSERT INTO `$db_name`.`$tablea` (`user`,`hash`,`timestamp`)
+                              VALUES (:user, :hash, :stamp);");
+  $query->bindValue(':user', $user);
+  $query->bindValue(':hash', $hash);
+  $query->bindValue(':stamp', $stamp);
+  $query->execute();
 
   # generate user cookie
   setcookie("hash", $hash, time()+3600);
-
-  $mysqli->close();
 }
 
 # Log an access attempt.
 function log_access_attempt($user, $success) { 
   global $db_name,$tablel;
   $mysqli = connect_to_mysql();
-
-  $user = sanitize($user);
   $stamp = timestamp();
 
-  $mysqli->query("INSERT INTO `$db_name`.`$tablel`(`user`,`date`,`result`)
-                  VALUES ('$user','$stamp','$success');");
-
-  $mysqli->close();
+  $query = $mysqli->prepare(
+    "INSERT INTO `$db_name`.`$tablel`(`user`,`date`,`result`)
+                  VALUES (:user, :stamp, :success);");
+  $query->bindValue(':user', $user);
+  $query->bindValue(':stamp', $stamp);
+  $query->bindValue(':success', $success);
+  $query->execute();
 }
 
 # Check if the user has logged in successfully.
@@ -160,15 +154,14 @@ function is_logged_in() {
 
   if(isset($_COOKIE["hash"])) { 
     $hash = $_COOKIE["hash"];
-    $hash = sanitize($hash);
 
     # verify that the user is in the Active Users table
-    $result = $mysqli->query("SELECT * FROM `$db_name`.`$tablea` WHERE `hash`='$hash';");
-    $rows = $result->num_rows;
-    $output = ($rows == 1);
+    $query = $mysqli->prepare("SELECT * FROM `$db_name`.`$tablea` WHERE `hash`=:hash;");
+    $query->bindValue(':hash', $hash);
+    $query->execute();
+    $output = ($query->rowCount() == 1);
   }
   
-  $mysqli->close();
   return $output;
 }
 
@@ -179,36 +172,38 @@ function is_user_registered( $user ) {
   $output = False;
 
   # verify that the user is in the Registered Users table
-  $result = $mysqli->query("SELECT * FROM `$db_name`.`$tableu` WHERE `user`='$user';");
-  $rows = $result->num_rows;
-  $output = ($rows == 1);
+  $query = $mysqli->prepare("SELECT * FROM `$db_name`.`$tableu` WHERE `user`=:user;");
+  $query->bindValue(':user', $user);
+  $query->execute();
+  $output = ($query->rowCount() == 1);
 
-  $mysqli->close();
   return $output;
 }
 
 # Register a user with specified stats.
-function register_user( $user, $level, $name ) { 
+function register_user( $user, $name, $section, $role ) { 
   global $db_name, $tableu;
   $mysqli = connect_to_mysql();
 
   $output = False;
 
-  $user  = sanitize($user);
-  $level = sanitize($level);
-  $name  = sanitize($name);
-
   # make sure we don't already have this user
-  $result = $mysqli->query("SELECT * FROM `$db_name`.`$tableu`
-                            WHERE `user`='$user';");
-  $rows = $result->num_rows;
+  $query = $mysqli->prepare("SELECT * FROM `$db_name`.`$tableu` WHERE `user`=:user;");
+  $query->bindValue(':user', $user);
+  $query->execute();
+  $row_count = $query->rowCount();
 
-  if( $rows == 0 ) { 
-    $mysqli->query("INSERT INTO `$db_name`.`$tableu`(`user`,`level`,`name`)
-                    VALUES ('$user','$level','$name');");
+  if( $row_count == 0 ) { 
+    $query = $mysqli->prepare(
+      "INSERT INTO `$db_name`.`$tableu`(`user`,`name`,`section`,`role`)
+                              VALUES (:user, :name, :section, :role);");
+    $query->bindValue(':user', $user);
+    $query->bindValue(':name', $name);
+    $query->bindValue(':section', $section);
+    $query->bindValue(':role', $role);
+    $query->execute();
     $output = True;
   }
-  $mysqli->close();
   return $output;
 }
 
@@ -228,17 +223,15 @@ function is_moderator() {
 function is_user_moderator( $user ) { 
   global $db_name,$tableu;
   $mysqli = connect_to_mysql();
-  $output = False;
-  $user = sanitize($user);
 
   # verify that the user is in the Known Users table
-  $result = $mysqli->query("SELECT * FROM `$db_name`.`$tableu` WHERE `user`='$user';");
-  if( $result ) { 
-    $row = $result->fetch_array(MYSQLI_ASSOC);
-    $output = ($row["role"] == "moderator" );
-  }
+  $query = $mysqli->prepare("SELECT * FROM `$db_name`.`$tableu` WHERE `user`=:user;");
+  $query->bindValue(':user', $user);
+  $query->execute();
 
-  $mysqli->close();
+  $row = $query->fetch(PDO::FETCH_ASSOC);
+  $output = ($row["role"] == "moderator" );
+
   return $output;
 }
 
