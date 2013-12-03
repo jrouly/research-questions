@@ -6,6 +6,30 @@ HNRS 110 &bull; Homepage
 
 {% block content %}
 
-Hello, world.
+{% for question in questions %}
+
+  <div id="question{{ question.pk }}" class="question-box">
+
+    <div class="question-box-title">
+      <div class="question-box-title-left">
+        {{question.user.first_name}} {{question.user.last_name}}
+      </div>
+      <div class="question-box-title-right">
+        {{question.rating}}
+      </div>
+    </div>
+
+    <div class="question-text" id="question-text{{question.pk}}">
+      {{question.text}}
+    </div>
+
+    <div class="question-box-footer">
+      Toggle Comments
+    </div>
+
+
+  </div>
+
+{% endfor %}
 
 {% endblock %}
