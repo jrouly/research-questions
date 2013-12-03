@@ -10,5 +10,16 @@ urlpatterns = patterns('website.views',
     url(r'^instructions$', 'instructions', name='instructions'),
     url(r'^submit$', 'submit_question', name='submit_question'),
 
+    #### HOMEPAGE ####
+    url(r'^$', 'index', name='homepage'),
+
+    #### ADMIN PAGES ####
     url(r'^admin/', include(admin.site.urls)),
+)
+
+urlpatterns += patterns('django.contrib.auth.views',
+    #### AUTH PAGES ####
+    url(r'^login$', 'login', {'template_name': 'login.html'},
+        name='website_login'),
+    url(r'^logout$', 'logout', {'next_page': '/'}, name='website_logout'),
 )
