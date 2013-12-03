@@ -22,7 +22,7 @@ button:hover, input[type="submit"]:hover, input[type="button"]:hover {
   background-color: #003300;
 }
 
-input[type="text"], input[type="password"], textarea {
+input[type="text"], input[type="password"], input[type="username"], textarea {
   font-family: 'Montserrat', sans-serif;
   padding: 5px 15px;
   border: 1px solid #000000;
