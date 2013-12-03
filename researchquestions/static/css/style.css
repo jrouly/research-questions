@@ -5,7 +5,7 @@
 
 body { 
   background-color: #FFFFFF;
-  background-image: url('left-bg.png');
+  background-image: url('/static/imgs/left-bg.png');
   background-repeat: repeat-y;
 
   font-size: .9em;
@@ -91,7 +91,7 @@ p, form {
   margin-bottom: 40px;
   width: 350px;
   height: 160px;
-  background-image: url('banner.png');
+  background-image: url('/static/imgs/banner.png');
   background-repeat: no-repeat;
 }
 
