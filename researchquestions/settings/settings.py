@@ -53,9 +53,8 @@ ROOT_URLCONF = 'settings.urls'
 
 WSGI_APPLICATION = 'settings.wsgi.application'
 
-
-MEDIA_ROOT = ''
-MEDIA_URL = ''
+MEDIA_ROOT = 'media/'
+MEDIA_URL = '/media/'
 
 STATIC_ROOT = ''
 STATIC_URL = '/static/'
@@ -65,7 +64,7 @@ STATICFILES_DIRS = (
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.AppDirectoriesFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
 TEMPLATE_DIRS = (
