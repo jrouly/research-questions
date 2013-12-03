@@ -6,44 +6,39 @@ HNRS 110 &bull; Homepage
 
 {% block content %}
 
-<div class="container">
-  <a name="top"></a>
-
-  <div class="page-header" id="banner">
-    <div class="row">
-      <div class="col-lg-12">
-        <h1>Research Question Review</h1>
-        <p class="lead">Description</p>
-      </div>
+<div class="page-header" id="banner">
+  <div class="row">
+    <div class="col-lg-12">
+      <h1>Research Question Review</h1>
+      <p class="lead">Description</p>
     </div>
   </div>
+</div>
 
-  {% for question in questions %}
+{% for question in questions %}
 
-    <div id="question{{ question.pk }}" class="question-box">
+  <div id="question{{ question.pk }}" class="question-box">
 
-      <div class="question-box-title">
-        <div class="question-box-title-left">
-          {{question.user.first_name}} {{question.user.last_name}}
-        </div>
-        <div class="question-box-title-right">
-          {{question.rating}}
-        </div>
+    <div class="question-box-title">
+      <div class="question-box-title-left">
+        {{question.user.first_name}} {{question.user.last_name}}
       </div>
-
-      <div class="question-text" id="question-text{{question.pk}}">
-        {{question.text}}
+      <div class="question-box-title-right">
+        {{question.rating}}
       </div>
-
-      <div class="question-box-footer">
-        Toggle Comments
-      </div>
-
-
     </div>
 
-  {% endfor %}
+    <div class="question-text" id="question-text{{question.pk}}">
+      {{question.text}}
+    </div>
 
-</div>
+    <div class="question-box-footer">
+      Toggle Comments
+    </div>
+
+
+  </div>
+
+{% endfor %}
 
 {% endblock %}
