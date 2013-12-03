@@ -1,5 +1,5 @@
 from website.models import Question, Comment, Reply
-from website.forms import QuestionForm
+from website.forms import QuestionForm, CommentForm, ReplyForm
 from django.conf import settings
 from django.shortcuts import render_to_response, get_object_or_404
 from django.shortcuts import render
@@ -36,6 +36,10 @@ def submit_question(request):
 
 @login_required
 def index(request):
+    if request.method == 'POST':
+        pass
+
     return render_to_response('index.html', {
+        'questions' : Question.objects.all(),
     },
     )
