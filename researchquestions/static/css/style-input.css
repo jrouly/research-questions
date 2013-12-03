@@ -1,0 +1,30 @@
+label {
+  font-family: 'Montserrat', sans-serif;
+  cursor: pointer;
+}
+
+button, input[type="submit"], input[type="button"] {
+  font-family: 'Montserrat', sans-serif;
+  border-radius: 5px;
+  border: 0;
+  padding: 5px 10px;
+  background-color: #006633;
+  color: #FFCC33;
+  cursor: pointer;
+
+  -webkit-transition: background-color 1.2s ease-in;
+  -moz-transition: background-color 1.2s ease-in;
+  -o-transition: background-color 1.2s ease-in;
+  transition: background-color 0.08s ease-in;
+}
+
+button:hover, input[type="submit"]:hover, input[type="button"]:hover {
+  background-color: #003300;
+}
+
+input[type="text"], input[type="password"], textarea {
+  font-family: 'Montserrat', sans-serif;
+  padding: 5px 15px;
+  border: 1px solid #000000;
+  border-radius: 5px;
+}
