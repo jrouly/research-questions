@@ -1,11 +1,12 @@
 from django.db import models
+from django.utils import timezone
 from datetime import datetime
 from django.contrib.auth.models import User
 
 # Create your models here.
 class Question( models.Model ):
     user = models.ForeignKey(User)
-    date = models.DateTimeField(default=datetime.now())
+    date = models.DateTimeField(default=timezone.now())
     text = models.TextField(max_length=1000)
     rating = models.IntegerField(default=0)
 
@@ -14,7 +15,7 @@ class Question( models.Model ):
 
 class Comment( models.Model ):
     user = models.ForeignKey(User)
-    date = models.DateTimeField(default=datetime.now())
+    date = models.DateTimeField(default=timezone.now())
     text = models.TextField()
     parent = models.ForeignKey('Question')
 
@@ -23,7 +24,7 @@ class Comment( models.Model ):
 
 class Reply( models.Model ):
     user = models.ForeignKey(User)
-    date = models.DateTimeField(default=datetime.now())
+    date = models.DateTimeField(default=timezone.now())
     text = models.TextField()
     parent = models.ForeignKey('Comment')
 
