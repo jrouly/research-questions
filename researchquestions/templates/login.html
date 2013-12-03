@@ -6,11 +6,22 @@
 <p>Your username and password didn't match. Please try again.</p>
 {% endif %}
 
+<h1>Log In</h1>
 
-<form method="post" action="{% url 'django.contrib.auth.views.login' %}">
+<p>
+  Please log in using your GMU NetID.
+</p>
+
+<form id="login-form" method="post" action="{% url 'django.contrib.auth.views.login' %}">
 {% csrf_token %}
+  <label for="username">user</label>
+  <br />
   <input type="username" name="username" id="username" placeholder="Username" />
+  <br /><br />
+  <label for="password">password</label>
+  <br />
   <input type="password" name="password" id="password" placeholder="Password" />
+  <br /><br />
   <input type="submit" value="Sign in" />
 </form>
 {% endblock %}
