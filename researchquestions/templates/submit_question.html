@@ -6,6 +6,28 @@ HNRS 110 &bull; Submit Question
 
 {% block content %}
 
-Hello, world.
+<h1>Submit a Research Question</h1>
+
+<p>
+  Use this form to submit your tentative research question.
+</p>
+
+<p>
+  Only include the question text, there is no need to include your name or
+  any other information!
+</p>
+
+<form action="/submit" method="post">{% csrf_token %}
+  {{ form.text.errors }}
+  {{ form.text }}
+  <p><input type="submit" value="Submit Question" /></p>
+</form>
+
+{% if form.errors %}
+<p>There was a form error!</p>
+{% endif %}
+
+<div>
+</div>
 
 {% endblock %}
