@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en-US">
+<head>
+{% load staticfiles %}
+<link href="/static/css/styles.css" rel="stylesheet">
+<script src="/static/js/jquery-1.10.2.min.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+
+<title>{% block title %}{% endblock %}</title>
+
+</head>
+  <body>
+
+  {% include 'layouts/navbar.html' %}
+
+  {% block pagetitle %}
+
+  {% endblock %}
+
+  {% block content %}
+
+  {% endblock %}
+
+  {% include 'layouts/footer.html' %}
+  </body>
+</html>

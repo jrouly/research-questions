@@ -5,9 +5,10 @@ from django.contrib import auth
 admin.autodiscover()
 
 urlpatterns = patterns('website.views',
-    # Examples:
-    # url(r'^$', 'settings.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
+    
+    #### STATIC PAGES ####
+    url(r'^instructions$', 'instructions', name='instructions'),
+    url(r'^submit$', 'submit_question', name='submit_question'),
 
     url(r'^admin/', include(admin.site.urls)),
 )
