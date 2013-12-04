@@ -1,0 +1,29 @@
+<p>{{ comment.user.first_name }} {{ comment.user.last_name }} says:</p>
+<p>{{ comment.text }}</p>
+
+<a data-toggle="collapse" data-target="#replies{{comment.pk}}"
+style="cursor:pointer;">
+<em>Replies ({{ comment.get_replies|length }})</em></a>
+
+<div class="row collapse" id="replies{{comment.pk}}">
+  <div class="col-lg-12">
+    <div class="well well-sm well-replies">
+      {% if comment.get_replies %}
+        {% for reply in comment.get_replies %}
+          {% include 'components/reply.html' %}
+        {% endfor %}
+      {% else %}
+        No replies yet.
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<!--
+<div class="well well-sm collapse" id="replies{{comment.pk}}">
+{% if comment.get_replies %}
+{% else %}
+  No replies yet.
+{% endif %}
+</div>
+-->

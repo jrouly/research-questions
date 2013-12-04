@@ -10,35 +10,22 @@ HNRS 110 &bull; Homepage
   <div class="row">
     <div class="col-lg-10 col-lg-offset-1">
       <h1>Research Question Review</h1>
-      <p class="lead">Description</p>
+      <p class="lead">Review and critique your peers' research questions.</p>
     </div>
   </div>
 </div>
 
-{% for question in questions %}
-
-  <div id="question{{ question.pk }}" class="question-box">
-
-    <div class="question-box-title">
-      <div class="question-box-title-left">
-        {{question.user.first_name}} {{question.user.last_name}}
-      </div>
-      <div class="question-box-title-right">
-        {{question.rating}}
-      </div>
+{% if questions %}
+  {% for question in questions %}
+    {% include 'components/question.html' %}
+  {% endfor %}
+{% else %}
+  <div class="row">
+    <div class="col-lg-10 col-lg-offset-1">
+      No questions have yet been submitted. Why don't you try
+      <a href="/submit">submitting</a> one yourself!
     </div>
-
-    <div class="question-text" id="question-text{{question.pk}}">
-      {{question.text}}
-    </div>
-
-    <div class="question-box-footer">
-      Toggle Comments
-    </div>
-
-
   </div>
-
-{% endfor %}
+{% endif %}
 
 {% endblock %}
