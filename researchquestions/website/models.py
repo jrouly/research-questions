@@ -10,6 +10,10 @@ class Question( models.Model ):
     text = models.TextField(max_length=1000)
     rating = models.IntegerField(default=0)
 
+    def get_comments(self):
+        comments = Comment.objects.filter(parent__pk=self.pk)
+        return comments
+
     def __unicode__(self):
         return '%s, %s' % ( self.user, self.date )
 
@@ -18,6 +22,10 @@ class Comment( models.Model ):
     date = models.DateTimeField(default=timezone.now())
     text = models.TextField()
     parent = models.ForeignKey('Question')
+
+    def get_replies(self):
+        replies = Reply.objects.filter(parent__pk=self.pk)
+        return replies
 
     def __unicode__(self):
         return '%s, %s' % ( self.user, self.date )
