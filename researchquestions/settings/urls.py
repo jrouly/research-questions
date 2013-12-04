@@ -9,6 +9,7 @@ urlpatterns = patterns('website.views',
     #### STATIC PAGES ####
     url(r'^instructions$', 'instructions', name='instructions'),
     url(r'^submit$', 'submit_question', name='submit_question'),
+    url(r'^feedback$', 'feedback', name='feedback'),
 
     #### HOMEPAGE ####
     url(r'^$', 'index', name='homepage'),
