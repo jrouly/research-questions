@@ -1,3 +1,14 @@
 a[name] {
   padding-top: 40px;
 }
+
+.well-replies {
+  margin-top: 10px;
+  margin-bottom: 0px;
+  padding-bottom: 10px;
+}
+
+.well-replies p {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
