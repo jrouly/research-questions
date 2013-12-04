@@ -19,14 +19,18 @@ HNRS 110 &bull; Submit Question
 <div class="row">
   <div class="col-lg-10 col-lg-offset-1">
     <div class="well">
-      <fieldset>
-        <form class="form-horizontal" action="/submit" method="post">{% csrf_token %}
+      <form class="form-horizontal" action="/submit" method="post">{% csrf_token %}
+        <fieldset>
           <legend>Research Question</legend>
 
           {% if form.text.errors %}
           <div class="form-group has-error">
             <div class="col-lg-12">
-              <label class="control-label">{{form.text.errors}}</label>
+              <label class="control-label">
+                {% for error in form.text.errors %}
+                  {{error}}
+                {%endfor%}
+              </label>
           {% else %}
           <div class="form-group">
             <div class="col-lg-12">
@@ -46,8 +50,8 @@ HNRS 110 &bull; Submit Question
               <input type="submit" class="btn btn-primary" value="Submit Question" />
             </div>
           </div>
-        </form>
-      </fieldset>
+        </fieldset>
+      </form>
     </div>
   </div>
 </div>
