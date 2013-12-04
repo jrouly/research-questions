@@ -1,4 +1,5 @@
 /.virtualenv
+emailsettings.py
 *.pyc
 *.swp
 *.xcf
