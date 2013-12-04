@@ -34,7 +34,11 @@ HNRS 110 &bull; Login
       action="{% url 'django.contrib.auth.views.login' %}"> {% csrf_token %}
         <fieldset>
 
-          <div class="form-group">
+          {% if form.errors %}
+            <div class="form-group has-error">
+          {% else %}
+            <div class="form-group">
+          {% endif %}
             <label class="col-lg-2 control-label" for="username">Username</label>
             <div class="col-lg-10">
               <input type="username" name="username" id="username"
@@ -42,7 +46,11 @@ HNRS 110 &bull; Login
             </div>
           </div>
 
-          <div class="form-group">
+          {% if form.errors %}
+            <div class="form-group has-error">
+          {% else %}
+            <div class="form-group">
+          {% endif %}
             <label class="col-lg-2 control-label" for="password">Password</label>
             <div class="col-lg-10">
               <input type="password" name="password" id="password"
