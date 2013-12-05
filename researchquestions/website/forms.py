@@ -20,6 +20,12 @@ class CommentForm( ModelForm ):
         fields = ('text',)
         exclude = ('user','date','parent')
         localized_fields = ('date',)
+        widgets = {
+            'text':Textarea(attrs={
+                    'class': 'form-control',
+                    'rows': 5,
+            }),
+        }
 
 class ReplyForm( ModelForm ):
     class Meta:
