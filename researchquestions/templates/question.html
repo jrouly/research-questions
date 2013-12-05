@@ -15,6 +15,18 @@ HNRS 110 &bull; Question Discussion
   </div>
 </div>
 
+{% if comment_form.errors %}
+<div class="row">
+  <div class="col-lg-10 col-lg-offset-1">
+    <div class="alert alert-dismissable alert-danger">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <strong>Oh snap!</strong> There was an error posting your comment.
+      Please try again.
+    </div>
+  </div>
+</div>
+{% endif %}
+
 <div class="row">
   <div class="col-lg-10 col-lg-offset-1">
     <div class="panel panel-primary">
@@ -38,9 +50,7 @@ HNRS 110 &bull; Question Discussion
         Make Comment
         </a>
 
-        <div class="collapse" id="make-comment">
-          Form
-        </div>
+        {% include 'comment_form.html' %}
       </div>
 
     </div>

@@ -8,7 +8,9 @@ from django.contrib.auth.models import User
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django.core.mail import EmailMessage
+from django.utils import timezone
 
+import os
 import requests
 
 # Create your views here.
@@ -50,7 +52,12 @@ def feedback(request):
     if request.method == 'POST':
         form = FeedbackForm( request.POST )
         if form.is_valid():
-            # email me
+            f = open(os.path.join(settings.MEDIA_ROOT, 'feedback.txt'), 'a')
+            data = form.cleaned_data
+            f.write( str(timezone.now()) )
+            f.write( str('\n') )
+            f.write( data['text'] )
+            f.write( str('\n\n\n') )
             return HttpResponseRedirect('/')
     else:
         form = FeedbackForm()
@@ -62,8 +69,20 @@ def feedback(request):
     )
 
 def view_question(request, slug):
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.user = User.objects.get(id=request.user.id)
+            comment.parent = Question.objects.get(id=slug)
+            comment.save()
+            return HttpResponseRedirect('')
+    else:
+        comment_form = CommentForm()
+
     return render_to_response('question.html', {
         'question' : get_object_or_404(Question, pk=slug),
+        'comment_form' : comment_form,
     },
     RequestContext(request),
     )
