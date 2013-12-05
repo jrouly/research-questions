@@ -10,6 +10,9 @@ class Question( models.Model ):
     text = models.TextField(max_length=1000)
     rating = models.IntegerField(default=0)
 
+    class Meta:
+        ordering = ["rating"]
+
     def get_comments(self):
         comments = Comment.objects.filter(parent__pk=self.pk)
         return comments
@@ -39,6 +42,9 @@ class Reply( models.Model ):
     date = models.DateTimeField(default=timezone.now())
     text = models.TextField()
     parent = models.ForeignKey('Comment')
+
+    class Meta:
+        verbose_name_plural = "replies"
 
     def __unicode__(self):
         return '%s, %s' % ( self.user, self.date )
