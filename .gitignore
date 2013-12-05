@@ -3,3 +3,4 @@ emailsettings.py
 *.pyc
 *.swp
 *.xcf
+/researchquestions/media
