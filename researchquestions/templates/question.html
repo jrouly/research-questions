@@ -10,16 +10,61 @@ HNRS 110 &bull; Question Discussion
   <div class="row">
     <div class="col-lg-10 col-lg-offset-1">
       <h1>Question Discussion</h1>
-      <p class="lead">Description</p>
+      <p class="lead">Discuss the student's proposed question.</p>
     </div>
   </div>
 </div>
 
 <div class="row">
-  <div class="col-lg-6 col-lg-offset-1">
-    <h1>{{question.user.first_name}} {{question.user.last_name}}</h1>
-    {{ question.text }}
+  <div class="col-lg-10 col-lg-offset-1">
+    <div class="panel panel-primary">
+
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          {{question.user.first_name}} {{question.user.last_name}}
+          <span class="pull-right">
+            <em>Asked on {{question.date.date}}</em>
+          </span>
+        </h3>
+      </div>
+
+      <div class="panel-body">
+        {{ question.text }}
+      </div>
+
+      <div class="panel-footer">
+        <a data-toggle="collapse" data-target="#make-comment"
+        style="cursor:pointer;">
+        Make Comment
+        </a>
+
+        <div class="collapse" id="make-comment">
+          Form
+        </div>
+      </div>
+
+    </div>
   </div>
 </div>
+
+
+{% if question.get_comments %}
+  {% for comment in question.get_comments %}
+    {% include 'comment_panel.html' %}
+  {% endfor %}
+{% else %}
+  <div class="row">
+    <div class="col-lg-10 col-lg-offset-1">
+      <div class="panel panel-danger">
+
+        <div class="panel-body">
+          There are no comments here yet.
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+{% endif %}
 
 {% endblock %}

@@ -1,0 +1,32 @@
+<div class="row">
+  <div class="col-lg-10 col-lg-offset-1">
+    <div class="panel panel-default">
+
+      <div class="panel-body">
+        <p>{{ comment.text }}</p>
+
+        <a data-toggle="collapse" data-target="#replies{{comment.pk}}"
+        style="cursor:pointer;">Replies ({{ comment.get_replies|length }})</a>
+
+        <div id="replies{{comment.pk}}" class="collapse">
+        {% if comment.get_replies %}
+          {% for reply in comment.get_replies %}
+            <div class="well well-sm well-replies">
+              {{ reply.text }}
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="well well-sm well-replies">
+            No replies yet.
+          </div>
+        {% endif %}
+          <div class="well well-sm well-replies">
+            {% include 'reply_form.html' %}
+          </div>
+        </div>
+        
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -17,7 +17,34 @@ HNRS 110 &bull; Homepage
 
 {% if questions %}
   {% for question in questions %}
-    {% include 'question_component.html' %}
+
+    <div class="row">
+      <div class="col-lg-10 col-lg-offset-1">
+
+        <div class="panel panel-default">
+
+          <div class="panel-heading">
+            <h3 class="panel-title">
+              {{question.user.first_name}} {{question.user.last_name}}
+              <span class="pull-right">
+                <em>Asked on {{question.date.date}}</em>
+              </span>
+            </h3>
+          </div>
+
+          <div class="panel-body">
+            <p>{{ question.text }}</p>
+
+            <a href="{{ question.get_absolute_url }}">
+              Comments ({{ question.get_comments|length }})
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
   {% endfor %}
 {% else %}
   <div class="row">
