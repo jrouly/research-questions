@@ -12,3 +12,7 @@ a[name] {
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
+.form-group-bottom {
+  margin-bottom: 0px;
+}
