@@ -60,3 +60,10 @@ def feedback(request):
     },
     RequestContext(request),
     )
+
+def view_question(request, slug):
+    return render_to_response('question.html', {
+        'question' : get_object_or_404(Question, pk=slug),
+    },
+    RequestContext(request),
+    )

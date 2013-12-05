@@ -9,7 +9,7 @@ HNRS 110 &bull; Homepage
 <div class="page-header" id="banner">
   <div class="row">
     <div class="col-lg-10 col-lg-offset-1">
-      <h1>Research Question Review</h1>
+      <h1>Research Questions</h1>
       <p class="lead">Review and critique your peers' research questions.</p>
     </div>
   </div>
@@ -17,7 +17,7 @@ HNRS 110 &bull; Homepage
 
 {% if questions %}
   {% for question in questions %}
-    {% include 'components/question.html' %}
+    {% include 'question_component.html' %}
   {% endfor %}
 {% else %}
   <div class="row">

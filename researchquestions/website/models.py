@@ -14,6 +14,10 @@ class Question( models.Model ):
         comments = Comment.objects.filter(parent__pk=self.pk)
         return comments
 
+    def get_absolute_url(self):
+        from django.core.urlresolvers import reverse
+        return reverse('website.views.view_question', args=[str(self.pk)])
+
     def __unicode__(self):
         return '%s, %s' % ( self.user, self.date )
 

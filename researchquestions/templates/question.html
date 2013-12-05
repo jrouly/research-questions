@@ -1,0 +1,25 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}
+HNRS 110 &bull; Question Discussion
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header" id="banner">
+  <div class="row">
+    <div class="col-lg-10 col-lg-offset-1">
+      <h1>Question Discussion</h1>
+      <p class="lead">Description</p>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-6 col-lg-offset-1">
+    <h1>{{question.user.first_name}} {{question.user.last_name}}</h1>
+    {{ question.text }}
+  </div>
+</div>
+
+{% endblock %}

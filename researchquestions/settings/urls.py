@@ -8,8 +8,11 @@ urlpatterns = patterns('website.views',
     
     #### STATIC PAGES ####
     url(r'^instructions$', 'instructions', name='instructions'),
+
+    #### DYNAMIC PAGES ####
     url(r'^submit$', 'submit_question', name='submit_question'),
     url(r'^feedback$', 'feedback', name='feedback'),
+    url(r'^question/(?P<slug>[^\.]+)$', 'view_question', name='view_question'),
 
     #### HOMEPAGE ####
     url(r'^$', 'index', name='homepage'),
