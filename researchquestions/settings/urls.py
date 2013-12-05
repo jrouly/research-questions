@@ -12,10 +12,8 @@ urlpatterns = patterns('website.views',
     #### DYNAMIC PAGES ####
     url(r'^submit$', 'submit_question', name='submit_question'),
     url(r'^feedback$', 'feedback', name='feedback'),
-    url(r'^question/(?P<slug>[^\.]+)$', 'view_question', name='view_question'),
-
-    #### HOMEPAGE ####
     url(r'^$', 'index', name='homepage'),
+    url(r'^question/(?P<slug>[^\.]+)$', 'view_question', name='view_question'),
 
     #### ADMIN PAGES ####
     url(r'^admin/', include(admin.site.urls)),
