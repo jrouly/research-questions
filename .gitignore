@@ -3,5 +3,5 @@ emailsettings.py
 *.pyc
 *.swp
 *.xcf
-/researchquestions/media
 researchquestions/static/css/build
+researchquestions/media/feedback.txt
