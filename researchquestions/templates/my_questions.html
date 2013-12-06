@@ -1,0 +1,128 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}
+HNRS 110 &bull; My Questions
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header" id="banner">
+  <div class="row">
+    <div class="col-lg-10 col-lg-offset-1">
+      <h1>My Questions</h1>
+      <p class="lead">Review your submitted questions.</p>
+    </div>
+  </div>
+</div>
+
+{% if questions %}
+  {% for question in questions %}
+
+    <div class="row">
+      <div class="col-lg-10 col-lg-offset-1">
+
+        <div class="panel panel-default">
+
+          <div class="panel-heading">
+            <h3 class="panel-title">
+              {{question.anonymized}}
+              <span class="pull-right">
+                <em>Asked on {{question.date.date}}</em>
+              </span>
+            </h3>
+          </div>
+
+          <div class="panel-body">
+            <p>{{ question.text }}</p>
+
+            <a href="{{ question.get_absolute_url }}">
+              Comments ({{ question.get_comments|length }})
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  {% endfor %}
+{% else %}
+  <div class="row">
+    <div class="col-lg-10 col-lg-offset-1">
+      <div class="well well-sm text-center">
+        No questions have yet been submitted. Why don't you try
+        <a href="/submit">submitting</a> one yourself!
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+<div class="row">
+  <div class="col-lg-12">
+
+<!--
+    <div class="text-center">
+      <ul class="pagination">
+
+        {% if questions.has_previous %}
+          <li>
+            <a href="?page={{ questions.previous_page_number }}">&laquo;</a>
+          </li> 
+        {% else %}
+          <li class="disabled">
+            <a>&laquo;</a>
+          </li>
+        {% endif %}
+
+        {% for page in page_range %}
+          <li{%if page == questions.number%} class="active"{%endif%}>
+            <a href="?page={{page}}">{{page}}</a>
+          </li>
+        {% endfor %}
+
+        {% if questions.has_next %}
+          <li>
+            <a href="?page={{ questions.next_page_number }}">&raquo;</a>
+          </li> 
+        {% else %}
+          <li class="disabled">
+            <a>&raquo;</a>
+          </li>
+        {% endif %}
+
+      </ul>
+    </div>
+-->
+
+    <ul class="pager">
+
+        {% if questions.has_previous %}
+          <li>
+            <a href="?page={{ questions.previous_page_number }}">&larr; Previous</a>
+          </li> 
+        {% else %}
+          <li class="disabled">
+            <a>&larr; Previous</a>
+          </li>
+        {% endif %}
+
+          <li class="pager-middle">
+            Page {{ questions.number }} of {{ questions.paginator.num_pages }}
+          </li>
+
+        {% if questions.has_next %}
+          <li>
+            <a href="?page={{ questions.next_page_number }}">Next &rarr;</a>
+          </li> 
+        {% else %}
+          <li class="disabled">
+            <a>Next &rarr;</a>
+          </li>
+        {% endif %}
+
+    </ul>
+
+  </div>
+</div>
+
+{% endblock %}

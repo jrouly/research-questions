@@ -14,6 +14,7 @@ urlpatterns = patterns('website.views',
     url(r'^feedback$', 'feedback', name='feedback'),
     url(r'^$', 'index', name='homepage'),
     url(r'^question/(?P<slug>[^\.]+)$', 'view_question', name='view_question'),
+    url(r'^me$', 'my_questions', name='my_questions'),
 
     #### ADMIN PAGES ####
     url(r'^admin/', include(admin.site.urls)),

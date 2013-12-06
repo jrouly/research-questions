@@ -62,6 +62,25 @@ def index(request):
     )
 
 @login_required
+def my_questions(request):
+    questions =  Question.objects.filter(user__id=request.user.id)
+    paginator = Paginator(questions, 10) # show 25 questions per page
+
+    page = request.GET.get('page')
+    try:
+        questions = paginator.page(page)
+    except PageNotAnInteger:
+        questions = paginator.page(1)
+    except EmptyPage:
+        questions = paginator.page(paginator.num_pages)
+
+    return render_to_response('my_questions.html', {
+        'questions' : questions,
+        'page_range' : range(1, int(questions.paginator.num_pages)+1),
+    },
+    )
+
+@login_required
 def feedback(request):
     if request.method == 'POST':
         form = FeedbackForm( request.POST )
