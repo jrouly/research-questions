@@ -51,6 +51,7 @@ HNRS 110 &bull; Question Discussion
         </a>
 
         {% include 'comment_form.html' %}
+
       </div>
 
     </div>
@@ -59,9 +60,12 @@ HNRS 110 &bull; Question Discussion
 
 
 {% if question.get_comments %}
+  <form method="post">
+  {% csrf_token %}
   {% for comment in question.get_comments %}
     {% include 'comment_panel.html' %}
   {% endfor %}
+  </form>
 {% else %}
   <div class="row">
     <div class="col-lg-10 col-lg-offset-1">
