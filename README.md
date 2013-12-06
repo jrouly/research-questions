@@ -6,6 +6,5 @@ in-depth review by their peers.
 
 ### ToDo
 
-* Anonymize users
 * Have users register on login
-* Restyle
+* Connect up with GMU authentication somehow?
