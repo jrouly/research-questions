@@ -2,13 +2,15 @@ from website.models import Question, Comment, Reply
 from website.forms import QuestionForm, CommentForm, ReplyForm, FeedbackForm
 from django.conf import settings
 from django.shortcuts import render_to_response, get_object_or_404
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django.core.mail import EmailMessage
 from django.utils import timezone
+from django.forms import Textarea
+from django.forms.models import modelformset_factory
 
 import os
 import requests
@@ -39,9 +41,6 @@ def submit_question(request):
 
 @login_required
 def index(request):
-    if request.method == 'POST':
-        pass
-
     return render_to_response('index.html', {
         'questions' : Question.objects.all(),
     },
@@ -68,21 +67,47 @@ def feedback(request):
     RequestContext(request),
     )
 
+@login_required
 def view_question(request, slug):
+
+    comments = Comment.objects.filter(parent__pk=slug)
+    current_user = User.objects.get(id=request.user.id)
+    
+    comment_form = CommentForm()
+
+    reply_forms = {}
+    for comment in comments:
+        reply_forms[comment] = ReplyForm(prefix=comment.pk)
+
     if request.method == 'POST':
-        comment_form = CommentForm(request.POST)
-        if comment_form.is_valid():
-            comment = comment_form.save(commit=False)
-            comment.user = User.objects.get(id=request.user.id)
-            comment.parent = Question.objects.get(id=slug)
-            comment.save()
-            return HttpResponseRedirect('')
-    else:
-        comment_form = CommentForm()
+        # parse the comment form
+        if "comment_sub" in request.POST:
+            comment_form = CommentForm(request.POST)
+            if comment_form.is_valid():
+                comment = comment_form.save(commit=False)
+                comment.user = current_user
+                comment.parent = Question.objects.get(id=slug)
+                comment.save()
+                return redirect('view_question', slug)
+
+        # parse the reply forms
+        elif "reply_sub" in request.POST:
+            reply_forms = {}
+            for comment in comments:
+                reply_forms[comment] = ReplyForm(request.POST,prefix=comment.pk)
+            for reply_form_index in reply_forms:
+                reply_form = reply_forms.get( reply_form_index )
+                if reply_form.is_valid():
+                    reply = reply_form.save(commit=False)
+                    reply.user = current_user
+                    reply.parent = Comment.objects.get(id=reply_form.prefix)
+                    reply.save()
+            return redirect('view_question', slug)
 
     return render_to_response('question.html', {
         'question' : get_object_or_404(Question, pk=slug),
         'comment_form' : comment_form,
+        'reply_forms' : reply_forms,
     },
     RequestContext(request),
     )
