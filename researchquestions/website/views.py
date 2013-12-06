@@ -18,7 +18,7 @@ import requests
 
 # Create your views here.
 def instructions(request):
-    return render_to_response('instructions.html', {
+    return render(request, 'instructions.html', {
     },
     )
 
@@ -34,10 +34,9 @@ def submit_question(request):
     else:
         form = QuestionForm()
 
-    return render_to_response('submit_question.html', {
+    return render(request, 'submit_question.html', {
         'form' : form,
     },
-    RequestContext(request),
     )
 
 @login_required
@@ -55,7 +54,7 @@ def index(request):
         # if page is empty, deliver last page
         questions = paginator.page(paginator.num_pages)
 
-    return render_to_response('index.html', {
+    return render(request, 'index.html', {
         'questions' : questions,
         'page_range' : range(1, int(questions.paginator.num_pages)+1),
     },
@@ -74,7 +73,7 @@ def my_questions(request):
     except EmptyPage:
         questions = paginator.page(paginator.num_pages)
 
-    return render_to_response('my_questions.html', {
+    return render(request, 'my_questions.html', {
         'questions' : questions,
         'page_range' : range(1, int(questions.paginator.num_pages)+1),
     },
@@ -95,10 +94,9 @@ def feedback(request):
     else:
         form = FeedbackForm()
 
-    return render_to_response('feedback.html', {
+    return render(request, 'feedback.html', {
         'form' : form,
     },
-    RequestContext(request),
     )
 
 @login_required
@@ -157,10 +155,9 @@ def view_question(request, slug):
                     reply.save()
             return redirect('view_question', slug)
 
-    return render_to_response('question.html', {
+    return render(request, 'question.html', {
         'question' : get_object_or_404(Question, pk=slug),
         'comment_form' : comment_form,
         'reply_forms' : reply_forms,
     },
-    RequestContext(request),
     )

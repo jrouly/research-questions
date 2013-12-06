@@ -11,13 +11,17 @@
     </div>
     <div class="navbar-collapse collapse" id="navbar-main">
       <ul class="nav navbar-nav">
-        <li><a href="/submit">Submit Question</a></li>
-        <li><a href="/me">My Questions</a></li>
+        {% if user.is_authenticated %}
+          <li><a href="/submit">Submit Question</a></li>
+          <li><a href="/me">My Questions</a></li>
+        {% endif %}
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
+        {% if user.is_authenticated %}
+          <li><a href="/feedback">Feedback</a></li>
+        {% endif %}
         <li><a href="/instructions">Help</a></li>
-        <li><a href="/feedback">Feedback</a></li>
         <li><a href="/logout">Logout</a></li>
       </ul>
 
