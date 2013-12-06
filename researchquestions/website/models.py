@@ -2,6 +2,9 @@ from django.db import models
 from django.utils import timezone
 from datetime import datetime
 from django.contrib.auth.models import User
+from settings import settings
+import hashlib
+import os
 
 # Create your models here.
 class Question( models.Model ):
@@ -21,6 +24,9 @@ class Question( models.Model ):
         from django.core.urlresolvers import reverse
         return reverse('website.views.view_question', args=[str(self.pk)])
 
+    def anonymized(self):
+        return anonymized( self )
+
     def __unicode__(self):
         return '%s, %s' % ( self.user, self.text[:50] )
 
@@ -34,6 +40,9 @@ class Comment( models.Model ):
         replies = Reply.objects.filter(parent__pk=self.pk)
         return replies
 
+    def anonymized(self):
+        return anonymized( self )
+
     def __unicode__(self):
         return '%s, %s' % ( self.user, self.text[:50] )
 
@@ -46,5 +55,38 @@ class Reply( models.Model ):
     class Meta:
         verbose_name_plural = "replies"
 
+    def anonymized(self):
+        return anonymized( self )
+
     def __unicode__(self):
         return '%s, %s' % ( self.user, self.text[:50] )
+
+
+def anonymized( obj ):
+        user_hash_raw = hashlib.sha512(
+            obj.user.first_name +
+            obj.user.last_name +
+            obj.user.username )
+        h = user_hash_raw.hexdigest()
+        n = int(h, base=16)
+        noun_hash = int(str(n)[:4])*2 # 4 digits *2 allows for 20 000 nouns
+        adj_hash = int(str(n)[4:6])*8 # 2 digits *8 allows for 800 users
+
+        print noun_hash
+        print adj_hash
+
+        adj = "Anonymous"
+        adjs = open(os.path.join(settings.MEDIA_ROOT, 'adjectives'), 'r')
+        for i, line in enumerate(adjs):
+            if i == adj_hash:
+                adj = line.title()
+                break
+
+        noun = "Student"
+        nouns = open(os.path.join(settings.MEDIA_ROOT, 'nouns'), 'r')
+        for i, line in enumerate(nouns):
+            if i == noun_hash:
+                noun = line.title()
+                break
+
+        return adj + " " + noun
