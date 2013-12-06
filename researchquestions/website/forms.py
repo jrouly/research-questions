@@ -33,6 +33,12 @@ class ReplyForm( ModelForm ):
         fields = ('text',)
         exclude = ('user','date','parent')
         localized_fields = ('date',)
+        widgets = {
+            'text':Textarea(attrs={
+                    'class': 'form-control',
+                    'rows': 5,
+            }),
+        }
 
 class FeedbackForm( forms.Form ):
     text = forms.CharField(
