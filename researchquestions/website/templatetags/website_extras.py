@@ -2,8 +2,15 @@ from django import template
 register = template.Library()
 
 
-@register.filter(name='key')
-def key(d, key_name):
+@register.filter
+def key( d, key_name ):
+    """
+      Filter: Grabs the value in a dictionary indexed by objects (or any
+      data type).
+
+      Usage:
+        {{ dictionary|key:object }}
+    """
     try:
         value = d[key_name]
     except KeyError:
