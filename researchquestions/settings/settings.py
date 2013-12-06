@@ -55,12 +55,17 @@ ROOT_URLCONF = 'settings.urls'
 
 WSGI_APPLICATION = 'settings.wsgi.application'
 
-MEDIA_ROOT = 'media/'
+#MEDIA_ROOT = 'media/'
+MEDIA_ROOT = (os.path.join(BASE_DIR, 'media/'))
 MEDIA_URL = '/media/'
+MEDIAFILES_DIRS = (
+)
 
-STATIC_ROOT = 'static/'
+#STATIC_ROOT = 'static/'
+STATIC_ROOT = (os.path.join(BASE_DIR, 'static/'))
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static/'),
 )
 
 STATICFILES_FINDERS = (
@@ -69,7 +74,8 @@ STATICFILES_FINDERS = (
 )
 
 TEMPLATE_DIRS = (
-    '/www/http/research-questions/researchquestions/templates/',
+    (os.path.join(BASE_DIR, 'templates/')),
+    #'/www/http/research-questions/researchquestions/templates/',
     'templates',
 )
 
