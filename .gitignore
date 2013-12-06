@@ -4,3 +4,4 @@ emailsettings.py
 *.swp
 *.xcf
 /researchquestions/media
+researchquestions/static/css/build
