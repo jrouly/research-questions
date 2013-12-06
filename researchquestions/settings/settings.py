@@ -58,10 +58,9 @@ WSGI_APPLICATION = 'settings.wsgi.application'
 MEDIA_ROOT = 'media/'
 MEDIA_URL = '/media/'
 
-STATIC_ROOT = ''
+STATIC_ROOT = 'static/'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
-    'static',
 )
 
 STATICFILES_FINDERS = (
@@ -70,6 +69,7 @@ STATICFILES_FINDERS = (
 )
 
 TEMPLATE_DIRS = (
+    '/www/http/research-questions/researchquestions/templates/',
     'templates',
 )
 
@@ -77,7 +77,6 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 )
-
 
 LOGIN_URL = '/login'
 LOGOUT_URL = '/logout'
