@@ -20,5 +20,6 @@ a[name] {
 }
 
 .pager-middle {
+  font-weight: bold;
   color: rgb(34, 34, 34);
 }
