@@ -14,7 +14,7 @@ class Question( models.Model ):
     rating = models.IntegerField(default=0)
 
     class Meta:
-        ordering = ["rating"]
+        ordering = ["-rating"]
 
     def get_comments(self):
         comments = Comment.objects.filter(parent__pk=self.pk)
@@ -28,7 +28,7 @@ class Question( models.Model ):
         return anonymized( self )
 
     def __unicode__(self):
-        return '%s, %s' % ( self.user, self.text[:50] )
+        return '%s (%s): %s' % ( self.user, self.rating, self.text[:50] )
 
 class Comment( models.Model ):
     user = models.ForeignKey(User)
@@ -44,7 +44,7 @@ class Comment( models.Model ):
         return anonymized( self )
 
     def __unicode__(self):
-        return '%s, %s' % ( self.user, self.text[:50] )
+        return '%s: %s' % ( self.user, self.text[:50] )
 
 class Reply( models.Model ):
     user = models.ForeignKey(User)
@@ -59,7 +59,7 @@ class Reply( models.Model ):
         return anonymized( self )
 
     def __unicode__(self):
-        return '%s, %s' % ( self.user, self.text[:50] )
+        return '%s: %s' % ( self.user, self.text[:50] )
 
 
 def anonymized( obj ):
@@ -71,9 +71,6 @@ def anonymized( obj ):
         n = int(h, base=16)
         noun_hash = int(str(n)[:4])*2 # 4 digits *2 allows for 20 000 nouns
         adj_hash = int(str(n)[4:6])*8 # 2 digits *8 allows for 800 users
-
-        print noun_hash
-        print adj_hash
 
         adj = "Anonymous"
         adjs = open(os.path.join(settings.MEDIA_ROOT, 'adjectives'), 'r')

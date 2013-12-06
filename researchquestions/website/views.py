@@ -104,6 +104,7 @@ def feedback(request):
 @login_required
 def view_question(request, slug):
 
+    question = Question.objects.get(id=slug)
     comments = Comment.objects.filter(parent__pk=slug)
     current_user = User.objects.get(id=request.user.id)
     
@@ -114,13 +115,31 @@ def view_question(request, slug):
         reply_forms[comment] = ReplyForm(prefix=comment.pk)
 
     if request.method == 'POST':
-        # parse the comment form
-        if "comment_sub" in request.POST:
+        # parse the comment form (Good Rating)
+        if "comment_sub_a" in request.POST:
             comment_form = CommentForm(request.POST)
             if comment_form.is_valid():
+
+                question.rating = question.rating + 1
+                question.save()
+
                 comment = comment_form.save(commit=False)
                 comment.user = current_user
-                comment.parent = Question.objects.get(id=slug)
+                comment.parent = question
+                comment.save()
+                return redirect('view_question', slug)
+
+        # parse the comment form (Bad Rating)
+        elif "comment_sub_b" in request.POST:
+            comment_form = CommentForm(request.POST)
+            if comment_form.is_valid():
+
+                question.rating = question.rating - 1
+                question.save()
+
+                comment = comment_form.save(commit=False)
+                comment.user = current_user
+                comment.parent = question
                 comment.save()
                 return redirect('view_question', slug)
 
