@@ -16,3 +16,7 @@ a[name] {
 .form-group-bottom {
   margin-bottom: 0px;
 }
+
+.pager-middle {
+  color: rgb(34, 34, 34);
+}

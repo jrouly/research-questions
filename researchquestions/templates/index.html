@@ -57,4 +57,72 @@ HNRS 110 &bull; Homepage
   </div>
 {% endif %}
 
+<div class="row">
+  <div class="col-lg-12">
+
+<!--
+    <div class="text-center">
+      <ul class="pagination">
+
+        {% if questions.has_previous %}
+          <li>
+            <a href="?page={{ questions.previous_page_number }}">&laquo;</a>
+          </li> 
+        {% else %}
+          <li class="disabled">
+            <a>&laquo;</a>
+          </li>
+        {% endif %}
+
+        {% for page in page_range %}
+          <li{%if page == questions.number%} class="active"{%endif%}>
+            <a href="?page={{page}}">{{page}}</a>
+          </li>
+        {% endfor %}
+
+        {% if questions.has_next %}
+          <li>
+            <a href="?page={{ questions.next_page_number }}">&raquo;</a>
+          </li> 
+        {% else %}
+          <li class="disabled">
+            <a>&raquo;</a>
+          </li>
+        {% endif %}
+
+      </ul>
+    </div>
+-->
+
+    <ul class="pager">
+
+        {% if questions.has_previous %}
+          <li>
+            <a href="?page={{ questions.previous_page_number }}">&larr; Previous</a>
+          </li> 
+        {% else %}
+          <li class="disabled">
+            <a>&larr; Previous</a>
+          </li>
+        {% endif %}
+
+          <li class="pager-middle">
+            Page {{ questions.number }} of {{ questions.paginator.num_pages }}
+          </li>
+
+        {% if questions.has_next %}
+          <li>
+            <a href="?page={{ questions.next_page_number }}">Next &rarr;</a>
+          </li> 
+        {% else %}
+          <li class="disabled">
+            <a>Next &rarr;</a>
+          </li>
+        {% endif %}
+
+    </ul>
+
+  </div>
+</div>
+
 {% endblock %}

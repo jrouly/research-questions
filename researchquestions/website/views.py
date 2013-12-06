@@ -1,6 +1,7 @@
 from website.models import Question, Comment, Reply
 from website.forms import QuestionForm, CommentForm, ReplyForm, FeedbackForm
 from django.conf import settings
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render_to_response, get_object_or_404
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
@@ -41,8 +42,22 @@ def submit_question(request):
 
 @login_required
 def index(request):
+    questions =  Question.objects.all()
+    paginator = Paginator(questions, 10) # show 25 questions per page
+
+    page = request.GET.get('page')
+    try:
+        questions = paginator.page(page)
+    except PageNotAnInteger:
+        # if page is NaN, deliver first page
+        questions = paginator.page(1)
+    except EmptyPage:
+        # if page is empty, deliver last page
+        questions = paginator.page(paginator.num_pages)
+
     return render_to_response('index.html', {
-        'questions' : Question.objects.all(),
+        'questions' : questions,
+        'page_range' : range(1, int(questions.paginator.num_pages)+1),
     },
     )
 
