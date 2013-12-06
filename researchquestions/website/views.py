@@ -17,8 +17,8 @@ import os
 import requests
 
 # Create your views here.
-def instructions(request):
-    return render(request, 'instructions.html', {
+def help(request):
+    return render(request, 'help.html', {
     },
     )
 

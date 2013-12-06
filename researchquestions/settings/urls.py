@@ -7,7 +7,7 @@ admin.autodiscover()
 urlpatterns = patterns('website.views',
     
     #### STATIC PAGES ####
-    url(r'^instructions$', 'instructions', name='instructions'),
+    url(r'^help$', 'help', name='help'),
 
     #### DYNAMIC PAGES ####
     url(r'^submit$', 'submit_question', name='submit_question'),
