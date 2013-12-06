@@ -5,3 +5,4 @@ emailsettings.py
 *.xcf
 /researchquestions/media
 researchquestions/static/css/build
+/researchquestions/static/admin
