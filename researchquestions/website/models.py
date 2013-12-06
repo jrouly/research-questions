@@ -22,7 +22,7 @@ class Question( models.Model ):
         return reverse('website.views.view_question', args=[str(self.pk)])
 
     def __unicode__(self):
-        return '%s, %s' % ( self.user, self.date )
+        return '%s, %s' % ( self.user, self.text[:50] )
 
 class Comment( models.Model ):
     user = models.ForeignKey(User)
@@ -35,7 +35,7 @@ class Comment( models.Model ):
         return replies
 
     def __unicode__(self):
-        return '%s, %s' % ( self.user, self.date )
+        return '%s, %s' % ( self.user, self.text[:50] )
 
 class Reply( models.Model ):
     user = models.ForeignKey(User)
@@ -47,4 +47,4 @@ class Reply( models.Model ):
         verbose_name_plural = "replies"
 
     def __unicode__(self):
-        return '%s, %s' % ( self.user, self.date )
+        return '%s, %s' % ( self.user, self.text[:50] )
