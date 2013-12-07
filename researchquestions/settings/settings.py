@@ -8,6 +8,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
+DEVELOPMENT = True
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -55,18 +57,21 @@ ROOT_URLCONF = 'settings.urls'
 
 WSGI_APPLICATION = 'settings.wsgi.application'
 
-#MEDIA_ROOT = ''
-MEDIA_ROOT = (os.path.join(BASE_DIR, 'media/'))
 MEDIA_URL = '/media/'
+MEDIA_ROOT = (os.path.join(BASE_DIR, 'media/'))
 MEDIAFILES_DIRS = (
 )
 
-STATIC_ROOT = '' ## DEV
-#STATIC_ROOT = (os.path.join(BASE_DIR, 'static/')) ## DEPLOYMET
 STATIC_URL = '/static/'
-STATICFILES_DIRS = (
-    (os.path.join(BASE_DIR, 'static/')), ## DEV
-)
+if DEVELOPMENT:
+    STATIC_ROOT = ''
+    STATICFILES_DIRS = (
+        (os.path.join(BASE_DIR, 'static/')),
+    )
+else:
+    STATIC_ROOT = (os.path.join(BASE_DIR, 'static/'))
+    STATICFILES_DIRS = (
+    )
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
