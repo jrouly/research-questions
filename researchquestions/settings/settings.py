@@ -21,7 +21,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = secret.SECRET_KEY
-#SECRET_KEY = '6$(!s156i38csj@a+@)t4731v@+ig800g8__^0+%8imy=yt3*^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -101,10 +100,6 @@ LOGIN_REDIRECT_URL = '/'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        #'NAME': 'prm_django',
-        #'USER' : 'prm',
-        #'PASSWORD' : 'jXufqNJAZ6B4S43G',
-        #'HOST' : '',
         'NAME': secret.DB_NAME,
         'USER' : secret.DB_USER,
         'PASSWORD' : secret.DB_PASSWORD,
