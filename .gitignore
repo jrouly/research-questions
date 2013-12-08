@@ -7,3 +7,4 @@ emailsettings.py
 /researchquestions/static/admin
 /researchquestions/media/feedback.txt
 /researchquestions/website/migrations
+/researchquestions/settings/secret.py
