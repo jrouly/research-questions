@@ -8,7 +8,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
-from settings import secret
+import secret
 DEVELOPMENT = True
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
