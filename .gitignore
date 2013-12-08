@@ -6,3 +6,4 @@ emailsettings.py
 /researchquestions/static/css/build
 /researchquestions/static/admin
 /researchquestions/media/feedback.txt
+/researchquestions/website/migrations
