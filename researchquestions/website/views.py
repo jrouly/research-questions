@@ -27,6 +27,11 @@ def error_404(request):
     },
     )
 
+def error_500(request):
+    return render(request, '500.html', {
+    },
+    )
+
 @login_required
 def submit_question(request):
     if request.method == 'POST':
