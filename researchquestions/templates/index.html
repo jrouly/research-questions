@@ -16,6 +16,8 @@ HNRS 110 &bull; Homepage
 </div>
 
 {% if questions %}
+  <form method="post">
+  {% csrf_token %}
   {% for question in questions %}
 
     <div class="row">
@@ -35,9 +37,20 @@ HNRS 110 &bull; Homepage
           <div class="panel-body">
             <p>{{ question.text }}</p>
 
+            <!--<a data-toggle="collapse"
+            data-target="#make-comment{{question.pk}}"
+            style="cursor:pointer;">Make Comment</a> |-->
             <a href="{{ question.get_absolute_url }}">
-              Comments ({{ question.get_comments|length }})
+              View Comments ({{ question.get_comments|length }})
             </a>
+
+            <!--
+            <form class="form-horizontal" method="post">
+              {% csrf_token %}
+              {% include 'comment_form.html' %}
+            </form>
+            -->
+
           </div>
 
         </div>
@@ -46,6 +59,7 @@ HNRS 110 &bull; Homepage
     </div>
 
   {% endfor %}
+  </form>
 {% else %}
   <div class="row">
     <div class="col-lg-10 col-lg-offset-1">
