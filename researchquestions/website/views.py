@@ -22,6 +22,11 @@ def help(request):
     },
     )
 
+def error_404(request):
+    return render(request, '404.html', {
+    },
+    )
+
 @login_required
 def submit_question(request):
     if request.method == 'POST':

@@ -4,6 +4,8 @@ from django.contrib import auth
 
 admin.autodiscover()
 
+handler404 = 'website.views.error_404'
+
 urlpatterns = patterns('website.views',
     
     #### STATIC PAGES ####
