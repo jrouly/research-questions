@@ -5,7 +5,7 @@ from django.contrib import auth
 admin.autodiscover()
 
 handler404 = 'website.views.error_404'
-error500 = 'website.views.error_500'
+handler500 = 'website.views.error_500'
 
 urlpatterns = patterns('website.views',
     
