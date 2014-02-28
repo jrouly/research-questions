@@ -53,9 +53,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'settings.urls'
+ROOT_URLCONF = 'researchquestions.urls'
 
-WSGI_APPLICATION = 'settings.wsgi.application'
+WSGI_APPLICATION = 'researchquestions.wsgi.application'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = (os.path.join(BASE_DIR, 'media/'))
