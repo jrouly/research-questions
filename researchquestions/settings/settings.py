@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
 import secret
-DEVELOPMENT = True
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
@@ -23,11 +22,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = secret.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 APPEND_SLASH = True
 
@@ -64,15 +63,9 @@ MEDIAFILES_DIRS = (
 )
 
 STATIC_URL = '/static/'
-if DEVELOPMENT:
-    STATIC_ROOT = ''
-    STATICFILES_DIRS = (
-        (os.path.join(BASE_DIR, 'static/')),
-    )
-else:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
-    STATICFILES_DIRS = (
-    )
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+STATICFILES_DIRS = (
+)
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -88,6 +81,11 @@ TEMPLATE_DIRS = (
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
+)
+
+TEMPLATE_CONTEXT_PROCSSORS = (
+    'django.core.context_processors.request',
+    'django.contrib.auth.context_processors.auth',
 )
 
 LOGIN_URL = '/login'
