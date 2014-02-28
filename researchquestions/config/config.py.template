@@ -1,10 +1,10 @@
-from django.conf import settings
-import os
-
 ## Define your install-specific configurations here.
 
-DICTIONARY_ADJECTIVES = (os.path.join(settings.STATIC_ROOT, 'dicts/adjectives.en'))
-DICTIONARY_NOUNS = (os.path.join(settings.STATIC_ROOT, 'dicts/nouns.en'))
+DICTIONARY_ADJECTIVES = 'dicts/adjectives.en'
+DICTIONARY_NOUNS = 'dicts/nouns.en'
 
-BRANDING = "Website Branding"
-PAGE_TITLE_PREFIX = "TITLE"
+BRANDING = ''
+PAGE_TITLE_PREFIX = ''
+
+ORGANIZATION = ''
+ORGANIZATION_URL = ''
