@@ -8,4 +8,4 @@ emailsettings.py
 /researchquestions/media/feedback.txt
 /researchquestions/website/migrations
 /researchquestions/researchquestions/secret.py
-/researchquestions/university/gmu.py
+/researchquestions/university/config.py
