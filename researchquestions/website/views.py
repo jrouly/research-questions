@@ -166,3 +166,8 @@ def view_question(request, slug):
         'reply_forms' : reply_forms,
     },
     )
+
+def help(request):
+    return render(request, 'help.html', {
+    },
+    )
