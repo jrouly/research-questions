@@ -42,8 +42,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'south',
     'website',
-    'university',
-    'helppages',
+    'config',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -161,7 +160,7 @@ AUTH_LDAP_ALWAYS_UPDATE_USER = True
 
 
 # Install-specific configurations.
-from university import config
+from config import config
 
 DICTIONARY_ADJECTIVES = (os.path.join(STATIC_ROOT, config.DICTIONARY_ADJECTIVES))
 DICTIONARY_NOUNS = (os.path.join(STATIC_ROOT, config.DICTIONARY_NOUNS))
