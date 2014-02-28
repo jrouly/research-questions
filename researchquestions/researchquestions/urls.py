@@ -7,19 +7,15 @@ admin.autodiscover()
 handler404 = 'website.views.error_404'
 handler500 = 'website.views.error_500'
 
-urlpatterns = patterns('website.views',
+urlpatterns = patterns('',
+
+    #### Dynamic website pages
+    url(r'^', include('website.urls')),
     
-    #### STATIC PAGES ####
-    url(r'^help$', 'help', name='help'),
+    #### Help pages
+    url(r'^help', include('helppages.urls')),
 
-    #### DYNAMIC PAGES ####
-    url(r'^submit$', 'submit_question', name='submit_question'),
-    url(r'^feedback$', 'feedback', name='feedback'),
-    url(r'^$', 'index', name='homepage'),
-    url(r'^question/(?P<slug>[^\.]+)$', 'view_question', name='view_question'),
-    url(r'^me$', 'my_questions', name='my_questions'),
-
-    #### ADMIN PAGES ####
+    #### Admin pages
     url(r'^admin/', include(admin.site.urls)),
 )
 
