@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'south',
     'website',
+    'university',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -88,10 +89,6 @@ TEMPLATE_CONTEXT_PROCSSORS = (
     'django.contrib.auth.context_processors.auth',
 )
 
-LOGIN_URL = '/login'
-LOGOUT_URL = '/logout'
-LOGIN_REDIRECT_URL = '/'
-
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
@@ -122,11 +119,12 @@ USE_TZ = True
 # Authentication
 # http://pythonhosted.org/django-auth-ldap
 
-import ldap
-# Baseline configuration
+LOGIN_URL = '/login'
+LOGOUT_URL = '/logout'
+LOGIN_REDIRECT_URL = '/'
 
-# Keep ModelBackend around for per-user permissions and maybe a local
-# superuser.
+import ldap
+
 AUTHENTICATION_BACKENDS = (
     'django_auth_ldap.backend.LDAPBackend',
     'django.contrib.auth.backends.ModelBackend',
@@ -145,39 +143,16 @@ AUTH_LDAP_GLOBAL_OPTIONS = {                            # ignore UAC cert.
     ldap.OPT_X_TLS_REQUIRE_CERT : ldap.OPT_X_TLS_NEVER,
 }
 
-# Populate the Django user from the LDAP directory.
 AUTH_LDAP_USER_ATTR_MAP = {
     "first_name": "givenName",
     "last_name": "sn",
     "email": "mail"
 }
-#AUTH_LDAP_USER_FLAGS_BY_GROUP = {
-#    "is_active": "cn=active,ou=django,ou=groups,dc=example,dc=com",
-#    "is_staff": "cn=staff,ou=django,ou=groups,dc=example,dc=com",
-#    "is_superuser": "cn=superuser,ou=django,ou=groups,dc=example,dc=com"
-#}
-#AUTH_LDAP_PROFILE_FLAGS_BY_GROUP = {
-#    "is_awesome": "cn=awesome,ou=django,ou=groups,dc=example,dc=com",
-#}
 
-# This is the default, but I like to be explicit.
 AUTH_LDAP_ALWAYS_UPDATE_USER = True
 
-# Use LDAP group membership to calculate group permissions.
-#AUTH_LDAP_FIND_GROUP_PERMS = True
 
-# Cache group memberships for an hour to minimize LDAP traffic
-#AUTH_LDAP_CACHE_GROUPS = True
-#AUTH_LDAP_GROUP_CACHE_TIMEOUT = 3600
-
-
-# Auth Logging (off by default)
-#import logging, logging.handlers
-#logfile = "/tmp/django-ldap-debug.log"
-#my_logger = logging.getLogger('django_auth_ldap')
-#my_logger.setLevel(logging.DEBUG)
-# 
-#handler = logging.handlers.RotatingFileHandler(
-#logfile, maxBytes=1024 * 500, backupCount=5)
-# 
-#my_logger.addHandler(handler)
+# Install-specific configurations.
+from university import config
+DICTIONARY_ADJECTIVES = config.DICTIONARY_ADJECTIVES
+DICTIONARY_NOUNS = config.DICTIONARY_NOUNS

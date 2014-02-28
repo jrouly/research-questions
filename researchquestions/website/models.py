@@ -73,14 +73,14 @@ def anonymized( obj ):
         adj_hash = int(str(n)[4:6])*8 # 2 digits *8 allows for 800 users
 
         adj = "Anonymous"
-        adjs = open(os.path.join(settings.MEDIA_ROOT, 'adjectives'), 'r')
+        adjs = open(settings.DICTIONARY_ADJECTIVES, 'r')
         for i, line in enumerate(adjs):
             if i == adj_hash:
                 adj = line.title()
                 break
 
         noun = "Student"
-        nouns = open(os.path.join(settings.MEDIA_ROOT, 'nouns'), 'r')
+        nouns = open(settings.DICTIONARY_NOUNS, 'r')
         for i, line in enumerate(nouns):
             if i == noun_hash:
                 noun = line.title()
