@@ -17,11 +17,6 @@ import os
 import requests
 
 # Create your views here.
-def help(request):
-    return render(request, 'help.html', {
-    },
-    )
-
 def error_404(request):
     return render(request, '404.html', {
     },
