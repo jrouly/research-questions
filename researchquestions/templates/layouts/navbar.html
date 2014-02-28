@@ -2,7 +2,13 @@
   <div class="container">
     <div class="navbar-header">
       <a href="/" class="navbar-brand">
-        <strong>Research Questions</strong>
+        <em>
+          {% if branding %}
+            {{ branding }}
+          {% else %}
+            Research Questions
+          {% endif %}
+        </em>
       </a>
       <button class="navbar-toggle" type="button" data-toggle="collapse"
       data-target="#navbar-main">
