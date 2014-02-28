@@ -6,10 +6,17 @@
 <link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet">
 <link href="{{ STATIC_URL }}css/bootswatch.min.css" rel="stylesheet">
 <link href="{{ STATIC_URL }}css/extensions.css" rel="stylesheet">
+<link href="{{ STATIC_URL }}css/font-awesome.min.css" rel="stylesheet">
 <script src="{{ STATIC_URL }}js/jquery-1.10.2.min.js"></script>
 <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
 
-<title>{% block title %}{% endblock %}</title>
+<title>
+{% if page_title_prefix %}
+  {{ page_title_prefix }}
+  &bull;
+{% endif %}
+{% block title %}{% endblock %}
+</title>
 
 </head>
   <body>
