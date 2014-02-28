@@ -24,7 +24,7 @@ SECRET_KEY = secret.SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1']
 
@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'south',
     'website',
     'university',
+    'helppages',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -75,7 +76,6 @@ STATICFILES_FINDERS = (
 
 TEMPLATE_DIRS = (
     (os.path.join(BASE_DIR, 'templates/')),
-    #'/www/http/research-questions/researchquestions/templates/',
     'templates',
 )
 
