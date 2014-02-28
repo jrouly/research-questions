@@ -5,3 +5,6 @@ import os
 
 DICTIONARY_ADJECTIVES = (os.path.join(settings.STATIC_ROOT, 'dicts/adjectives.en'))
 DICTIONARY_NOUNS = (os.path.join(settings.STATIC_ROOT, 'dicts/nouns.en'))
+
+BRANDING = "Website Branding"
+PAGE_TITLE_PREFIX = "TITLE"
