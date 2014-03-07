@@ -11,6 +11,7 @@ urlpatterns = patterns('',
 
     #### Dynamic website pages
     url(r'^', include('website.urls')),
+    url(r'^filter/', include('website.filters.urls')),
     
     #### Admin pages
     url(r'^admin/', include(admin.site.urls)),
