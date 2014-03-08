@@ -41,7 +41,7 @@ class Comment( models.Model ):
     user = models.ForeignKey(User)
     date = models.DateTimeField(default=timezone.now())
     text = models.TextField()
-    parent = models.ForeignKey('Question')
+    parent = models.ForeignKey('Question', related_name='comments', related_query_name='comments')
 
     def get_replies(self):
         replies = Reply.objects.filter(parent__pk=self.pk)
