@@ -50,7 +50,10 @@ def index(request, *args, **kwargs):
 
     section = kwargs.get('section')
     if section is not None:
-        pass
+        section = section.replace(" ", "")
+        section = section.upper()
+        questions = Question.objects.filter(section__iexact=section)
+
 
 
     paginator = Paginator(questions, 10) # show 25 questions per page
@@ -66,6 +69,7 @@ def index(request, *args, **kwargs):
         questions = paginator.page(paginator.num_pages)
 
     return render(request, 'index.html', {
+        'filter' : section,
         'questions' : questions,
         'page_range' : range(1, int(questions.paginator.num_pages)+1),
     },
