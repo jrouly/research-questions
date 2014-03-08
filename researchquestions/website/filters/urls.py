@@ -8,6 +8,6 @@ urlpatterns = patterns('website.filters.views',
     url(r'^comments$', 'filter_comments', name='filter_comments'),
 
     #### Invalid requests to redirect
-    url(r'^$', 'base_redirect'),
-    url(r'^section/?$', 'base_redirect'),
+#    url(r'^$', 'base_redirect'),
+#    url(r'^section/?$', 'base_redirect'),
 )
