@@ -75,6 +75,7 @@ def index(request, *args, **kwargs):
 
     return render(request, 'index.html', {
         'filter' : section,
+        'sort' : sort,
         'questions' : questions,
         'page_range' : range(1, int(questions.paginator.num_pages)+1),
     },

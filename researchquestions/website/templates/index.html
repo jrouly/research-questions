@@ -26,6 +26,17 @@ Homepage
 </div>
 {% endif %}
 
+{% if sort == "comments" %}
+<div class="row">
+  <div class="col-lg-10 col-lg-offset-1">
+    <div class="alert alert-dismissable alert-info text-center">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      Sorting questions with fewest comments first.
+    </div>
+  </div>
+</div>
+{% endif %}
+
 {% if questions %}
   <form method="post">
   {% csrf_token %}
