@@ -45,8 +45,14 @@ def submit_question(request):
     )
 
 @login_required
-def index(request):
+def index(request, *args, **kwargs):
     questions =  Question.objects.all()
+
+    section = kwargs.get('section')
+    if section is not None:
+        pass
+
+
     paginator = Paginator(questions, 10) # show 25 questions per page
 
     page = request.GET.get('page')
