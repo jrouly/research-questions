@@ -28,6 +28,9 @@ Homepage
           <div class="panel-heading">
             <h3 class="panel-title">
               {{question.anonymized}}
+              {% if question.section %}
+                <em>for</em> {{question.section}}
+              {% endif %}
               <span class="pull-right">
                 <em>Asked on {{question.date.date}}</em>
               </span>
