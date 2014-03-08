@@ -26,12 +26,16 @@ Homepage
 </div>
 {% endif %}
 
-{% if sort == "comments" %}
+{% if sort %}
 <div class="row">
   <div class="col-lg-10 col-lg-offset-1">
     <div class="alert alert-dismissable alert-info text-center">
       <button type="button" class="close" data-dismiss="alert">&times;</button>
-      Sorting questions with fewest comments first.
+      {% if sort == "comments" %}
+      <strong>Sorting questions with fewest comments first.</strong>
+      {% elif sort == "date" %}
+      <strong>Sorting questions most recently first.</strong>
+      {% endif %}
     </div>
   </div>
 </div>

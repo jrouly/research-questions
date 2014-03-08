@@ -59,6 +59,8 @@ def index(request, *args, **kwargs):
     if sort is not None:
         if sort == "comments":
             questions = questions.annotate(comment_count=Count('comments')).order_by('comment_count')
+        if sort == "date":
+            questions = questions.order_by('-date')
 
 
     paginator = Paginator(questions, 10) # show 25 questions per page
