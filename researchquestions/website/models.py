@@ -12,6 +12,7 @@ class Question( models.Model ):
     date = models.DateTimeField(default=timezone.now())
     text = models.TextField(max_length=1000)
     rating = models.IntegerField(default=0)
+    section = models.TextField(max_length=10, blank=False)
 
     class Meta:
         ordering = ["-rating"]
