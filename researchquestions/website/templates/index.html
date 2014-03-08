@@ -15,6 +15,34 @@ Homepage
   </div>
 </div>
 
+<div class="row">
+  <div class="col-lg-10 col-lg-offset-1">
+    <div class="well well-sm text-center">
+      <div class="row">
+
+        <div class="col-sm-4">
+          <a href="{% url 'filter_by_section' 'cat100' %}">
+            Filter by Section
+          </a>
+        </div>
+
+        <div class="col-sm-4">
+          <a href="{% url 'sort_by_date' %}">
+            Sort by Date
+          </a>
+        </div>
+
+        <div class="col-sm-4">
+          <a href="{% url 'sort_by_comments' %}">
+            Sort by Comments
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
 {% if filter %}
 <div class="row">
   <div class="col-lg-10 col-lg-offset-1">
