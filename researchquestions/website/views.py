@@ -12,6 +12,7 @@ from django.core.mail import EmailMessage
 from django.utils import timezone
 from django.forms import Textarea
 from django.forms.models import modelformset_factory
+from django.db.models import Count
 
 import os
 import requests
@@ -46,14 +47,18 @@ def submit_question(request):
 
 @login_required
 def index(request, *args, **kwargs):
-    questions =  Question.objects.all()
+    questions = Question.objects.all()
 
     section = kwargs.get('section')
     if section is not None:
         section = section.replace(" ", "")
         section = section.upper()
-        questions = Question.objects.filter(section__iexact=section)
+        questions = Question.objects.all().filter(section__iexact=section)
 
+    sort = kwargs.get('sort')
+    if sort is not None:
+        if sort == "comments":
+            questions = questions.annotate(comment_count=Count('comments')).order_by('comment_count')
 
 
     paginator = Paginator(questions, 10) # show 25 questions per page
