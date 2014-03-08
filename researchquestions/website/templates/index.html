@@ -15,6 +15,17 @@ Homepage
   </div>
 </div>
 
+{% if filter %}
+<div class="row">
+  <div class="col-lg-10 col-lg-offset-1">
+    <div class="alert alert-dismissable alert-info text-center">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      Filtering questions on section <strong>{{ filter }}</strong>.
+    </div>
+  </div>
+</div>
+{% endif %}
+
 {% if questions %}
   <form method="post">
   {% csrf_token %}
