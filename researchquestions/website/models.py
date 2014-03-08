@@ -3,6 +3,7 @@ from django.utils import timezone
 from datetime import datetime
 from django.contrib.auth.models import User
 from django.conf import settings
+from django.core.validators import RegexValidator
 import hashlib
 import os
 
@@ -12,7 +13,12 @@ class Question( models.Model ):
     date = models.DateTimeField(default=timezone.now())
     text = models.TextField(max_length=1000)
     rating = models.IntegerField(default=0)
-    section = models.TextField(max_length=10, blank=False)
+    section_regex = RegexValidator(regex = r'[a-zA-Z]+ {0,1}[0-9]*')
+    section = models.CharField(
+        max_length=10,
+        blank=True,
+        validators = [section_regex]
+    )
 
     class Meta:
         ordering = ["-rating"]
