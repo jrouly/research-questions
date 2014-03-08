@@ -26,23 +26,52 @@ Submit Question
 
           {% if form.text.errors %}
           <div class="form-group has-error">
-            <div class="col-lg-12">
-              <label class="control-label">
-                {% for error in form.text.errors %}
-                  {{error}}
-                {%endfor%}
-              </label>
           {% else %}
           <div class="form-group">
-            <div class="col-lg-12">
           {% endif %}
 
-              {{ form.text }}
+            <label class="col-sm-2 control-label"
+            for="{{form.text.id_for_label}}">
+              {{ form.text.label }}
+              {% if form.text.errors %} (Required){% endif %}
+            </label>
 
+            <div class="col-sm-10">
+              {{ form.text }}
+            </div>
+
+            <div class="col-sm-10 col-sm-offset-2">
               <span class="help-block">
                 Please only include the question text, there is no need to
                 include your name or any other information.
               </span>
+            </div>
+
+          </div>
+
+          {% if form.section.errors %}
+          <div class="form-group has-error">
+          {% else %}
+          <div class="form-group">
+          {% endif %}
+
+              <label class="col-sm-2 control-label"
+              for="{{form.section.id_for_label}}">
+                {{ form.section.label }}
+                {% if form.section.errors %} (Invalid){% endif %}
+              </label>
+
+              <div class="col-sm-10">
+                {{ form.section }}
+              </div>
+
+              <div class="col-sm-10 col-sm-offset-2">
+                <span class="help-block">
+                  The class section for which you are submitting this
+                  question, if any. Example: HNRS 110.
+                </span>
+              </div>
+
             </div>
           </div>
 
@@ -51,6 +80,7 @@ Submit Question
               <input type="submit" class="btn btn-primary" value="Submit Question" />
             </div>
           </div>
+
         </fieldset>
       </form>
     </div>
