@@ -63,3 +63,11 @@ class ReplyForm( ModelForm ):
 class FeedbackForm( forms.Form ):
     text = forms.CharField(
         widget=forms.Textarea(attrs={'class':'form-control'}),max_length=1000)
+
+class CourseSectionFilterForm( forms.Form ):
+    section = forms.CharField(
+        widget = forms.TextInput(attrs={
+                    'class': 'form-control',
+                    'placeholder': 'Course Section',
+                    'pattern': '[a-zA-Z]+ {0,1}[0-9]*',
+                }), max_length = 10)
