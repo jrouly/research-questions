@@ -1,5 +1,6 @@
 from website.models import Question, Comment, Reply
 from website.forms import QuestionForm, CommentForm, ReplyForm, FeedbackForm
+from website.forms import CourseSectionFilterForm
 from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render_to_response, get_object_or_404
@@ -47,6 +48,19 @@ def submit_question(request):
 
 @login_required
 def index(request, *args, **kwargs):
+
+    if request.method == 'POST':
+        form = CourseSectionFilterForm( request.POST )
+        if form.is_valid():
+            data = form.cleaned_data
+            section = data.get("section")
+            return redirect( 'filter_by_section', section = section )
+        else:
+            return redirect( '/' )
+    else:
+        form = CourseSectionFilterForm()
+
+
     questions = Question.objects.all()
 
     section = kwargs.get('section')
@@ -80,6 +94,7 @@ def index(request, *args, **kwargs):
         'sort' : sort,
         'questions' : questions,
         'page_range' : range(1, int(questions.paginator.num_pages)+1),
+        'form' : form,
     },
     )
 
