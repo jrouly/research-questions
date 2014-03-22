@@ -3,6 +3,7 @@ from website.forms import QuestionForm, CommentForm, ReplyForm, FeedbackForm
 from website.forms import CourseSectionFilterForm
 from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
@@ -14,6 +15,7 @@ from django.utils import timezone
 from django.forms import Textarea
 from django.forms.models import modelformset_factory
 from django.db.models import Count
+from django.http import Http404
 
 import os
 import requests
@@ -49,32 +51,39 @@ def submit_question(request):
 @login_required
 def index(request, *args, **kwargs):
 
+    section = kwargs.get('section')
+    sort = kwargs.get('sort')
+
     if request.method == 'POST':
         form = CourseSectionFilterForm( request.POST )
         if form.is_valid():
             data = form.cleaned_data
             section = data.get("section")
-            return redirect( 'filter_by_section', section = section )
+
+            if sort is not None:
+                return redirect( 'filter', section, sort )
+            else:
+                return redirect( 'filter', section )
         else:
-            return redirect( '/' )
+            return redirect( 'sort', sort )
     else:
         form = CourseSectionFilterForm()
 
 
     questions = Question.objects.all()
 
-    section = kwargs.get('section')
     if section is not None:
         section = section.replace(" ", "")
         section = section.upper()
         questions = Question.objects.all().filter(section__iexact=section)
 
-    sort = kwargs.get('sort')
     if sort is not None:
         if sort == "comments":
             questions = questions.annotate(comment_count=Count('comments')).order_by('comment_count')
-        if sort == "date":
+        elif sort == "date":
             questions = questions.order_by('-date')
+        else:
+            raise Http404("Invalid filter.")
 
 
     paginator = Paginator(questions, 10) # show 25 questions per page
