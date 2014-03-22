@@ -27,13 +27,21 @@ Homepage
         </div>
 
         <div class="col-sm-4">
-          <a href="{% url 'sort_by_date' %}">
+          {% if filter %}
+          <a href="{% url 'filter' section=filter sort='date' %}">
+          {% else %}
+          <a href="{% url 'sort' sort='date' %}">
+          {% endif %}
             Sort by Date
           </a>
         </div>
 
         <div class="col-sm-4">
-          <a href="{% url 'sort_by_comments' %}">
+          {% if filter %}
+          <a href="{% url 'filter' section=filter sort='comments' %}">
+          {% else %}
+          <a href="{% url 'sort' sort='comments' %}">
+          {% endif %}
             Sort by Comments
           </a>
         </div>
