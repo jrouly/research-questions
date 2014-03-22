@@ -1,7 +1,15 @@
 <div class="navbar navbar-default navbar-fixed-top">
   <div class="container">
     <div class="navbar-header">
-      <a href="/" class="navbar-brand"><strong>GMU</strong>RTOC</a>
+      <a href="/" class="navbar-brand">
+        <em>
+          {% if branding %}
+            {{ branding }}
+          {% else %}
+            Research Questions
+          {% endif %}
+        </em>
+      </a>
       <button class="navbar-toggle" type="button" data-toggle="collapse"
       data-target="#navbar-main">
         <span class="icon-bar"></span>
@@ -21,8 +29,10 @@
         <li><a href="/help">Help</a></li>
         {% if user.is_authenticated %}
           <li><a href="/feedback">Feedback</a></li>
+          <li><a href="/logout">Logout</a></li>
+        {% else %}
+        <li><a href="/login">Log In</a></li>
         {% endif %}
-        <li><a href="/logout">Logout</a></li>
       </ul>
 
     </div>

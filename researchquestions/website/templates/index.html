@@ -1,7 +1,7 @@
 {% extends 'layouts/base.html' %}
 
 {% block title %}
-HNRS 110 &bull; Homepage
+Homepage
 {% endblock %}
 
 {% block content %}
@@ -14,6 +14,68 @@ HNRS 110 &bull; Homepage
     </div>
   </div>
 </div>
+
+<div class="row">
+  <div class="col-lg-10 col-lg-offset-1">
+    <div class="well well-sm text-center">
+      <div class="row">
+
+        <div class="col-sm-4">
+          <a href="#" data-toggle="modal" data-target="#CourseSelector">
+            Filter by Section
+          </a>
+        </div>
+
+        <div class="col-sm-4">
+          {% if filter %}
+          <a href="{% url 'filter' section=filter sort='date' %}">
+          {% else %}
+          <a href="{% url 'sort' sort='date' %}">
+          {% endif %}
+            Sort by Date
+          </a>
+        </div>
+
+        <div class="col-sm-4">
+          {% if filter %}
+          <a href="{% url 'filter' section=filter sort='comments' %}">
+          {% else %}
+          <a href="{% url 'sort' sort='comments' %}">
+          {% endif %}
+            Sort by Comments
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{% if filter %}
+<div class="row">
+  <div class="col-lg-10 col-lg-offset-1">
+    <div class="alert alert-dismissable alert-info text-center">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <strong>Filtering questions on section {{ filter }}</strong>.
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% if sort %}
+<div class="row">
+  <div class="col-lg-10 col-lg-offset-1">
+    <div class="alert alert-dismissable alert-info text-center">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      {% if sort == "comments" %}
+      <strong>Sorting questions with fewest comments first.</strong>
+      {% elif sort == "date" %}
+      <strong>Sorting questions most recently first.</strong>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endif %}
 
 {% if questions %}
   <form method="post">
@@ -28,6 +90,9 @@ HNRS 110 &bull; Homepage
           <div class="panel-heading">
             <h3 class="panel-title">
               {{question.anonymized}}
+              {% if question.section %}
+                <em>for</em> {{question.section}}
+              {% endif %}
               <span class="pull-right">
                 <em>Asked on {{question.date.date}}</em>
               </span>
@@ -142,5 +207,53 @@ HNRS 110 &bull; Homepage
 
   </div>
 </div>
+
+<!-- Delete Lookout Modal -->
+<div class="modal fade" id="CourseSelector" tabindex="-1" role="dialog"
+aria-labelledby="CourseSelectorLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form class="form-horizontal" id="CourseSelectorForm" method="post"
+      action="" role="form">
+        {% csrf_token %}
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"
+          aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="CourseSelectorLabel">Course Filter
+          Selector</h4>
+        </div>
+
+        <div class="modal-body">
+
+          <div class="form-group">
+            <label class="col-lg-3 control-label"
+            for="{{form.section.id_for_label}}">
+              Course Section
+            </label>
+            <div class="col-lg-9">
+              {{ form.section }}
+            </div>
+
+            <div class="help-block col-lg-9 col-lg-offset-3">
+              Enter the course section you'd like to filter by.
+            </div>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <a class="btn btn-default btn-sm" data-dismiss="modal" href="#">
+            Cancel
+          </a>
+          <input type="submit" class="btn btn-primary btn-sm"
+          value="Filter by Course" name="filter">
+        </div>
+
+      </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 
 {% endblock %}

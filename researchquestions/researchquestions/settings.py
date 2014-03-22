@@ -22,9 +22,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = secret.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1']
 
@@ -42,6 +42,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'south',
     'website',
+    'website.filters',
+    'config',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -53,9 +55,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'settings.urls'
+ROOT_URLCONF = 'researchquestions.urls'
 
-WSGI_APPLICATION = 'settings.wsgi.application'
+WSGI_APPLICATION = 'researchquestions.wsgi.application'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = (os.path.join(BASE_DIR, 'media/'))
@@ -74,7 +76,6 @@ STATICFILES_FINDERS = (
 
 TEMPLATE_DIRS = (
     (os.path.join(BASE_DIR, 'templates/')),
-    #'/www/http/research-questions/researchquestions/templates/',
     'templates',
 )
 
@@ -83,14 +84,18 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.app_directories.Loader',
 )
 
-TEMPLATE_CONTEXT_PROCSSORS = (
-    'django.core.context_processors.request',
+TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
-)
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.core.context_processors.tz',
+    'django.contrib.messages.context_processors.messages',
+    'django.core.context_processors.request',
 
-LOGIN_URL = '/login'
-LOGOUT_URL = '/logout'
-LOGIN_REDIRECT_URL = '/'
+    'researchquestions.context_processors.branding',
+)
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
@@ -122,11 +127,12 @@ USE_TZ = True
 # Authentication
 # http://pythonhosted.org/django-auth-ldap
 
-import ldap
-# Baseline configuration
+LOGIN_URL = '/login'
+LOGOUT_URL = '/logout'
+LOGIN_REDIRECT_URL = '/'
 
-# Keep ModelBackend around for per-user permissions and maybe a local
-# superuser.
+import ldap
+
 AUTHENTICATION_BACKENDS = (
     'django_auth_ldap.backend.LDAPBackend',
     'django.contrib.auth.backends.ModelBackend',
@@ -145,39 +151,21 @@ AUTH_LDAP_GLOBAL_OPTIONS = {                            # ignore UAC cert.
     ldap.OPT_X_TLS_REQUIRE_CERT : ldap.OPT_X_TLS_NEVER,
 }
 
-# Populate the Django user from the LDAP directory.
 AUTH_LDAP_USER_ATTR_MAP = {
     "first_name": "givenName",
     "last_name": "sn",
     "email": "mail"
 }
-#AUTH_LDAP_USER_FLAGS_BY_GROUP = {
-#    "is_active": "cn=active,ou=django,ou=groups,dc=example,dc=com",
-#    "is_staff": "cn=staff,ou=django,ou=groups,dc=example,dc=com",
-#    "is_superuser": "cn=superuser,ou=django,ou=groups,dc=example,dc=com"
-#}
-#AUTH_LDAP_PROFILE_FLAGS_BY_GROUP = {
-#    "is_awesome": "cn=awesome,ou=django,ou=groups,dc=example,dc=com",
-#}
 
-# This is the default, but I like to be explicit.
 AUTH_LDAP_ALWAYS_UPDATE_USER = True
 
-# Use LDAP group membership to calculate group permissions.
-#AUTH_LDAP_FIND_GROUP_PERMS = True
 
-# Cache group memberships for an hour to minimize LDAP traffic
-#AUTH_LDAP_CACHE_GROUPS = True
-#AUTH_LDAP_GROUP_CACHE_TIMEOUT = 3600
+# Install-specific configurations.
+from config import config
 
-
-# Auth Logging (off by default)
-#import logging, logging.handlers
-#logfile = "/tmp/django-ldap-debug.log"
-#my_logger = logging.getLogger('django_auth_ldap')
-#my_logger.setLevel(logging.DEBUG)
-# 
-#handler = logging.handlers.RotatingFileHandler(
-#logfile, maxBytes=1024 * 500, backupCount=5)
-# 
-#my_logger.addHandler(handler)
+DICTIONARY_ADJECTIVES = (os.path.join(STATIC_ROOT, config.DICTIONARY_ADJECTIVES))
+DICTIONARY_NOUNS = (os.path.join(STATIC_ROOT, config.DICTIONARY_NOUNS))
+PAGE_TITLE_PREFIX = config.PAGE_TITLE_PREFIX
+ORGANIZATION = config.ORGANIZATION
+ORGANIZATION_URL = config.ORGANIZATION_URL
+BRANDING = config.BRANDING

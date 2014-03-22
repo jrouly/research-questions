@@ -6,7 +6,9 @@
       </span>
       <p class="text-center">
         Built by <a href="http://michel.rouly.net">Michel Rouly</a>
-        for <a href="http://gmu.edu">George Mason University</a>
+        {% if organization and organization_url %}
+        for <a href="{{ organization_url }}">{{ organization }}</a>
+        {% endif %}
         with <a href="http://www.apache.org/licenses/LICENSE-2.0">some rights reserved</a>.
       </p>
     </div>

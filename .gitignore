@@ -6,5 +6,5 @@ emailsettings.py
 /researchquestions/static/css/build
 /researchquestions/static/admin
 /researchquestions/media/feedback.txt
-/researchquestions/website/migrations
-/researchquestions/settings/secret.py
+/researchquestions/researchquestions/secret.py
+/researchquestions/config/config.py

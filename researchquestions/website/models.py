@@ -2,7 +2,8 @@ from django.db import models
 from django.utils import timezone
 from datetime import datetime
 from django.contrib.auth.models import User
-from settings import settings
+from django.conf import settings
+from django.core.validators import RegexValidator
 import hashlib
 import os
 
@@ -12,6 +13,12 @@ class Question( models.Model ):
     date = models.DateTimeField(default=timezone.now())
     text = models.TextField(max_length=1000)
     rating = models.IntegerField(default=0)
+    section_regex = RegexValidator(regex = r'[a-zA-Z]+ {0,1}[0-9]*')
+    section = models.CharField(
+        max_length=10,
+        blank=True,
+        validators = [section_regex]
+    )
 
     class Meta:
         ordering = ["-rating"]
@@ -34,7 +41,7 @@ class Comment( models.Model ):
     user = models.ForeignKey(User)
     date = models.DateTimeField(default=timezone.now())
     text = models.TextField()
-    parent = models.ForeignKey('Question')
+    parent = models.ForeignKey('Question', related_name='comments', related_query_name='comments')
 
     def get_replies(self):
         replies = Reply.objects.filter(parent__pk=self.pk)
@@ -73,14 +80,14 @@ def anonymized( obj ):
         adj_hash = int(str(n)[4:6])*8 # 2 digits *8 allows for 800 users
 
         adj = "Anonymous"
-        adjs = open(os.path.join(settings.MEDIA_ROOT, 'adjectives'), 'r')
+        adjs = open(settings.DICTIONARY_ADJECTIVES, 'r')
         for i, line in enumerate(adjs):
             if i == adj_hash:
                 adj = line.title()
                 break
 
         noun = "Student"
-        nouns = open(os.path.join(settings.MEDIA_ROOT, 'nouns'), 'r')
+        nouns = open(settings.DICTIONARY_NOUNS, 'r')
         for i, line in enumerate(nouns):
             if i == noun_hash:
                 noun = line.title()

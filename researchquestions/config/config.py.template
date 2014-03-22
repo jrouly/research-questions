@@ -1,0 +1,10 @@
+## Define your install-specific configurations here.
+
+DICTIONARY_ADJECTIVES = 'dicts/adjectives.en'
+DICTIONARY_NOUNS = 'dicts/nouns.en'
+
+BRANDING = ''
+PAGE_TITLE_PREFIX = ''
+
+ORGANIZATION = ''
+ORGANIZATION_URL = ''
