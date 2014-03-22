@@ -76,8 +76,9 @@ def anonymized( obj ):
             obj.user.username )
         h = user_hash_raw.hexdigest()
         n = int(h, base=16)
-        noun_hash = int(str(n)[:4])*2 # 4 digits *2 allows for 20 000 nouns
-        adj_hash = int(str(n)[4:6])*8 # 2 digits *8 allows for 800 users
+        noun_hash = int(str(n)[:2])*3 # 2 digits *3 allows for 300 nouns
+        adj_hash = int(str(n)[2:4])*2 # 1 digits *20 allows for 200 adjs
+        # 300 * 200 = 60 000 total possible usernames
 
         adj = "Anonymous"
         adjs = open(settings.DICTIONARY_ADJECTIVES, 'r')
