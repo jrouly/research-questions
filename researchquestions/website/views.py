@@ -65,6 +65,8 @@ def index(request, *args, **kwargs):
             else:
                 return redirect( 'filter', section )
         else:
+            if sort is None:
+                return redirect( '/' )
             return redirect( 'sort', sort )
     else:
         form = CourseSectionFilterForm()
