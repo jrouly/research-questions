@@ -169,9 +169,8 @@ if AUTH_MODE.lower() == 'ldap':
     # LDAP authentication settings
     import ldap
 
-    AUTHENTICATION_BACKENDS = (
+    AUTHENTICATION_BACKENDS += (
         'django_auth_ldap.backend.LDAPBackend',
-        'django.contrib.auth.backends.ModelBackend',
     )
 
     AUTH_LDAP_SERVER_URI = config.AUTH_LDAP_SERVER_URI  # server url
