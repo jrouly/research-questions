@@ -26,10 +26,12 @@ def error_404(request):
     },
     )
 
+
 def error_500(request):
     return render(request, '500.html', {
     },
     )
+
 
 @login_required
 def submit_question(request):
@@ -47,6 +49,7 @@ def submit_question(request):
         'form' : form,
     },
     )
+
 
 @login_required
 def index(request, *args, **kwargs):
@@ -109,9 +112,16 @@ def index(request, *args, **kwargs):
     },
     )
 
+
 @login_required
-def my_questions(request):
-    questions =  Question.objects.filter(user__id=request.user.id)
+def view_user(request, user_id=None):
+
+    # If the shortcut /me is used, default to the requestor's id.
+    if user_id is None:
+        user_id = request.user.id
+
+    user = User.objects.filter(pk=user_id)
+    questions = Question.objects.filter(user__id=user_id)
     paginator = Paginator(questions, 10) # show 25 questions per page
 
     page = request.GET.get('page')
@@ -122,31 +132,13 @@ def my_questions(request):
     except EmptyPage:
         questions = paginator.page(paginator.num_pages)
 
-    return render(request, 'my_questions.html', {
+    return render(request, 'user_questions.html', {
         'questions' : questions,
         'page_range' : range(1, int(questions.paginator.num_pages)+1),
+        'user' : user,
     },
     )
 
-@login_required
-def feedback(request):
-    if request.method == 'POST':
-        form = FeedbackForm( request.POST )
-        if form.is_valid():
-            f = open(os.path.join(settings.MEDIA_ROOT, 'feedback.txt'), 'a')
-            data = form.cleaned_data
-            f.write( str(timezone.now()) )
-            f.write( str('\n') )
-            f.write( data['text'] )
-            f.write( str('\n\n\n') )
-            return HttpResponseRedirect('/')
-    else:
-        form = FeedbackForm()
-
-    return render(request, 'feedback.html', {
-        'form' : form,
-    },
-    )
 
 @login_required
 def view_question(request, slug):
@@ -154,7 +146,7 @@ def view_question(request, slug):
     question = Question.objects.get(id=slug)
     comments = Comment.objects.filter(parent__pk=slug)
     current_user = User.objects.get(id=request.user.id)
-    
+
     comment_form = CommentForm()
 
     reply_forms = {}
