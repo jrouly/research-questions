@@ -1,19 +1,32 @@
 ## Define your install-specific configurations here.
 
+# Default dictionay files.
 DICTIONARY_ADJECTIVES = 'dicts/adjectives.en'
 DICTIONARY_NOUNS = 'dicts/nouns.en'
 
+# Branding text, ie. upper left hand corner.
+# Defaults to "Research Questions"
 BRANDING = ''
+
+# Prefix in the page title, defaults to blank.
 PAGE_TITLE_PREFIX = ''
 
+# Organizational information for the footer. If not provided, will be left
+# out of the footer.
 ORGANIZATION = ''
 ORGANIZATION_URL = ''
+
+# Domain of organizational email accounts, do not include '@'
 ORGANIZATION_EMAIL_DOMAIN = ''
 
+# Currently accepts LDAP and CAS. If left blank, authentication will be
+# local only.
 AUTH_MODE = ''
 
+# CAS server.
 CAS_SERVER_URL = ''
 
+# LDAP configuration.
 AUTH_LDAP_SERVER_URI = ''
 AUTH_LDAP_BIND_DN = ''
 AUTH_LDAP_USER_DN_TEMPLATE = ''
