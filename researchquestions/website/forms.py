@@ -69,4 +69,4 @@ class CourseSectionFilterForm( forms.Form ):
                     'class': 'form-control',
                     'placeholder': 'Course Section',
                     'pattern': '^[a-zA-Z]+ [0-9]{3} [0-9]{3}$',
-                }), max_length = 10)
+                }), max_length = 15)
