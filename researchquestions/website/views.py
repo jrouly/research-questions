@@ -20,6 +20,7 @@ from django.http import Http404
 import os
 import requests
 
+
 # Create your views here.
 def error_404(request):
     return render(request, '404.html', {
@@ -114,6 +115,27 @@ def index(request, *args, **kwargs):
 
 
 @login_required
+def feedback(request):
+    if request.method == 'POST':
+        form = FeedbackForm( request.POST )
+        if form.is_valid():
+            f = open(os.path.join(settings.MEDIA_ROOT, 'feedback.txt'), 'a')
+            data = form.cleaned_data
+            f.write( str(timezone.now()) )
+            f.write( str('\n') )
+            f.write( data['text'] )
+            f.write( str('\n\n\n') )
+            return HttpResponseRedirect('/')
+    else:
+        form = FeedbackForm()
+
+    return render(request, 'feedback.html', {
+        'form' : form,
+    },
+    )
+
+
+@login_required
 def view_user(request, user_id=None):
 
     # If the shortcut /me is used, default to the requestor's id.
@@ -202,6 +224,7 @@ def view_question(request, slug):
         'reply_forms' : reply_forms,
     },
     )
+
 
 def help(request):
     return render(request, 'help.html', {
