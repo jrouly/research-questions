@@ -79,7 +79,6 @@ def index(request, *args, **kwargs):
     questions = Question.objects.all()
 
     if section is not None:
-        section = section.replace(" ", "")
         section = section.upper()
         questions = Question.objects.all().filter(section__iexact=section)
 
