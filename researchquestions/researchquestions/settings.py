@@ -182,3 +182,7 @@ AUTHENTICATION_BACKENDS = (
     'cas.backends.CASBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
+
+CAS_RESPONSE_CALLBACKS = (
+    'website.cas.create_user',
+)
