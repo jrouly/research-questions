@@ -177,3 +177,8 @@ BRANDING = config.BRANDING
 CAS_SERVER_URL = config.CAS_SERVER_URL
 CAS_LOGOUT_COMPLETELY = True
 CAS_PROVIDE_URL_TO_LOGOUT = True
+
+AUTHENTICATION_BACKENDS = (
+    'cas.backends.CASBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
