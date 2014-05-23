@@ -19,7 +19,7 @@ ORGANIZATION_URL = ''
 # Domain of organizational email accounts, do not include '@'
 ORGANIZATION_EMAIL_DOMAIN = ''
 
-# Currently accepts LDAP and CAS. If left blank, authentication will be
+# Currently accepts LDAP or CAS. If left blank, authentication will be
 # local only.
 AUTH_MODE = ''
 
