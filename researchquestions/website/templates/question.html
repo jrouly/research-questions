@@ -33,7 +33,9 @@ Question Discussion
 
       <div class="panel-heading">
         <h3 class="panel-title">
-          {{question.anonymized}}
+          <a href="{% url 'view_user' question.user.id %}">
+            {{question.anonymized}}
+          </a>
           {% if question.section %}
             <em>for</em> {{question.section}}
           {% endif %}
