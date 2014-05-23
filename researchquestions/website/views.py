@@ -142,7 +142,7 @@ def view_user(request, user_id=None):
     if user_id is None:
         user_id = request.user.id
 
-    user = User.objects.filter(pk=user_id)
+    user = get_object_or_404(User, pk=user_id)
     questions = Question.objects.filter(user__id=user_id)
     paginator = Paginator(questions, 10) # show 25 questions per page
 
