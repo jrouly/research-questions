@@ -166,7 +166,7 @@ if AUTH_MODE.lower() == 'cas':
     )
 
 if AUTH_MODE.lower() == 'ldap':
-     LDAP authentication settings
+    # LDAP authentication settings
     import ldap
 
     AUTHENTICATION_BACKENDS = (
@@ -174,10 +174,10 @@ if AUTH_MODE.lower() == 'ldap':
         'django.contrib.auth.backends.ModelBackend',
     )
 
-    AUTH_LDAP_SERVER_URI = "ldaps://directory.gmu.edu:636"  # server url
-    AUTH_LDAP_BIND_DN = "ou=people,o=gmu.edu"               # bind DN
+    AUTH_LDAP_SERVER_URI = config.AUTH_LDAP_SERVER_URI  # server url
+    AUTH_LDAP_BIND_DN = config.AUTH_LDAP_BIND_DN        # bind DN
     AUTH_LDAP_BIND_AS_AUTHENTICATING_USER = True            # use the user
-    AUTH_LDAP_USER_DN_TEMPLATE = "uid=%(user)s,ou=people,o=gmu.edu"
+    AUTH_LDAP_USER_DN_TEMPLATE = config.AUTH_LDAP_USER_DN_TEMPLATE
     AUTH_LDAP_GLOBAL_OPTIONS = {                            # ignore UAC cert.
         ldap.OPT_X_TLS : ldap.OPT_X_TLS_DEMAND,
         ldap.OPT_X_TLS_REQUIRE_CERT : ldap.OPT_X_TLS_NEVER,
