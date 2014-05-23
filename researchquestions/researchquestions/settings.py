@@ -184,5 +184,5 @@ AUTHENTICATION_BACKENDS = (
 )
 
 CAS_RESPONSE_CALLBACKS = (
-    'website.cas.create_user',
+    'website.cas_callbacks.create_user',
 )
