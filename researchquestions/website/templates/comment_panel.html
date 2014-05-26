@@ -3,7 +3,9 @@
     <div class="panel panel-default">
 
       <div class="panel-body">
-        <p><em>{{ comment.anonymized }}</em> says:</p>
+        <p><em>
+          <a href="{% url 'view_user' comment.user.id %}">{{ comment.anonymized }}</a>
+        </em> says:</p>
         <p>{{ comment.text }}</p>
 
         <a data-toggle="collapse" data-target="#replies{{comment.pk}}"
@@ -13,7 +15,9 @@
         {% if comment.get_replies %}
           {% for reply in comment.get_replies %}
             <div class="well well-sm well-replies">
-              <p><em>{{ reply.anonymized }}</em> says:</p>
+              <p><em>
+                <a href="{% url 'view_user' reply.user.id %}">{{ reply.anonymized }}</a>
+              </em> says:</p>
               <p>{{ reply.text }}</p>
             </div>
           {% endfor %}

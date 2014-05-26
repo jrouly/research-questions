@@ -13,9 +13,9 @@ class Question( models.Model ):
     date = models.DateTimeField(default=timezone.now())
     text = models.TextField(max_length=1000)
     rating = models.IntegerField(default=0)
-    section_regex = RegexValidator(regex = r'[a-zA-Z]+ {0,1}[0-9]*')
+    section_regex = RegexValidator(regex = r'^[a-zA-Z]+ [0-9]{3} [0-9]{3}$')
     section = models.CharField(
-        max_length=10,
+        max_length=15,
         blank=True,
         validators = [section_regex]
     )

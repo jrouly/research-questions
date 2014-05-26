@@ -20,16 +20,19 @@ from django.http import Http404
 import os
 import requests
 
+
 # Create your views here.
 def error_404(request):
     return render(request, '404.html', {
     },
     )
 
+
 def error_500(request):
     return render(request, '500.html', {
     },
     )
+
 
 @login_required
 def submit_question(request):
@@ -47,6 +50,7 @@ def submit_question(request):
         'form' : form,
     },
     )
+
 
 @login_required
 def index(request, *args, **kwargs):
@@ -75,7 +79,6 @@ def index(request, *args, **kwargs):
     questions = Question.objects.all()
 
     if section is not None:
-        section = section.replace(" ", "")
         section = section.upper()
         questions = Question.objects.all().filter(section__iexact=section)
 
@@ -109,24 +112,6 @@ def index(request, *args, **kwargs):
     },
     )
 
-@login_required
-def my_questions(request):
-    questions =  Question.objects.filter(user__id=request.user.id)
-    paginator = Paginator(questions, 10) # show 25 questions per page
-
-    page = request.GET.get('page')
-    try:
-        questions = paginator.page(page)
-    except PageNotAnInteger:
-        questions = paginator.page(1)
-    except EmptyPage:
-        questions = paginator.page(paginator.num_pages)
-
-    return render(request, 'my_questions.html', {
-        'questions' : questions,
-        'page_range' : range(1, int(questions.paginator.num_pages)+1),
-    },
-    )
 
 @login_required
 def feedback(request):
@@ -148,13 +133,41 @@ def feedback(request):
     },
     )
 
+
+@login_required
+def view_user(request, user_id=None):
+
+    # If the shortcut /me is used, default to the requestor's id.
+    if user_id is None:
+        user_id = request.user.id
+
+    user = get_object_or_404(User, pk=user_id)
+    questions = Question.objects.filter(user__id=user_id)
+    paginator = Paginator(questions, 10) # show 25 questions per page
+
+    page = request.GET.get('page')
+    try:
+        questions = paginator.page(page)
+    except PageNotAnInteger:
+        questions = paginator.page(1)
+    except EmptyPage:
+        questions = paginator.page(paginator.num_pages)
+
+    return render(request, 'user_questions.html', {
+        'questions' : questions,
+        'page_range' : range(1, int(questions.paginator.num_pages)+1),
+        'user' : user,
+    },
+    )
+
+
 @login_required
 def view_question(request, slug):
 
     question = Question.objects.get(id=slug)
     comments = Comment.objects.filter(parent__pk=slug)
     current_user = User.objects.get(id=request.user.id)
-    
+
     comment_form = CommentForm()
 
     reply_forms = {}
@@ -210,6 +223,7 @@ def view_question(request, slug):
         'reply_forms' : reply_forms,
     },
     )
+
 
 def help(request):
     return render(request, 'help.html', {

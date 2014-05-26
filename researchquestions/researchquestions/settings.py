@@ -53,6 +53,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'cas.middleware.CASMiddleware',
 )
 
 ROOT_URLCONF = 'researchquestions.urls'
@@ -124,41 +125,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-# Authentication
-# http://pythonhosted.org/django-auth-ldap
-
-LOGIN_URL = '/login'
-LOGOUT_URL = '/logout'
-LOGIN_REDIRECT_URL = '/'
-
-import ldap
-
-AUTHENTICATION_BACKENDS = (
-    'django_auth_ldap.backend.LDAPBackend',
-    'django.contrib.auth.backends.ModelBackend',
-)
-
-AUTH_LDAP_SERVER_URI = "ldaps://directory.gmu.edu:636"  # server url
-
-AUTH_LDAP_BIND_DN = "ou=people,o=gmu.edu"               # bind DN
-
-AUTH_LDAP_BIND_AS_AUTHENTICATING_USER = True            # use the user
-
-AUTH_LDAP_USER_DN_TEMPLATE = "uid=%(user)s,ou=people,o=gmu.edu"
-
-AUTH_LDAP_GLOBAL_OPTIONS = {                            # ignore UAC cert.
-    ldap.OPT_X_TLS : ldap.OPT_X_TLS_DEMAND,
-    ldap.OPT_X_TLS_REQUIRE_CERT : ldap.OPT_X_TLS_NEVER,
-}
-
-AUTH_LDAP_USER_ATTR_MAP = {
-    "first_name": "givenName",
-    "last_name": "sn",
-    "email": "mail"
-}
-
-AUTH_LDAP_ALWAYS_UPDATE_USER = True
-
 
 # Install-specific configurations.
 from config import config
@@ -168,4 +134,59 @@ DICTIONARY_NOUNS = (os.path.join(STATIC_ROOT, config.DICTIONARY_NOUNS))
 PAGE_TITLE_PREFIX = config.PAGE_TITLE_PREFIX
 ORGANIZATION = config.ORGANIZATION
 ORGANIZATION_URL = config.ORGANIZATION_URL
+ORGANIZATION_EMAIL_DOMAIN = config.ORGANIZATION_EMAIL_DOMAIN
 BRANDING = config.BRANDING
+AUTH_MODE = config.AUTH_MODE
+
+
+
+# Authentication
+# http://pythonhosted.org/django-auth-ldap
+
+LOGIN_URL = '/login'
+LOGOUT_URL = '/logout'
+LOGIN_REDIRECT_URL = '/'
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+if AUTH_MODE.lower() == 'cas':
+    # CAS authentication settings
+    CAS_SERVER_URL = config.CAS_SERVER_URL
+    CAS_LOGOUT_COMPLETELY = True
+    CAS_PROVIDE_URL_TO_LOGOUT = True
+
+    AUTHENTICATION_BACKENDS += (
+        'cas.backends.CASBackend',
+    )
+
+    CAS_RESPONSE_CALLBACKS = (
+        'website.cas_callbacks.create_user',
+    )
+
+if AUTH_MODE.lower() == 'ldap':
+    # LDAP authentication settings
+    import ldap
+
+    AUTHENTICATION_BACKENDS += (
+        'django_auth_ldap.backend.LDAPBackend',
+    )
+
+    AUTH_LDAP_SERVER_URI = config.AUTH_LDAP_SERVER_URI  # server url
+    AUTH_LDAP_BIND_DN = config.AUTH_LDAP_BIND_DN        # bind DN
+    AUTH_LDAP_BIND_AS_AUTHENTICATING_USER = True            # use the user
+    AUTH_LDAP_USER_DN_TEMPLATE = config.AUTH_LDAP_USER_DN_TEMPLATE
+    AUTH_LDAP_GLOBAL_OPTIONS = {                            # ignore UAC cert.
+        ldap.OPT_X_TLS : ldap.OPT_X_TLS_DEMAND,
+        ldap.OPT_X_TLS_REQUIRE_CERT : ldap.OPT_X_TLS_NEVER,
+    }
+
+    AUTH_LDAP_USER_ATTR_MAP = {
+        "first_name": "givenName",
+        "last_name": "sn",
+        "email": "mail"
+    }
+
+    AUTH_LDAP_ALWAYS_UPDATE_USER = True
+

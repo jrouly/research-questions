@@ -22,16 +22,15 @@ class QuestionForm( ModelForm ):
             'section': TextInput(attrs={
                     'class': 'form-control',
                     'placeholder': 'Course Section',
-                    'pattern': '[a-zA-Z]+ {0,1}[0-9]*',
+                    'pattern': '^[a-zA-Z]+ [0-9]{3} [0-9]{3}$',
             }),
         }
 
-    # Parse out unneeded spaces from the section. This makes everything
-    # nice and sanitary and uniform.
+    # Format every course id as all caps.
     def clean_section(self):
         data = self.cleaned_data.get('section')
         if data is not None:
-            data = data.upper().replace(" ", "")
+            data = data.upper()
         return data
 
 class CommentForm( ModelForm ):
@@ -69,5 +68,5 @@ class CourseSectionFilterForm( forms.Form ):
         widget = forms.TextInput(attrs={
                     'class': 'form-control',
                     'placeholder': 'Course Section',
-                    'pattern': '[a-zA-Z]+ {0,1}[0-9]*',
-                }), max_length = 10)
+                    'pattern': '^[a-zA-Z]+ [0-9]{3} [0-9]{3}$',
+                }), max_length = 15)
