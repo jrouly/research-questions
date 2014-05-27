@@ -203,7 +203,87 @@ Now that you have your own configurations file, you can set the remaining
 configs. Each directive is documented in the `config.py.template` file
 itself.
 
+#### Secret file
+
+You will additionally need to define a `secret.py` file in the
+`researchquestions` directory. This must contain the following directives:
+
+    SECRET_KEY  = " ... "
+    DB_NAME     = " ... "
+    DB_USER     = " ... "
+    DB_PASSWORD = " ... "
+    DB_HOST     = " ... "
+
+## Application Structure
+
+The Research Questions application has a simple, best-practices Django
+project structure with highlights outlined below.
+
+    .
+    ├── config/                   # custom configurations directory
+    ├── media/                    # for user uploaded media, should be r/w
+    ├── researchquestions/        # main django project app
+    │   ├── context_processors.py # allows configurations to be used in templates
+    │   ├── secret.py             # secret_key and DB credentials. r/o
+    │   ├── settings.py           # complete django configurations
+    │   └── urls.py               # top level routing file
+    ├── static/                   # static file storage
+    └── website/                  # standard website application
+        ├── cas_callbacks.py      # used to create users via CAS
+        ├── filters/              # sub-application for question filtering
+        │   ├── models.py         # filter models
+        │   ├── urls.py           # filter URL routing
+        │   └── views.py          # filter logic
+        ├── forms.py              # forms used in the website
+        ├── migrations/           # database migratiosn
+        ├── models.py             # website data structures (questions, comments)
+        ├── templates/            # HTML templates
+        │   ├── helptext/         # modular help text directory
+        │   │   ├── content/      # text of the help sections
+        │   │   └── index/        # index files of the help sections
+        │   └── layouts/          # abstract template files
+        ├── templatetags/         # custom template tags used in the website
+        ├── urls.py               # mid-level URL routing
+        └── views.py              # main website logic
+
+## Contributing
+
+There are a few main places contribution or maintenance may need to occur,
+so this documentation will attempt to address the interesting ones.
+
+### Visual styling
+
+All static website assets are stored in `/static/` under the appropriate
+directory. The `/static/css/bootstrap.min.css` file is from Bootswatch, but
+was customized to match with the GMU colorscheme. Feel free to replace this
+with a compatible Bootstrap install.
+
+Page structure is maintained by the Django templating system, so see
+the top-level templates `base.html`, `footer.html`, and `navbar.hmtl` in
+the directory `/website/templates/layouts/`.
+
+### URL Engineering
+
+All URL routing takes place in `urls.py` files within various apps. The top
+level routing occurs in `/researchquestions/urls.py` and is delegated to
+`/website/urls.py` and further to `/website/filters/urls.py`.
+
+### Writing help text
+
+The help file is modular. It is relatively simple to add and remove parts
+that are necessary between installs. To add a new section of help contents,
+add a new index file and content file in
+`/website/templates/helptext/content` and
+`/website/templates/helptext/index`. Then integrate these files within the
+`/website/templates/help.html` top level template file.
+
+### Moderation
+
+Moderation and site administration are both done using the administrator
+interface. Approved user accounts will have access to this web interface
+and can moderate discussion from there.
 
 ## ToDo
 
-* Include comment functionality on index page allowing users to skip the discussion step.
+* Find more features to add
+* User registration?
