@@ -93,6 +93,19 @@ You can create the file from an existing template by copying the
 
     $ cp researchquestions/secret.py.template researchquestions/secret.py
 
+#### Settings file
+
+The `settings.py` file may need to be modified slightly to prepare for
+deployment. When testing, ensure that
+
+    DEBUG = True
+
+is set, but for deployment, ensure that
+
+    DEBUG = False
+
+is set correctly.
+
 ### Starting the test server
 
 Now that your environment is configured, you can test out the Django test
