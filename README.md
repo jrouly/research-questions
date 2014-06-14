@@ -54,6 +54,21 @@ to generate the proper static directories.
 
     $ python manage.py collectstatic
 
+### Creating the shared secret
+
+Django projects rely on a so-called "secret" variable to perform a variety
+of security tasks. Additonally, database credentials need to be defined.
+
+In order to store these values out of version control, copy the template
+secret file to a new location.
+
+    $ cp researchquestions/secret.py.template researchquestions/secret.py
+
+Go ahead and [generate your own secret
+variable](http://www.miniwebtool.com/django-secret-key-generator/) and
+store it in the new `secret.py` file, along with the relevant database
+credentials.
+
 ### Starting the test server
 
 Now that your environment is configured, you can test out the Django test
