@@ -56,6 +56,43 @@ to generate the proper static directories.
 
     $ python manage.py collectstatic
 
+### User access
+
+This application is set up to allow user access from LDAP or CAS
+authentication backends. It's also easy to use simple Django model
+authentication, but there is no way to register users other than
+manual administrative intervention.
+
+Start by copying the `config.py.template` file to `config.py`.
+
+    $ cp config/config.py.template config/config.py
+
+Set `AUTH_MODE` to either `CAS` or `LDAP`. Depending on what you set,
+fill in the remaining authentication settings. CAS provides the simplest
+login model.
+
+### Remaining configurations
+
+Now that you have your own configurations file, you can set the remaining
+configs. Each directive is documented in the `config.py.template` file
+itself.
+
+#### Secret file
+
+You will additionally need to define a `secret.py` file in the
+`researchquestions` directory. This must contain the following directives:
+
+    SECRET_KEY  = " ... "
+    DB_NAME     = " ... "
+    DB_USER     = " ... "
+    DB_PASSWORD = " ... "
+    DB_HOST     = " ... "
+
+You can create the file from an existing template by copying the
+`secret.py.template` file.
+
+    $ cp researchquestions/secret.py.template researchquestions/secret.py
+
 ### Starting the test server
 
 Now that your environment is configured, you can test out the Django test
@@ -174,7 +211,8 @@ standard http connections instead of 8000.
 The database is one of the most important parts of this application.
 Without a database backend, no user data could be stored. By default, this
 application is configured to use a MySQL or MariaDB backend, but any
-standard database software can be used as a replacement.
+standard database software can be used as a replacement. Make sure you've
+set the credentials correctly in the `secret.py` file.
 
 Begin by synchronizing the database.
 
@@ -183,38 +221,6 @@ Begin by synchronizing the database.
 Then migrate the website schema.
 
     $ python manage.py migrate website
-
-### User access
-
-This application is set up to allow user access from LDAP or CAS
-authentication backends. It's also easy to use simple Django model
-authentication, but there is no way to register users other than
-manual administrative intervention.
-
-Start by copying the `config.py.template` file to `config.py`.
-
-    $ cp config/config.py.template config/config.py
-
-Set `AUTH_MODE` to either `CAS` or `LDAP`. Depending on what you set,
-fill in the remaining authentication settings. CAS provides the simplest
-login model.
-
-### Remaining configurations
-
-Now that you have your own configurations file, you can set the remaining
-configs. Each directive is documented in the `config.py.template` file
-itself.
-
-#### Secret file
-
-You will additionally need to define a `secret.py` file in the
-`researchquestions` directory. This must contain the following directives:
-
-    SECRET_KEY  = " ... "
-    DB_NAME     = " ... "
-    DB_USER     = " ... "
-    DB_PASSWORD = " ... "
-    DB_HOST     = " ... "
 
 ## Application Structure
 
