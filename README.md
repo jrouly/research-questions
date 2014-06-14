@@ -20,6 +20,8 @@ dependencies. On Ubuntu, that might look like:
 
     $ sudo apt-get install python python-dev python-pip
     $ sudo apt-get install mysql-server mysql-client
+    $ sudo apt-get install libmysqlclient-dev
+    $ sudo apt-get install libsasl2-2 libsasl2-dev
     $ sudo apt-get install apache2  # optional dependency
     $ sudo apt-get install nginx    # optional dependency
 
@@ -189,13 +191,13 @@ Without a database backend, no user data could be stored. By default, this
 application is configured to use a MySQL or MariaDB backend, but any
 standard database software can be used as a replacement.
 
-Begin by migrating the website schema.
-
-    $ python manage.py migrate website
-
-Then synchronize the rest of the database.
+Begin by synchronizing the database.
 
     $ python manage.py syncdb
+
+Then migrate the website schema.
+
+    $ python manage.py migrate website
 
 ### User access
 

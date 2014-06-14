@@ -1,9 +1,9 @@
 Django==1.6
-MySQL-python==1.2.4
+MySQL-python
 South==0.8.4
 django-auth-ldap==1.1.7
 #django-cas==0.9.1
-git+http://github.com/the-ben-waters/djang-cas
+git+https://github.com/the-ben-waters/django-cas.git
 gunicorn==18.0
 python-ldap==2.4.13
 requests==2.0.1
