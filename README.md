@@ -103,8 +103,9 @@ deployment. When testing, ensure that
 is set, but for deployment, ensure that
 
     DEBUG = False
+    ALLOWED_HOSTS = ['127.0.0.1', 'yourdomain.com']
 
-is set correctly.
+are both set correctly.
 
 ### Starting the test server
 
