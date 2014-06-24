@@ -6,6 +6,12 @@ in-depth review by their peers.
 
 ## Getting Started
 
+### Install basic requirements
+
+This project requires Git, Python, and Pip.
+
+    $ sudo apt-get install git python python-dev python-pip
+
 ### Setting up your environment
 
 This application is built on Python and Django, and styled using Bootstrap
@@ -18,7 +24,7 @@ downloading a .zip file.
 To get started, you will need to install a number of Python and MySQL
 dependencies. On Ubuntu, that might look like:
 
-    $ sudo apt-get install python python-dev python-pip
+    $ sudo apt-get install python-dev
     $ sudo apt-get install mysql-server mysql-client
     $ sudo apt-get install libmysqlclient-dev
     $ sudo apt-get install libsasl2-2 libsasl2-dev
