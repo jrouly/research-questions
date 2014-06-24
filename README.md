@@ -120,6 +120,16 @@ to generate the proper static directories.
 
     $ python manage.py collectstatic
 
+##### Feedback file
+
+Feedback is currently stored in a writeable text file for simplicity.
+Enable write access to that file.
+
+    $ mkdir media
+    $ touch media/feedback.txt
+    $ chmod 600 media/feedback.txt
+
+Make sure that `media` is created in the same folder that contains `static`.
 
 ### Setting up the database
 
