@@ -28,6 +28,7 @@ dependencies. On Ubuntu, that might look like:
     $ sudo apt-get install mysql-server mysql-client
     $ sudo apt-get install libmysqlclient-dev
     $ sudo apt-get install libsasl2-2 libsasl2-dev
+    $ sudo apt-get install libldap2-dev libldap-2.4-2
     $ sudo apt-get install apache2  # optional dependency
     $ sudo apt-get install nginx    # optional dependency
 
