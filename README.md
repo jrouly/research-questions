@@ -202,6 +202,11 @@ configuration snippets might look like this:
         location /static/ {
             alias /path/to/install/research-questions/researchquestions/static/;
         }
+
+        location /media/ {
+            alias /path/to/install/research-questions/researchquestions/media/;
+        }
+
     }
 
 
