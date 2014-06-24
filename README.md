@@ -58,26 +58,30 @@ If any of the dependencies fail to install, make sure you have all the
 system dependencies listed above installed. If the problem persists, your
 system may be lacking an assumed dependency.
 
-### User access
+### Remaining configurations
+
+Start by copying the `config.py.template` file to `config.py`.
+
+    $ cp config/config.py.template config/config.py
+
+Now that you have your own configurations file, you can set the remaining
+configs. Each directive is documented in the `config.py.template` file
+itself.
+
+Note that two more configurations files are required: `secret.py` and
+`settings.py`: read on for information.
+
+#### User access
 
 This application is set up to allow user access from LDAP or CAS
 authentication backends. It's also easy to use simple Django model
 authentication, but there is no way to register users other than
 manual administrative intervention.
 
-Start by copying the `config.py.template` file to `config.py`.
-
-    $ cp config/config.py.template config/config.py
-
 Set `AUTH_MODE` to either `CAS` or `LDAP`. Depending on what you set,
 fill in the remaining authentication settings. CAS provides the simplest
 login model.
 
-### Remaining configurations
-
-Now that you have your own configurations file, you can set the remaining
-configs. Each directive is documented in the `config.py.template` file
-itself.
 
 #### Secret file
 
