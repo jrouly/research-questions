@@ -269,7 +269,11 @@ will need to start that application server.
 
 The project requirements include the `gunicorn` module, so let's use this.
 
-    $ gunicorn researchquestions.wsgi --bind=127.0.0.1:8001
+    $ gunicorn researchquestions.wsgi -b 127.0.0.1:8001
+
+To send the web server to the background (ie. run it as a daemon) use
+
+    $ gunicorn researchquestions.wsgi -b 127.0.0.1:8001 -D
 
 Make sure to execute this command in the same folder containing `manage.py`.
 
