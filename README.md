@@ -183,6 +183,13 @@ configuration snippets might look like this:
         </Location>
     </VirtualHost>
 
+Note that this configuration requires the module `proxy_http` to be
+installed and enabled. Enabling this module will differ from OS to OS, but
+the command looks like this on Ubuntu:
+
+    $ sudo a2enmod proxy_http
+    $ sudo service apache2 restart
+
 ##### nginx config
 
     server {
