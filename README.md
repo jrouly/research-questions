@@ -58,11 +58,6 @@ If any of the dependencies fail to install, make sure you have all the
 system dependencies listed above installed. If the problem persists, your
 system may be lacking an assumed dependency.
 
-Once you get all the dependencies satisfied, execute the following command
-to generate the proper static directories.
-
-    $ python manage.py collectstatic
-
 ### User access
 
 This application is set up to allow user access from LDAP or CAS
@@ -113,6 +108,14 @@ is set, but for deployment, ensure that
     ALLOWED_HOSTS = ['127.0.0.1', 'yourdomain.com']
 
 are both set correctly.
+
+#### Static files
+
+Once you get all the settings set up, execute the following command
+to generate the proper static directories.
+
+    $ python manage.py collectstatic
+
 
 ### Starting the test server
 
