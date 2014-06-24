@@ -273,6 +273,11 @@ The project requirements include the `gunicorn` module, so let's use this.
 
 Make sure to execute this command in the same folder containing `manage.py`.
 
+This step is not required for configurations using **only** Apache, since
+those configurations use Apache to serve the entire Python application.
+Note, however, that you will need to restart Apache entirely every time a
+modification is made to the application / system.
+
 
 ## Application Structure
 
