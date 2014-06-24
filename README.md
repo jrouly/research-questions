@@ -121,6 +121,23 @@ to generate the proper static directories.
     $ python manage.py collectstatic
 
 
+### Setting up the database
+
+The database is one of the most important parts of this application.
+Without a database backend, no user data could be stored. By default, this
+application is configured to use a MySQL or MariaDB backend, but any
+standard database software can be used as a replacement. Make sure you've
+set the credentials correctly in the `secret.py` file.
+
+Begin by synchronizing the database.
+
+    $ python manage.py syncdb
+
+Then migrate the website schema.
+
+    $ python manage.py migrate website
+
+
 ### Starting the test server
 
 Now that your environment is configured, you can test out the Django test
@@ -233,22 +250,6 @@ This option is very simple to configure. Simply make use of the nginx
 configuration from option 1, but direct the server to listen on port 80 for
 standard http connections instead of 8000.
 
-
-### Setting up the database
-
-The database is one of the most important parts of this application.
-Without a database backend, no user data could be stored. By default, this
-application is configured to use a MySQL or MariaDB backend, but any
-standard database software can be used as a replacement. Make sure you've
-set the credentials correctly in the `secret.py` file.
-
-Begin by synchronizing the database.
-
-    $ python manage.py syncdb
-
-Then migrate the website schema.
-
-    $ python manage.py migrate website
 
 ## Application Structure
 
