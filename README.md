@@ -262,6 +262,17 @@ This option is very simple to configure. Simply make use of the nginx
 configuration from option 1, but direct the server to listen on port 80 for
 standard http connections instead of 8000.
 
+### Starting the application server (nginx only)
+
+If you use nginx to proxy pass to an application server on port 8001, you
+will need to start that application server.
+
+The project requirements include the `gunicorn` module, so let's use this.
+
+    $ gunicorn researchquestions.wsgi --bind=127.0.0.1:8001
+
+Make sure to execute this command in the same folder containing `manage.py`.
+
 
 ## Application Structure
 
