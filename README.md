@@ -6,6 +6,12 @@ in-depth review by their peers.
 
 ## Getting Started
 
+### Install basic requirements
+
+This project requires Git, Python, and Pip.
+
+    $ sudo apt-get install git python python-dev python-pip
+
 ### Setting up your environment
 
 This application is built on Python and Django, and styled using Bootstrap
@@ -18,8 +24,11 @@ downloading a .zip file.
 To get started, you will need to install a number of Python and MySQL
 dependencies. On Ubuntu, that might look like:
 
-    $ sudo apt-get install python python-dev python-pip
+    $ sudo apt-get install python-dev
     $ sudo apt-get install mysql-server mysql-client
+    $ sudo apt-get install libmysqlclient-dev
+    $ sudo apt-get install libsasl2-2 libsasl2-dev
+    $ sudo apt-get install libldap2-dev libldap-2.4-2
     $ sudo apt-get install apache2  # optional dependency
     $ sudo apt-get install nginx    # optional dependency
 
@@ -49,10 +58,95 @@ If any of the dependencies fail to install, make sure you have all the
 system dependencies listed above installed. If the problem persists, your
 system may be lacking an assumed dependency.
 
-Once you get all the dependencies satisfied, execute the following command
+### Remaining configurations
+
+Start by copying the `config.py.template` file to `config.py`.
+
+    $ cp config/config.py.template config/config.py
+
+Now that you have your own configurations file, you can set the remaining
+configs. Each directive is documented in the `config.py.template` file
+itself.
+
+Note that two more configurations files are required: `secret.py` and
+`settings.py`: read on for information.
+
+#### User access
+
+This application is set up to allow user access from LDAP or CAS
+authentication backends. It's also easy to use simple Django model
+authentication, but there is no way to register users other than
+manual administrative intervention.
+
+Set `AUTH_MODE` to either `CAS` or `LDAP`. Depending on what you set,
+fill in the remaining authentication settings. CAS provides the simplest
+login model.
+
+
+#### Secret file
+
+You will additionally need to define a `secret.py` file in the
+`researchquestions` directory. This must contain the following directives:
+
+    SECRET_KEY  = " ... "
+    DB_NAME     = " ... "
+    DB_USER     = " ... "
+    DB_PASSWORD = " ... "
+    DB_HOST     = " ... "
+
+You can create the file from an existing template by copying the
+`secret.py.template` file.
+
+    $ cp researchquestions/secret.py.template researchquestions/secret.py
+
+#### Settings file
+
+The `researchquestions/settings.py` file may need to be modified slightly
+to prepare for deployment. When testing, ensure that
+
+    DEBUG = True
+
+is set, but for deployment, ensure that
+
+    DEBUG = False
+    ALLOWED_HOSTS = ['127.0.0.1', 'yourdomain.com']
+
+are both set correctly.
+
+#### Static files
+
+Once you get all the settings set up, execute the following command
 to generate the proper static directories.
 
     $ python manage.py collectstatic
+
+##### Feedback file
+
+Feedback is currently stored in a writeable text file for simplicity.
+Enable write access to that file.
+
+    $ mkdir media
+    $ touch media/feedback.txt
+    $ chmod 600 media/feedback.txt
+
+Make sure that `media` is created in the same folder that contains `static`.
+
+### Setting up the database
+
+The database is one of the most important parts of this application.
+Without a database backend, no user data could be stored. By default, this
+application is configured to use a MySQL or MariaDB backend, but any
+standard database software can be used as a replacement. Make sure you've
+set the credentials correctly in the `secret.py` file.
+
+Begin by synchronizing the database.
+
+    $ python manage.py syncdb
+
+Then migrate the website schema.
+
+    $ python manage.py migrate website
+
 
 ### Starting the test server
 
@@ -99,6 +193,13 @@ configuration snippets might look like this:
         </Location>
     </VirtualHost>
 
+Note that this configuration requires the module `proxy_http` to be
+installed and enabled. Enabling this module will differ from OS to OS, but
+the command looks like this on Ubuntu:
+
+    $ sudo a2enmod proxy_http
+    $ sudo service apache2 restart
+
 ##### nginx config
 
     server {
@@ -118,6 +219,11 @@ configuration snippets might look like this:
         location /static/ {
             alias /path/to/install/research-questions/researchquestions/static/;
         }
+
+        location /media/ {
+            alias /path/to/install/research-questions/researchquestions/media/;
+        }
+
     }
 
 
@@ -166,53 +272,26 @@ This option is very simple to configure. Simply make use of the nginx
 configuration from option 1, but direct the server to listen on port 80 for
 standard http connections instead of 8000.
 
+### Starting the application server (nginx only)
 
-### Setting up the database
+If you use nginx to proxy pass to an application server on port 8001, you
+will need to start that application server.
 
-The database is one of the most important parts of this application.
-Without a database backend, no user data could be stored. By default, this
-application is configured to use a MySQL or MariaDB backend, but any
-standard database software can be used as a replacement.
+The project requirements include the `gunicorn` module, so let's use this.
 
-Begin by migrating the website schema.
+    $ gunicorn researchquestions.wsgi -b 127.0.0.1:8001
 
-    $ python manage.py migrate website
+To send the web server to the background (ie. run it as a daemon) use
 
-Then synchronize the rest of the database.
+    $ gunicorn researchquestions.wsgi -b 127.0.0.1:8001 -D
 
-    $ python manage.py syncdb
+Make sure to execute this command in the same folder containing `manage.py`.
 
-### User access
+This step is not required for configurations using **only** Apache, since
+those configurations use Apache to serve the entire Python application.
+Note, however, that you will need to restart Apache entirely every time a
+modification is made to the application / system.
 
-This application is set up to allow user access from LDAP or CAS
-authentication backends. It's also easy to use simple Django model
-authentication, but there is no way to register users other than
-manual administrative intervention.
-
-Start by copying the `config.py.template` file to `config.py`.
-
-    $ cp config/config.py.template config/config.py
-
-Set `AUTH_MODE` to either `CAS` or `LDAP`. Depending on what you set,
-fill in the remaining authentication settings. CAS provides the simplest
-login model.
-
-### Remaining configurations
-
-Now that you have your own configurations file, you can set the remaining
-configs. Each directive is documented in the `config.py.template` file
-itself.
-
-#### Secret file
-
-You will additionally need to define a `secret.py` file in the
-`researchquestions` directory. This must contain the following directives:
-
-    SECRET_KEY  = " ... "
-    DB_NAME     = " ... "
-    DB_USER     = " ... "
-    DB_PASSWORD = " ... "
-    DB_HOST     = " ... "
 
 ## Application Structure
 
