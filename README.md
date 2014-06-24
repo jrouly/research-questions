@@ -101,8 +101,8 @@ You can create the file from an existing template by copying the
 
 #### Settings file
 
-The `settings.py` file may need to be modified slightly to prepare for
-deployment. When testing, ensure that
+The `researchquestions/settings.py` file may need to be modified slightly
+to prepare for deployment. When testing, ensure that
 
     DEBUG = True
 
