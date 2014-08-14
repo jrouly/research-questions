@@ -77,6 +77,14 @@ Homepage
 </div>
 {% endif %}
 
+{% if filter or sort %}
+<div class=row">
+  <div class="col-lg-10 col-lg-offset-1">
+    <a href="{% url "homepage" %}">Clear all filters.</a>
+  </div>
+</div>
+{% endif %}
+
 {% if questions %}
   <form method="post">
   {% csrf_token %}
