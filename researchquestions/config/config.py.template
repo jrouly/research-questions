@@ -4,6 +4,10 @@
 DICTIONARY_ADJECTIVES = 'dicts/adjectives.en'
 DICTIONARY_NOUNS = 'dicts/nouns.en'
 
+# If you're hsoting this in a subdirectory, put the path here.
+# Defaults to "/"
+SUBDIR = ''
+
 # Branding text, ie. upper left hand corner.
 # Defaults to "Research Questions"
 BRANDING = ''
