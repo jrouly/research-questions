@@ -15,6 +15,20 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
+
+# Install-specific configurations.
+from config import config
+
+PAGE_TITLE_PREFIX = config.PAGE_TITLE_PREFIX
+ORGANIZATION = config.ORGANIZATION
+ORGANIZATION_URL = config.ORGANIZATION_URL
+ORGANIZATION_EMAIL_DOMAIN = config.ORGANIZATION_EMAIL_DOMAIN
+BRANDING = config.BRANDING
+AUTH_MODE = config.AUTH_MODE
+URL_PREFIX = config.URL_PREFIX
+
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
@@ -59,15 +73,18 @@ ROOT_URLCONF = 'researchquestions.urls'
 
 WSGI_APPLICATION = 'researchquestions.wsgi.application'
 
-MEDIA_URL = 'media/'
+MEDIA_URL = URL_PREFIX + '/media/'
 MEDIA_ROOT = (os.path.join(BASE_DIR, 'media/'))
 MEDIAFILES_DIRS = (
 )
 
-STATIC_URL = 'static/'
+STATIC_URL = URL_PREFIX + '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 STATICFILES_DIRS = (
 )
+
+DICTIONARY_ADJECTIVES = (os.path.join(STATIC_ROOT, config.DICTIONARY_ADJECTIVES))
+DICTIONARY_NOUNS = (os.path.join(STATIC_ROOT, config.DICTIONARY_NOUNS))
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -125,26 +142,12 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Install-specific configurations.
-from config import config
-
-DICTIONARY_ADJECTIVES = (os.path.join(STATIC_ROOT, config.DICTIONARY_ADJECTIVES))
-DICTIONARY_NOUNS = (os.path.join(STATIC_ROOT, config.DICTIONARY_NOUNS))
-PAGE_TITLE_PREFIX = config.PAGE_TITLE_PREFIX
-ORGANIZATION = config.ORGANIZATION
-ORGANIZATION_URL = config.ORGANIZATION_URL
-ORGANIZATION_EMAIL_DOMAIN = config.ORGANIZATION_EMAIL_DOMAIN
-BRANDING = config.BRANDING
-AUTH_MODE = config.AUTH_MODE
-
-
-
 # Authentication
 # http://pythonhosted.org/django-auth-ldap
 
-LOGIN_URL = 'login'
-LOGOUT_URL = 'logout'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = URL_PREFIX + '/login'
+LOGOUT_URL = URL_PREFIX + '/logout'
+LOGIN_REDIRECT_URL = URL_PREFIX + ''
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
