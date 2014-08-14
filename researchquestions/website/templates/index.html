@@ -55,8 +55,12 @@ Homepage
 <div class="row">
   <div class="col-lg-10 col-lg-offset-1">
     <div class="alert alert-dismissable alert-info text-center">
-      <button type="button" class="close" data-dismiss="alert">&times;</button>
       <strong>Filtering questions on section {{ filter }}</strong>.
+
+      <span class="pull-right">
+        <a href="{% url "homepage" %}">Clear all filters</a>
+      </span>
+
     </div>
   </div>
 </div>
@@ -66,21 +70,18 @@ Homepage
 <div class="row">
   <div class="col-lg-10 col-lg-offset-1">
     <div class="alert alert-dismissable alert-info text-center">
-      <button type="button" class="close" data-dismiss="alert">&times;</button>
+
       {% if sort == "comments" %}
       <strong>Sorting questions with fewest comments first.</strong>
       {% elif sort == "date" %}
       <strong>Sorting questions most recently first.</strong>
       {% endif %}
-    </div>
-  </div>
-</div>
-{% endif %}
 
-{% if filter or sort %}
-<div class=row">
-  <div class="col-lg-10 col-lg-offset-1">
-    <a href="{% url "homepage" %}">Clear all filters.</a>
+      <span class="pull-right">
+        <a href="{% url "homepage" %}">Clear all filters</a>
+      </span>
+
+    </div>
   </div>
 </div>
 {% endif %}
