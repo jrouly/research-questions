@@ -226,6 +226,19 @@ the command looks like this on Ubuntu:
 
     }
 
+Note that if your Django application is being hosted in a subdirectory of
+the root server (eg. http://yourdomain.com/myapp/) then your config will
+need to look like this:
+
+    server {
+        ...
+        location /myapp/ {
+            proxy_pass     http://127.0.0.1:8001/myapp/;
+            proxy_redirect http://127.0.0.1:8001/myapp/ /myapp/;
+            ...
+        }
+    }
+
 
 #### Pure Apache (option 2)
 
