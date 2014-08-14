@@ -30,19 +30,6 @@ ALLOWED_HOSTS = ['127.0.0.1']
 
 APPEND_SLASH = True
 
-
-# Install-specific configurations.
-from config import config
-
-PAGE_TITLE_PREFIX = config.PAGE_TITLE_PREFIX
-ORGANIZATION = config.ORGANIZATION
-ORGANIZATION_URL = config.ORGANIZATION_URL
-ORGANIZATION_EMAIL_DOMAIN = config.ORGANIZATION_EMAIL_DOMAIN
-BRANDING = config.BRANDING
-AUTH_MODE = config.AUTH_MODE
-SUBDIR = config.SUBDIR
-
-
 # Application definition
 
 INSTALLED_APPS = (
@@ -72,18 +59,15 @@ ROOT_URLCONF = 'researchquestions.urls'
 
 WSGI_APPLICATION = 'researchquestions.wsgi.application'
 
-MEDIA_URL = SUBDIR + '/' + 'media/'
+MEDIA_URL = 'media/'
 MEDIA_ROOT = (os.path.join(BASE_DIR, 'media/'))
 MEDIAFILES_DIRS = (
 )
 
-STATIC_URL = SUBDIR + '/' + 'static/'
+STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 STATICFILES_DIRS = (
 )
-
-DICTIONARY_ADJECTIVES = (os.path.join(STATIC_ROOT, config.DICTIONARY_ADJECTIVES))
-DICTIONARY_NOUNS = (os.path.join(STATIC_ROOT, config.DICTIONARY_NOUNS))
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -141,12 +125,26 @@ USE_L10N = True
 USE_TZ = True
 
 
+# Install-specific configurations.
+from config import config
+
+DICTIONARY_ADJECTIVES = (os.path.join(STATIC_ROOT, config.DICTIONARY_ADJECTIVES))
+DICTIONARY_NOUNS = (os.path.join(STATIC_ROOT, config.DICTIONARY_NOUNS))
+PAGE_TITLE_PREFIX = config.PAGE_TITLE_PREFIX
+ORGANIZATION = config.ORGANIZATION
+ORGANIZATION_URL = config.ORGANIZATION_URL
+ORGANIZATION_EMAIL_DOMAIN = config.ORGANIZATION_EMAIL_DOMAIN
+BRANDING = config.BRANDING
+AUTH_MODE = config.AUTH_MODE
+
+
+
 # Authentication
 # http://pythonhosted.org/django-auth-ldap
 
-LOGIN_URL = SUBDIR + '/' +'login'
-LOGOUT_URL = SUBDIR + '/' + 'logout'
-LOGIN_REDIRECT_URL = SUBDIR + '/'
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+LOGIN_REDIRECT_URL = '/'
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
