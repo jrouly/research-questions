@@ -19,7 +19,7 @@ Submit Question
 <div class="row">
   <div class="col-lg-10 col-lg-offset-1">
     <div class="well">
-      <form class="form-horizontal" action="/submit" method="post">
+      <form class="form-horizontal" action="{% url "submit_question" %}" method="post">
       {% csrf_token %}
         <fieldset>
           <legend>Research Question</legend>
