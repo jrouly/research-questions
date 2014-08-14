@@ -1,7 +1,7 @@
 <div class="navbar navbar-default navbar-fixed-top">
   <div class="container">
     <div class="navbar-header">
-      <a href="/" class="navbar-brand">
+      <a href="{% url "homepage" %}" class="navbar-brand">
         <em>
           {% if branding %}
             {{ branding }}
@@ -20,18 +20,18 @@
     <div class="navbar-collapse collapse" id="navbar-main">
       <ul class="nav navbar-nav">
         {% if user.is_authenticated %}
-          <li><a href="/submit">Submit Question</a></li>
-          <li><a href="/me">My Questions</a></li>
+          <li><a href="{% url "submit_question" %}">Submit Question</a></li>
+          <li><a href="{% url "my_questions" %}">My Questions</a></li>
         {% endif %}
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="/help">Help</a></li>
+        <li><a href="{% url "help" %}">Help</a></li>
         {% if user.is_authenticated %}
-          <li><a href="/feedback">Feedback</a></li>
-          <li><a href="/logout">Logout</a></li>
+          <li><a href="{% url "feedback" %}">Feedback</a></li>
+          <li><a href="{% url "logout" %}">Logout</a></li>
         {% else %}
-        <li><a href="/login">Log In</a></li>
+        <li><a href="{% url "login" %}">Log In</a></li>
         {% endif %}
       </ul>
 
