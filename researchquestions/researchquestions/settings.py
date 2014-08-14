@@ -30,7 +30,6 @@ URL_PREFIX = config.URL_PREFIX.lstrip('/')
 URL_PREFIX = URL_PREFIX.rstrip('/')
 if URL_PREFIX != "":
     URL_PREFIX = "/" + URL_PREFIX + "/"
-print( URL_PREFIX )
 
 
 
