@@ -42,7 +42,7 @@ def submit_question(request):
             question = form.save(commit=False)
             question.user = User.objects.get(id=request.user.id)
             question.save()
-            return HttpResponseRedirect('/')
+            return redirect('homepage')
     else:
         form = QuestionForm()
 
