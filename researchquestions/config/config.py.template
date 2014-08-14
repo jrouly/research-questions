@@ -5,9 +5,9 @@ DICTIONARY_ADJECTIVES = 'dicts/adjectives.en'
 DICTIONARY_NOUNS = 'dicts/nouns.en'
 
 # If the application is being hosted under a subdirectory, please place the
-# url prefix here. Example: '/subdir/'
-# Default: '/'
-URL_PREFIX = '/'
+# url prefix here. Example: '/subdir'
+# Default: ''
+URL_PREFIX = ''
 
 # Branding text, ie. upper left hand corner.
 # Defaults to "Research Questions"

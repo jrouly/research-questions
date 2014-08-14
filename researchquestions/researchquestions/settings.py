@@ -147,7 +147,7 @@ USE_TZ = True
 
 LOGIN_URL = URL_PREFIX + '/login'
 LOGOUT_URL = URL_PREFIX + '/logout'
-LOGIN_REDIRECT_URL = URL_PREFIX + ''
+LOGIN_REDIRECT_URL = URL_PREFIX + '/'
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
