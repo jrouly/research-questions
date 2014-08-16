@@ -52,8 +52,10 @@ def submit_question(request):
     )
 
 
-@login_required
 def index(request, *args, **kwargs):
+
+    if not request.user.is_authenticated():
+        return redirect('public_landing')
 
     section = kwargs.get('section')
     sort = kwargs.get('sort')
