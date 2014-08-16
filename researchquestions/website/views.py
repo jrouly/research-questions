@@ -53,6 +53,8 @@ def submit_question(request):
 
 
 def public(request):
+    if request.user.is_authenticated():
+        return redirect('homepage')
     return render(request, 'public_landing.html', {})
 
 

@@ -1,0 +1,41 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}
+Homepage
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header" id="banner">
+  <div class="row">
+    <div class="col-lg-10 col-lg-offset-1">
+      <h1>Research Questions</h1>
+      <p class="lead">Review and critique your peers' research questions.</p>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-10 col-lg-offset-1">
+
+    <h3>What is Research Questions?</h3>
+    <p>Research Questions is a platform for academic, crowd-sourced
+    peer-review of proposed research questions. Students and scholars will
+    benefit from the comments and discussion of their peers responding to
+    proposed research topics.</p>
+
+    {% if organization and organization_url %}<p>
+      This platform is licensed to <a href="{{ organization_url }}">
+      {{ organization }}</a>.
+    </p>{% endif %}
+
+    <a href="{% url "website_login" %}"
+    class="btn btn-success">Log in</a>
+
+    <a href="{% url "help" %}"
+    class="btn btn-default">More Information</a>
+
+  </div>
+</div>
+
+{% endblock %}
