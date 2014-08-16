@@ -52,6 +52,10 @@ def submit_question(request):
     )
 
 
+def public(request):
+    return render(request, 'public_landing.html', {})
+
+
 def index(request, *args, **kwargs):
 
     if not request.user.is_authenticated():
