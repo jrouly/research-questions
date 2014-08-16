@@ -26,9 +26,14 @@
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
+        {% if user.is_authenticated %}
+          {% if user.is_staff %}
+            <li><a href="{% url "admin:index" %}">Moderation</a></li>
+          {% endif %}
+          <li><a href="{% url "feedback" %}">Feedback</a></li>
+        {% endif %}
         <li><a href="{% url "help" %}">Help</a></li>
         {% if user.is_authenticated %}
-          <li><a href="{% url "feedback" %}">Feedback</a></li>
           <li><a href="{% url "website_logout" %}">Logout</a></li>
         {% else %}
         <li><a href="{% url "website_login" %}">Log In</a></li>
