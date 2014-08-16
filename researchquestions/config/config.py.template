@@ -5,9 +5,14 @@ DICTIONARY_ADJECTIVES = 'dicts/adjectives.en'
 DICTIONARY_NOUNS = 'dicts/nouns.en'
 
 # If the application is being hosted under a subdirectory, please place the
-# url prefix here. Example: 'subdir'
+# url prefix here. Example: 'subdir' If your application is deployed at the
+# root of a domain, leave this empty.
 # Default: ''
 URL_PREFIX = ''
+
+# Define the domains this application will be deployed on, ie. which
+# domains this app should listen to requests from.
+ALLOWED_HOSTS = []
 
 # Branding text, ie. upper left hand corner.
 # Defaults to "Research Questions"
