@@ -27,6 +27,9 @@ class Question( models.Model ):
         comments = Comment.objects.filter(parent__pk=self.pk)
         return comments
 
+    def preview_text(self):
+        return '%s' % (self.text[:20])
+
     def get_absolute_url(self):
         from django.core.urlresolvers import reverse
         return reverse('website.views.view_question', args=[str(self.pk)])
@@ -35,7 +38,7 @@ class Question( models.Model ):
         return anonymized( self )
 
     def __unicode__(self):
-        return '%s (%s): %s' % ( self.user, self.rating, self.text[:50] )
+        return '%s [%s]: %s' % ( self.user, self.section, self.text[:20] )
 
 class Comment( models.Model ):
     user = models.ForeignKey(User)
@@ -47,11 +50,14 @@ class Comment( models.Model ):
         replies = Reply.objects.filter(parent__pk=self.pk)
         return replies
 
+    def preview_text(self):
+        return '%s' % (self.text[:20])
+
     def anonymized(self):
         return anonymized( self )
 
     def __unicode__(self):
-        return '%s: %s' % ( self.user, self.text[:50] )
+        return '%s [%s]: %s' % ( self.user, self.parent.section, self.text[:20] )
 
 class Reply( models.Model ):
     user = models.ForeignKey(User)
@@ -61,6 +67,9 @@ class Reply( models.Model ):
 
     class Meta:
         verbose_name_plural = "replies"
+
+    def preview_text(self):
+        return '%s' % (self.text[:20])
 
     def anonymized(self):
         return anonymized( self )
