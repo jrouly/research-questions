@@ -30,11 +30,12 @@ if URL_PREFIX != "":
 
 
 SECRET_KEY = secret.SECRET_KEY
-ALLOWED_HOSTS = ['127.0.0.1'].extend( config.ALLOWED_HOSTS )
 
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 APPEND_SLASH = True
+
+ALLOWED_HOSTS = config.ALLOWED_HOSTS
 
 INSTALLED_APPS = (
     'django.contrib.admin',
