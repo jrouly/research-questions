@@ -4,6 +4,7 @@ urlpatterns = patterns('website.views',
 
     #### Dynamic website pages
     url(r'^$', 'index', name='homepage'),
+    url(r'^public$', 'public', name='public_landing'),
     url(r'^feedback$', 'feedback', name='feedback'),
     url(r'^me$', 'view_user', name='my_questions'),
     url(r'^submit$', 'submit_question', name='submit_question'),
