@@ -70,7 +70,7 @@ def index(request, *args, **kwargs):
                 return redirect( 'filter', section )
         else:
             if sort is None:
-                return redirect( '/' )
+                return redirect('homepage')
             return redirect( 'sort', sort )
     else:
         form = CourseSectionFilterForm()
@@ -118,13 +118,13 @@ def feedback(request):
     if request.method == 'POST':
         form = FeedbackForm( request.POST )
         if form.is_valid():
-            f = open(os.path.join(settings.MEDIA_ROOT, 'feedback.txt'), 'a')
+            f = open(os.path.join(settings.URL_PREFIX, settings.MEDIA_ROOT, 'feedback.txt'), 'a')
             data = form.cleaned_data
             f.write( str(timezone.now()) )
             f.write( str('\n') )
             f.write( data['text'] )
             f.write( str('\n\n\n') )
-            return HttpResponseRedirect('/')
+            return redirect('homepage')
     else:
         form = FeedbackForm()
 
