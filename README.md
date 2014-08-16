@@ -68,9 +68,6 @@ Now that you have your own configurations file, you can set the remaining
 configs. Each directive is documented in the `config.py.template` file
 itself.
 
-Note that two more configurations files are required: `secret.py` and
-`settings.py`: read on for information.
-
 #### User access
 
 This application is set up to allow user access from LDAP or CAS
@@ -99,28 +96,14 @@ You can create the file from an existing template by copying the
 
     $ cp researchquestions/secret.py.template researchquestions/secret.py
 
-#### Settings file
-
-The `researchquestions/settings.py` file may need to be modified slightly
-to prepare for deployment. When testing, ensure that
-
-    DEBUG = True
-
-is set, but for deployment, ensure that
-
-    DEBUG = False
-    ALLOWED_HOSTS = ['127.0.0.1', 'yourdomain.com']
-
-are both set correctly.
-
-#### Static files
+### Static files
 
 Once you get all the settings set up, execute the following command
 to generate the proper static directories.
 
     $ python manage.py collectstatic
 
-##### Feedback file
+#### Feedback file
 
 Feedback is currently stored in a writeable text file for simplicity.
 Enable write access to that file.
