@@ -2,6 +2,8 @@ a[name] {
   padding-top: 35px;
 }
 
+a:hover { text-decoration: none; }
+
 .well-replies {
   margin-top: 10px;
   margin-bottom: 0px;
