@@ -3,6 +3,7 @@
 <html lang="en-US">
 <head>
 {% load staticfiles %}
+<link href="{{ STATIC_URL }}css/normalize.css" rel="stylesheet">
 <link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet">
 <link href="{{ STATIC_URL }}css/bootswatch.min.css" rel="stylesheet">
 <link href="{{ STATIC_URL }}css/extensions.css" rel="stylesheet">
@@ -24,7 +25,6 @@
     {% include 'layouts/navbar.html' %}
 
     <div class="container">
-      <a name="top"></a>
 
       {% block content %}
 
