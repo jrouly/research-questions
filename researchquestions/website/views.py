@@ -95,8 +95,10 @@ def index(request, *args, **kwargs):
             questions = questions.annotate(comment_count=Count('comments')).order_by('comment_count')
         elif sort == "date":
             questions = questions.order_by('-date')
+        #elif sort == "rating":
+        #    questions = questions.order_by('rating')
         else:
-            raise Http404("Invalid filter.")
+            raise Http404("Invalid sort request.")
 
 
     paginator = Paginator(questions, 10) # show 25 questions per page
