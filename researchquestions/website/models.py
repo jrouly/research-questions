@@ -10,7 +10,7 @@ import os
 # Create your models here.
 class Question( models.Model ):
     user = models.ForeignKey(User)
-    date = models.DateTimeField(default=timezone.now())
+    date = models.DateTimeField(default=timezone.now)
     text = models.TextField(max_length=1000)
     rating = models.IntegerField(default=0)
     section_regex = RegexValidator(regex = r'^[a-zA-Z]+ [0-9]{3} [0-9]{3}$')
@@ -42,7 +42,7 @@ class Question( models.Model ):
 
 class Comment( models.Model ):
     user = models.ForeignKey(User)
-    date = models.DateTimeField(default=timezone.now())
+    date = models.DateTimeField(default=timezone.now)
     text = models.TextField()
     parent = models.ForeignKey('Question', related_name='comments', related_query_name='comments')
 
@@ -61,7 +61,7 @@ class Comment( models.Model ):
 
 class Reply( models.Model ):
     user = models.ForeignKey(User)
-    date = models.DateTimeField(default=timezone.now())
+    date = models.DateTimeField(default=timezone.now)
     text = models.TextField()
     parent = models.ForeignKey('Comment')
 
